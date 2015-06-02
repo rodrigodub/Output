@@ -1,5 +1,7 @@
 # INPUT
 # Programacao de Jogos
+#
+# Inseto
 
 # Implementacao em Python by RN
 # com uso da biblioteca CURSES para 
