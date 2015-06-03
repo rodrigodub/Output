@@ -10,22 +10,23 @@
 # resource: https://docs.python.org/3.4/howto/curses.html#curses-howto
 # resource: https://docs.python.org/3.4/library/curses.html?highlight=curses#module-curses
 
-# v1.0
+# v1.03
 # 20150603
 
-import time, curses
+import time
+import curses
+import random
 from curses import wrapper
 
 
 class Satelite(object):
 	def __init__(self, stdscr, posy, posx):
+		stdscr.refresh()
 		self.position1(stdscr, posy, posx)
-		stdscr.refresh()
 		time.sleep(0.2)
+		stdscr.refresh()
 		self.position2(stdscr, posy, posx)
-		stdscr.refresh()
 		time.sleep(0.2)
-
 
 	def position1(self, stdscr, posy, posx):
 		stdscr.addstr(posy+0, posx, 15 * chr(0x0020))
@@ -54,6 +55,25 @@ class Satelite(object):
 		stdscr.addstr(posy+10, posx, 15 * chr(0x0020))
 
 
+class Movimento(object):
+	def __init__(self, stdscr):
+		self.y = 10
+		self.x = 10
+		for i in range(0, 100):
+			a = random.randint(-1, 1)
+			b = random.randint(-1, 1)
+			for j in range(0, 10):
+				self.y += a
+				self.x += b
+				try:
+					Satelite(stdscr, self.y, self.x)
+				except:
+					stdscr.clear()
+					self.y = 10
+					self.x = 10
+					Satelite(stdscr, self.y, self.x)
+
+
 def main(stdscr):
 	# disable blinking cursor
 	curses.curs_set(False)
@@ -61,8 +81,7 @@ def main(stdscr):
 	stdscr.clear()
 
 	# main code
-	for i in range(0,10):
-		a = Satelite(stdscr, 10, 2)
+	Movimento(stdscr)
 
 	# end main code
 	stdscr.getkey()
