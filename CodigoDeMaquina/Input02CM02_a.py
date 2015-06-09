@@ -5,10 +5,8 @@
 
 # Implementacao em Python by RN
 
-# v2.0015
+# v2.0017
 # 20150609
-
-import math
 
 class ConvertBase(object):
     def __init__(self, base, num):
@@ -24,7 +22,9 @@ class ConvertBase(object):
         print('Base: {}'.format(self.base))
         print('Possible values: {}'.format(self.possible))
         print('Number: {}'.format(self.num))
-        print('Is valid: {}'.format(self.validateNum()))
+        # print('Is valid: {}'.format(self.validateNum()))
+        print('Number equals to: {}'.format(self.convert()))
+        [print(i, self.digitValue(i)) for i in self.num]
 
     def validateNum(self):
         for i in self.num:
@@ -32,8 +32,17 @@ class ConvertBase(object):
                 return False
         return True
 
-    def convert(self, num):
-        pass
+    def digitValue(self, d):
+        if ord(d) < 58:
+            return ord(d)-48
+        else:
+            return ord(d)-55
+
+    def convert(self):
+        if self.validateNum():
+            return 'Can convert'
+        else:
+            return 'Cannot convert'
 
 
 def main():
