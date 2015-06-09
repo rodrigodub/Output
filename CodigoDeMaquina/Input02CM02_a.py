@@ -5,8 +5,10 @@
 
 # Implementacao em Python by RN
 
-# v2.0017
+# v2.0018
 # 20150609
+
+import math
 
 class ConvertBase(object):
     def __init__(self, base, num):
@@ -24,7 +26,7 @@ class ConvertBase(object):
         print('Number: {}'.format(self.num))
         # print('Is valid: {}'.format(self.validateNum()))
         print('Number equals to: {}'.format(self.convert()))
-        [print(i, self.digitValue(i)) for i in self.num]
+        # [print(i, self.digitValue(i)) for i in self.num]
 
     def validateNum(self):
         for i in self.num:
@@ -40,7 +42,12 @@ class ConvertBase(object):
 
     def convert(self):
         if self.validateNum():
-            return 'Can convert'
+            a = 0
+            b = [i for i in self.num]
+            b.reverse()
+            for d in range(0, len(b)):
+                a = a + (self.digitValue(b[d]) * pow(self.base, d) )
+            return a
         else:
             return 'Cannot convert'
 
