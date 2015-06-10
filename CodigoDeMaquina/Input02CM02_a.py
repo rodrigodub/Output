@@ -3,9 +3,9 @@
 #
 # Um programa para todas as bases
 
-# Implementacao em Python by RN
+# Implementação em Python by RN
 
-# v2.0019
+# v2.0020
 # 20150610
 
 import math
@@ -60,6 +60,12 @@ class ConvertBaseToDec(object):
 
 
 class ConvertDecToBase(object):
+    """
+    Class to convert a decimal number to its value in a given base.
+    Arguments:
+    base: integer, between 1 and 36
+    num: integer, decimal base
+    """
     def __init__(self, base, num):
         self.base = int(base)
         self.num = int(num)
@@ -75,7 +81,9 @@ class ConvertDecToBase(object):
 
     def convertToBase(self):
         resultlist = []
+        resultstring = ''
         up = self.num
+        # main loop
         div = int( up / self.base )
         remainder = up % self.base
         resultlist.append(remainder)
@@ -85,8 +93,14 @@ class ConvertDecToBase(object):
             remainder = up % self.base
             resultlist.append(remainder)
         resultlist.append(div)
-        return resultlist
-
+        # convert resultlist to string
+        resultlist.reverse()
+        for i in resultlist:
+            if i < 10:
+                resultstring += '{}'.format(i)
+            else:
+                resultstring += '{}'.format(chr(i+55))
+        return resultstring
 
 
 def main():
