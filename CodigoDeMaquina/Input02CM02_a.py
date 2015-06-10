@@ -5,7 +5,7 @@
 
 # Implementação em Python by RN
 
-# v2.0020
+# v2.0021
 # 20150610
 
 import math
@@ -22,7 +22,7 @@ class ConvertBaseToDec(object):
         self.num = '{}'.format(num).upper()
         self.possible = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ'[0:self.base]
         self.decimal = self.convertToDecimal()
-        self.verbose()
+        # self.verbose()
     
     def verbose(self):
         print('-------------------------------------')
@@ -31,9 +31,7 @@ class ConvertBaseToDec(object):
         print('Base: {}'.format(self.base))
         print('Possible values: {}'.format(self.possible))
         print('Number: {}'.format(self.num))
-        # print('Is valid: {}'.format(self.validateNum()))
         print('Number equals to: {}'.format(self.decimal))
-        # [print(i, self.digitValue(i)) for i in self.num]
 
     def validateNum(self):
         for i in self.num:
@@ -69,7 +67,8 @@ class ConvertDecToBase(object):
     def __init__(self, base, num):
         self.base = int(base)
         self.num = int(num)
-        self.verbose()
+        self.converted = self.convertToBase()
+        # self.verbose()
 
     def verbose(self):
         print('-------------------------------------')
