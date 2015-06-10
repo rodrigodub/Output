@@ -5,27 +5,34 @@
 
 # Implementacao em Python by RN
 
-# v2.0018
-# 20150609
+# v2.0019
+# 20150610
 
 import math
 
-class ConvertBase(object):
+class ConvertBaseToDec(object):
+    """
+    Class to convert a number in a given base to its decimal value.
+    Arguments:
+    base: integer, between 1 and 36
+    num: string, representing a number on that base (ex.: 14E in hex)
+    """
     def __init__(self, base, num):
         self.base = int(base)
         self.num = '{}'.format(num).upper()
         self.possible = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ'[0:self.base]
+        self.decimal = self.convertToDecimal()
         self.verbose()
     
     def verbose(self):
         print('-------------------------------------')
-        print('           Convert Base')
+        print('      Convert Base to Decimal')
         print('-------------------------------------')
         print('Base: {}'.format(self.base))
         print('Possible values: {}'.format(self.possible))
         print('Number: {}'.format(self.num))
         # print('Is valid: {}'.format(self.validateNum()))
-        print('Number equals to: {}'.format(self.convert()))
+        print('Number equals to: {}'.format(self.decimal))
         # [print(i, self.digitValue(i)) for i in self.num]
 
     def validateNum(self):
@@ -40,7 +47,7 @@ class ConvertBase(object):
         else:
             return ord(d)-55
 
-    def convert(self):
+    def convertToDecimal(self):
         if self.validateNum():
             a = 0
             b = [i for i in self.num]
@@ -52,11 +59,42 @@ class ConvertBase(object):
             return 'Cannot convert'
 
 
+class ConvertDecToBase(object):
+    def __init__(self, base, num):
+        self.base = int(base)
+        self.num = int(num)
+        self.verbose()
+
+    def verbose(self):
+        print('-------------------------------------')
+        print('      Convert Decimal to Base')
+        print('-------------------------------------')
+        print('Decimal: {}'.format(self.num))
+        print('Base: {}'.format(self.base))
+        print('Number on Base: {}'.format(self.convertToBase()))
+
+    def convertToBase(self):
+        resultlist = []
+        up = self.num
+        div = int( up / self.base )
+        remainder = up % self.base
+        resultlist.append(remainder)
+        while div > self.base:
+            up = div
+            div = int( up / self.base )
+            remainder = up % self.base
+            resultlist.append(remainder)
+        resultlist.append(div)
+        return resultlist
+
+
+
 def main():
     a = input('Enter Base (up to 36) : ')
     b = input('Enter Number : ')
     if int(a) <= 36:
-        ConvertBase(a, b)
+        x = ConvertBaseToDec(a, b)
+        y = ConvertDecToBase(a, x.decimal)
 
 
 if __name__ == '__main__':
