@@ -5,7 +5,7 @@
 
 # Implementação em Python by RN
 
-# v2.0025
+# v2.0027
 # 20150613
 
 import math
@@ -31,13 +31,14 @@ class DecimalNumber(object):
             else:
                 d.append('0')
         self.formatted = '   +  '.join([i for i in d])
-        # self.formattedtest = ' 0       0       0       1       1       0       0       1'
-        # self.formatted = ' 0 ' + '  +   0   +   0   +   1   +   1   +   0   +   0   +   1'
 
 
 class HexNumber(object):
-    def __init__(self):
-        pass
+    def __init__(self, num):
+        b = BinaryNumber(num)
+        self.result = conv.ConvertDecToBase(16, num).converted
+        self.formatted = '{}  =  {}                     {}  =  {}'.format(b.result[0:4], self.result[0]
+                                                                        , b.result[4:], self.result[1])
 
 
 class Screen(object):
@@ -45,15 +46,28 @@ class Screen(object):
         stdscr.addstr(2, 1, '============================================================')
         stdscr.addstr(3, 1, '==                      BIN , DEC, HEX                    ==')
         stdscr.addstr(4, 1, '============================================================')
-        stdscr.addstr(6, 1, '==                          BINÁRIO                       ==')
-        stdscr.addstr(14, 1, '==                          DECIMAL                       ==')
-        stdscr.addstr(22, 1, '==                        HEXADECIMAL                     ==')
+        stdscr.addstr(5, 1, '--                                                        --')
+        stdscr.addstr(6, 1, '--                          BINÁRIO                       --')
+        stdscr.addstr(7, 1, '--                                                        --')
+        stdscr.addstr(9, 1, '------------------------------------------------------------')
+        stdscr.addstr(10, 1, '--                                                        --')
+        stdscr.addstr(11, 1, '--                          DECIMAL                       --')
+        stdscr.addstr(12, 1, '--                                                        --')
+        stdscr.addstr(14, 1, '--                                                        --')
+        stdscr.addstr(16, 1, '------------------------------------------------------------')
+        stdscr.addstr(17, 1, '--                                                        --')
+        stdscr.addstr(18, 1, '--                        HEXADECIMAL                     --')
+        stdscr.addstr(19, 1, '--                                                        --')
+        stdscr.addstr(21, 1, '--                                                        --')
+        stdscr.addstr(23, 1, '------------------------------------------------------------')
 
     def updateNumbers(self, stdscr, num):
         # stdscr.addstr(8, 10, '{}'.format(bin.result))
-        stdscr.addstr(10, 3, BinaryNumber(255).formatted)
-        stdscr.addstr(17, 3, DecimalNumber(255).formatted)
-        stdscr.addstr(19, 30, DecimalNumber(255).result)
+        stdscr.addstr(8, 3, BinaryNumber(num).formatted)
+        stdscr.addstr(13, 3, DecimalNumber(num).formatted)
+        stdscr.addstr(15, 32, DecimalNumber(num).result)
+        stdscr.addstr(20, 12, HexNumber(num).formatted)
+        stdscr.addstr(22, 32, HexNumber(num).result)
 
 
 def main(stdscr):
