@@ -5,8 +5,8 @@
 
 # Implementação em Python by RN
 
-# v2.0024
-# 20150611
+# v2.0025
+# 20150613
 
 import math
 import Input02CM02_a as conv
@@ -21,8 +21,18 @@ class BinaryNumber(object):
 
 
 class DecimalNumber(object):
-    def __init__(self):
-        pass
+    def __init__(self, num):
+        b = BinaryNumber(num)
+        d = []
+        self.result = '{}'.format(num)
+        for i in range(0, 8):
+            if int(b.result[i]) == 1:
+                d.append('{}'.format(pow(2, 7-i)))
+            else:
+                d.append('0')
+        self.formatted = '   +  '.join([i for i in d])
+        # self.formattedtest = ' 0       0       0       1       1       0       0       1'
+        # self.formatted = ' 0 ' + '  +   0   +   0   +   1   +   1   +   0   +   0   +   1'
 
 
 class HexNumber(object):
@@ -39,9 +49,11 @@ class Screen(object):
         stdscr.addstr(14, 1, '==                          DECIMAL                       ==')
         stdscr.addstr(22, 1, '==                        HEXADECIMAL                     ==')
 
-    def updateNumbers(self, stdscr, bin, dec=None, hex=None):
+    def updateNumbers(self, stdscr, num):
         # stdscr.addstr(8, 10, '{}'.format(bin.result))
-        stdscr.addstr(8, 3, bin.formatted)
+        stdscr.addstr(10, 3, BinaryNumber(255).formatted)
+        stdscr.addstr(17, 3, DecimalNumber(255).formatted)
+        stdscr.addstr(19, 30, DecimalNumber(255).result)
 
 
 def main(stdscr):
@@ -52,7 +64,7 @@ def main(stdscr):
 
     # main code
     a = Screen(stdscr)
-    a.updateNumbers(stdscr, BinaryNumber(25))
+    a.updateNumbers(stdscr, 25)
     # a = input('Enter Base (up to 36) : ')
     # b = input('Enter Number : ')
     # if int(a) <= 36:
