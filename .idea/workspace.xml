@@ -35,12 +35,24 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="Input02CM02_a.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/CodigoDeMaquina/Input02CM02_a.py">
+      <file leaf-file-name="Input02PJ02_a.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/ProgramacaoDeJogos/Input02PJ02_a.py">
           <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="0.0">
-              <caret line="3" column="33" selection-start-line="3" selection-start-column="33" selection-end-line="3" selection-end-column="33" />
+              <caret line="23" column="66" selection-start-line="23" selection-start-column="8" selection-end-line="23" selection-end-column="66" />
               <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="Input01PJ01_f.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/ProgramacaoDeJogos/Input01PJ01_f.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.0">
+              <caret line="23" column="8" selection-start-line="23" selection-start-column="8" selection-end-line="23" selection-end-column="24" />
+              <folding>
+                <element signature="e#345#356#0" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -511,10 +523,21 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/CodigoDeMaquina/Input02CM02_a.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-1.9104477">
+          <caret line="3" column="33" selection-start-line="3" selection-start-column="33" selection-end-line="3" selection-end-column="33" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/ProgramacaoDeJogos/Input01PJ01_f.py">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
-          <caret line="90" column="4" selection-start-line="90" selection-start-column="4" selection-end-line="90" selection-end-column="17" />
+          <caret line="23" column="8" selection-start-line="23" selection-start-column="8" selection-end-line="23" selection-end-column="24" />
+          <folding>
+            <element signature="e#345#356#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -522,13 +545,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="23" column="66" selection-start-line="23" selection-start-column="8" selection-end-line="23" selection-end-column="66" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/CodigoDeMaquina/Input02CM02_a.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="3" column="33" selection-start-line="3" selection-start-column="33" selection-end-line="3" selection-end-column="33" />
           <folding />
         </state>
       </provider>

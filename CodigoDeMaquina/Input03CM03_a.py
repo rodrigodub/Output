@@ -5,7 +5,7 @@
 
 # Implementação em Python by RN
 
-# v2.0027
+# v2.0028
 # 20150613
 
 import math
@@ -60,6 +60,8 @@ class Screen(object):
         stdscr.addstr(19, 1, '--                                                        --')
         stdscr.addstr(21, 1, '--                                                        --')
         stdscr.addstr(23, 1, '------------------------------------------------------------')
+        stdscr.addstr(24, 1, '-        press [up / down]         |        x : exit       -')
+        stdscr.addstr(25, 1, '------------------------------------------------------------')
 
     def updateNumbers(self, stdscr, num):
         # stdscr.addstr(8, 10, '{}'.format(bin.result))
@@ -68,6 +70,7 @@ class Screen(object):
         stdscr.addstr(15, 32, DecimalNumber(num).result)
         stdscr.addstr(20, 12, HexNumber(num).formatted)
         stdscr.addstr(22, 32, HexNumber(num).result)
+        stdscr.refresh()
 
 
 def main(stdscr):
@@ -78,18 +81,19 @@ def main(stdscr):
 
     # main code
     a = Screen(stdscr)
-    a.updateNumbers(stdscr, 25)
-    # a = input('Enter Base (up to 36) : ')
-    # b = input('Enter Number : ')
-    # if int(a) <= 36:
-    #     x = conv.ConvertBaseToDec(a, b)
-    #     y = conv.ConvertDecToBase(a, x.decimal)
-    #     x.verbose()
-    #     y.verbose()
+    num = 0
+    a.updateNumbers(stdscr, num)
+    k = ''
+    while k != 'x':
+        k = stdscr.getkey()
+        if k == 'KEY_UP' and num < 255:
+            num += 1
+        elif k == 'KEY_DOWN' and num > 0:
+            num -= 1
+        a.updateNumbers(stdscr, num)
 
     # end main code
-    stdscr.getkey()
-
+    # stdscr.getkey()
 
 
 if __name__ == '__main__':
