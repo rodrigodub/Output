@@ -5,8 +5,8 @@
 
 # Implementação em Python by RN
 
-# v2.0029
-# 20150613
+# v2.0031
+# 20150614
 
 import math
 import Input02CM02_a as conv
@@ -65,10 +65,15 @@ class Screen(object):
 
     def updateNumbers(self, stdscr, num):
         # stdscr.addstr(8, 10, '{}'.format(bin.result))
+        stdscr.addstr(8, 1, '                                                            ')
         stdscr.addstr(8, 3, BinaryNumber(num).formatted)
+        stdscr.addstr(13, 1, '                                                            ')
         stdscr.addstr(13, 3, DecimalNumber(num).formatted)
+        stdscr.addstr(15, 1, '                                                            ')
         stdscr.addstr(15, 32, DecimalNumber(num).result)
+        stdscr.addstr(20, 1, '                                                            ')
         stdscr.addstr(20, 12, HexNumber(num).formatted)
+        stdscr.addstr(22, 1, '                                                            ')
         stdscr.addstr(22, 32, HexNumber(num).result)
         stdscr.refresh()
 
