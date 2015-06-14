@@ -5,7 +5,7 @@
 
 # Implementação em Python by RN
 
-# v2.0028
+# v2.0029
 # 20150613
 
 import math

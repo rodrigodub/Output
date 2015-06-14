@@ -5,8 +5,8 @@
 
 # Implementação em Python by RN
 
-# v2.0021
-# 20150610
+# v2.0030
+# 20150614
 
 import math
 
@@ -54,7 +54,8 @@ class ConvertBaseToDec(object):
                 a = a + (self.digitValue(b[d]) * pow(self.base, d) )
             return a
         else:
-            return 'Cannot convert'
+            print('Cannot convert')
+            return 0
 
 
 class ConvertDecToBase(object):
@@ -86,7 +87,7 @@ class ConvertDecToBase(object):
         div = int( up / self.base )
         remainder = up % self.base
         resultlist.append(remainder)
-        while div > self.base:
+        while div >= self.base:
             up = div
             div = int( up / self.base )
             remainder = up % self.base
@@ -108,6 +109,8 @@ def main():
     if int(a) <= 36:
         x = ConvertBaseToDec(a, b)
         y = ConvertDecToBase(a, x.decimal)
+        x.verbose()
+        y.verbose()
 
 
 if __name__ == '__main__':
