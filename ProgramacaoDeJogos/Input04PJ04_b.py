@@ -5,9 +5,9 @@
 
 # Implementação em Python by RN - now using pygame/pgzero
 # Usage:
-# >pgzrun Input04PJ04_b
+# >pgzrun Input04PJ04_b.py
 
-# v2.0034
+# v2.0036
 # 20171224
 
 
@@ -26,8 +26,24 @@ def draw():
     tank.draw()
 
 def update():
-    tank.left += 2
-    if tank.left > WIDTH:
-        tank.left = 0
+    # movement
+    if keyboard.right:
+        tank.left += 2
+        if tank.left > WIDTH:
+            tank.left = 0
+    if keyboard.up:
+        tank.top -= 2
+        if tank.bottom < 0:
+            tank.bottom = 239
+    if keyboard.left:
+        tank.right -= 2
+        if tank.right < 0:
+            tank.right = 640
+    if keyboard.down:
+        tank.bottom += 2
+        if tank.bottom > 239:
+            tank.top = 0
+
+
 
 
