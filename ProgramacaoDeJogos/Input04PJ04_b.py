@@ -7,7 +7,7 @@
 # Usage:
 # >pgzrun Input04PJ04_b.py
 
-# v2.0037
+# v2.0038
 # 20171224
 
 
@@ -15,15 +15,45 @@
 WIDTH = 640
 HEIGHT = 480
 # initial tank position
-tankpos = (320, 120)
+tankposx = 320
+tankposy = 120
+tankdx = 2
+tankdy = 0
 
 # define tank and its position
 tank = Actor('tank2')
-tank.center = tankpos
+tank.center = (tankposx, tankposy)
 
 # movement function
-def move():
-    pass
+def tankmove():
+    # monitor keyboard
+    if keyboard.right:
+        tankdx = 2
+        tankdy = 0
+    if keyboard.up:
+        tankdx = 0
+        tankdy = -2
+    if keyboard.left:
+        tankdx = -2
+        tankdy = 0
+    if keyboard.down:
+        tankdx = 0
+        tankdy = 2
+    # define new position
+    tankposx += tankdx
+    tankposy += tankdy
+    # test limits
+    if tankposx < 0:
+        tankposx = 640
+    if tankposx > 640:
+        tankposx = 0
+    if tankposy < 0:
+        tankposy = 220
+    if tankposy > 219:
+        tankposy = 0
+    # draw
+    tank.center = (tankposx, tankposy)
+    
 
 # draw screen
 def draw():
@@ -33,22 +63,7 @@ def draw():
 
 def update():
     # movement
-    if keyboard.right:
-        tank.left += 2
-        if tank.left > WIDTH:
-            tank.left = 0
-    if keyboard.up:
-        tank.top -= 2
-        if tank.bottom < 0:
-            tank.bottom = 239
-    if keyboard.left:
-        tank.right -= 2
-        if tank.right < 0:
-            tank.right = 640
-    if keyboard.down:
-        tank.bottom += 2
-        if tank.bottom > 239:
-            tank.top = 0
+    tankmove()
 
 
 
