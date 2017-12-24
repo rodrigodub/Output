@@ -7,17 +7,23 @@
 # Usage:
 # >pgzrun Input04PJ04_b.py
 
-# v2.0036
+# v2.0037
 # 20171224
 
 
 # define screen size
 WIDTH = 640
 HEIGHT = 480
+# initial tank position
+tankpos = (320, 120)
 
 # define tank and its position
 tank = Actor('tank2')
-tank.topright = (20, 100)
+tank.center = tankpos
+
+# movement function
+def move():
+    pass
 
 # draw screen
 def draw():
