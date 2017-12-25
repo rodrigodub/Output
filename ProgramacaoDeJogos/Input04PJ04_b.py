@@ -7,10 +7,10 @@
 # Usage:
 # >pgzrun Input04PJ04_b.py
 
-# v2.044
+# v2.046
 # 20171225
 
-#import pygame
+import random
 
 # define screen size
 WIDTH = 640
@@ -24,6 +24,13 @@ tankdy = 0
 # define tank and its position
 tank = Actor('tank4')
 tank.center = (tankposx, tankposy)
+
+# define skydiver
+skydiver = Actor('skydiver')
+# define skydiving
+skydiving = 0
+skydinitial = (random.randint(10, 630), 10)
+skydfinal = (random.randint(10,630), random.randint(180,470))
 
 # movement function
 def tankmove():
@@ -74,18 +81,38 @@ def tankmove():
         tankposy = 180
     # draw
     tank.center = (tankposx, tankposy)
-    
+
+def skydive():
+    global skydiving
+    global skydfinal
+    global anim
+    # if skydiving is zero, throw another skydiver
+    if skydiving == 0:
+        anim = animate(skydiver, pos=landingspot())
+        skydiving = 1
+    skydiver.draw() 
+    # if anim.running == False:
+    #     skydiving = 0
+
+def landingspot():
+    return (random.randint(10,630), random.randint(180,470))
 
 # draw screen
 def draw():
+    # screen
     screen.fill((255,200,0))
+    # ground
     screen.draw.line((0,180), (640,180), (0,0,0))
+    # sky
     screen.draw.filled_rect(Rect((0,0), (640,180)), (0,240,255))
+    # start
+    skydiver.draw()
     tank.draw()
 
 def update():
     # movement
     tankmove()
+    skydive()
 
 
 
