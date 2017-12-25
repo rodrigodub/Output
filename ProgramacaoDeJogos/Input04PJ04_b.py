@@ -7,16 +7,16 @@
 # Usage:
 # >pgzrun Input04PJ04_b.py
 
-# v2.0038
-# 20171224
+# v2.0039
+# 20171225
 
 
 # define screen size
 WIDTH = 640
 HEIGHT = 480
 # initial tank position
-tankposx = 320
-tankposy = 120
+tankposx = 50
+tankposy = 50
 tankdx = 2
 tankdy = 0
 
@@ -26,6 +26,11 @@ tank.center = (tankposx, tankposy)
 
 # movement function
 def tankmove():
+    # they're global
+    global tankposx
+    global tankposy
+    global tankdx
+    global tankdy
     # monitor keyboard
     if keyboard.right:
         tankdx = 2
@@ -48,8 +53,8 @@ def tankmove():
     if tankposx > 640:
         tankposx = 0
     if tankposy < 0:
-        tankposy = 220
-    if tankposy > 219:
+        tankposy = 230
+    if tankposy > 230:
         tankposy = 0
     # draw
     tank.center = (tankposx, tankposy)
