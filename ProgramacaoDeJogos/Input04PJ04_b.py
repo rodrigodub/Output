@@ -7,21 +7,22 @@
 # Usage:
 # >pgzrun Input04PJ04_b.py
 
-# v2.0039
+# v2.0042
 # 20171225
 
+#import pygame
 
 # define screen size
 WIDTH = 640
 HEIGHT = 480
 # initial tank position
-tankposx = 50
-tankposy = 50
+tankposx = 20
+tankposy = 360
 tankdx = 2
 tankdy = 0
 
 # define tank and its position
-tank = Actor('tank2')
+tank = Actor('tank4')
 tank.center = (tankposx, tankposy)
 
 # movement function
@@ -52,10 +53,10 @@ def tankmove():
         tankposx = 640
     if tankposx > 640:
         tankposx = 0
-    if tankposy < 0:
-        tankposy = 230
-    if tankposy > 230:
-        tankposy = 0
+    if tankposy < 180:
+        tankposy = 480
+    if tankposy > 480:
+        tankposy = 180
     # draw
     tank.center = (tankposx, tankposy)
     
@@ -63,7 +64,8 @@ def tankmove():
 # draw screen
 def draw():
     screen.fill((255,200,0))
-    screen.draw.line((0,240), (640,240), (0,0,0))
+    screen.draw.line((0,180), (640,180), (0,0,0))
+    screen.draw.filled_rect(Rect((0,0), (640,180)), (0,240,255))
     tank.draw()
 
 def update():
