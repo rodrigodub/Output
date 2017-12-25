@@ -7,7 +7,7 @@
 # Usage:
 # >pgzrun Input04PJ04_b.py
 
-# v2.0042
+# v2.044
 # 20171225
 
 #import pygame
@@ -45,6 +45,21 @@ def tankmove():
     if keyboard.down:
         tankdx = 0
         tankdy = 2
+    if keyboard.space:
+        tankdx = 0
+        tankdy = 0
+    if keyboard.right and keyboard.up:
+        tankdx = 2
+        tankdy = -2
+    if keyboard.right and keyboard.down:
+        tankdx = 2
+        tankdy = 2
+    if keyboard.left and keyboard.up:
+        tankdx = -2
+        tankdy = -2
+    if keyboard.left and keyboard.down:
+        tankdx = -2
+        tankdy = 2    
     # define new position
     tankposx += tankdx
     tankposy += tankdy
