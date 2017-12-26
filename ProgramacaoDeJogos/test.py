@@ -1,4 +1,4 @@
-# v2.051
+# v2.053
 # 20171226
 
 import random
@@ -28,8 +28,18 @@ def landingspot():
 # skyd5 = Actor('skydiver', center=dropspot())
 skydiverlist = []
 [skydiverlist.append(Actor('skydiver', center=dropspot())) for i in range(0,10)]
+# targets
+targetlist = []
+[targetlist.append(landingspot()) for i in range(0,10)]
+# zip
+goals = zip(skydiverlist, targetlist)
 
-
+# skydive
+def skydive():
+    global skydiverlist
+    global targetlist
+    global goals
+    [animate(i[0], pos=i[1]) for i in goals]
 # skydiver: (actor, startpos, endpos)
 # skydiverlist = []
 
@@ -87,4 +97,4 @@ def draw():
 def update():
     # drop()
     # createskyd()
-    pass
+    skydive()
