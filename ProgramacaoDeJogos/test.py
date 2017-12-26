@@ -1,4 +1,4 @@
-# v2.053
+# v2.056
 # 20171226
 
 import random
@@ -33,15 +33,36 @@ targetlist = []
 [targetlist.append(landingspot()) for i in range(0,10)]
 # zip
 goals = zip(skydiverlist, targetlist)
+# parachuter queue
+queue = 0
+
+def nextinline():
+    global queue
+    if queue < 9:
+        queue += 1
 
 # skydive
 def skydive():
     global skydiverlist
     global targetlist
     global goals
-    [animate(i[0], pos=i[1]) for i in goals]
+    global queue
+    # [animate(i[0], pos=i[1]) for i in goals]
+    a = animate(skydiverlist[queue], pos=targetlist[queue])
+    a.on_finished = nextinline()
+    # if a.running == False:
+    #     a.stop()
+    #     nextinline()
+
+# drop
+def drop():
+    global queue
+    global skydiverlist
+    skydiverlist[queue].draw()
+
 # skydiver: (actor, startpos, endpos)
 # skydiverlist = []
+
 
 # landing variable
 # landing = 1
@@ -93,8 +114,10 @@ def draw():
     # skyd5.draw()
     global skydiverlist
     [i.draw() for i in skydiverlist]
+    # drop()
 
 def update():
     # drop()
     # createskyd()
+    # drop()
     skydive()
