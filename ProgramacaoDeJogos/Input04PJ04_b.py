@@ -7,8 +7,8 @@
 # Usage:
 # >pgzrun Input04PJ04_b.py
 
-# v2.046
-# 20171225
+# v2.047
+# 20171226
 
 import random
 
