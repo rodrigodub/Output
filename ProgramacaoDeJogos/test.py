@@ -1,4 +1,4 @@
-# v2.056
+# v2.058
 # 20171226
 
 import random
@@ -15,7 +15,7 @@ HEIGHT = 480
 
 # drop and landing position
 def dropspot():
-    return (random.randint(10, 630), 10)
+    return (random.randint(10, 630), -20)
 
 def landingspot():
     return (random.randint(10,630), random.randint(180,470))
@@ -48,10 +48,14 @@ def skydive():
     global goals
     global queue
     # [animate(i[0], pos=i[1]) for i in goals]
-    a = animate(skydiverlist[queue], pos=targetlist[queue])
-    a.on_finished = nextinline()
-    # if a.running == False:
-    #     a.stop()
+    a = animate(skydiverlist[queue], pos=targetlist[queue], tween='linear')
+    if targetlist[queue][1] - skydiverlist[queue].y < 100 :
+        nextinline()
+    return (skydiverlist[queue].center, targetlist[queue])
+    # a.on_finished = nextinline()
+    # return a
+    # if a.running != True:
+    #     # a.stop()
     #     nextinline()
 
 # drop
@@ -115,6 +119,8 @@ def draw():
     global skydiverlist
     [i.draw() for i in skydiverlist]
     # drop()
+    global queue
+    screen.draw.text('Animation {}'.format(skydive()), (50, 50), fontsize=20, color=(0,0,0))
 
 def update():
     # drop()
