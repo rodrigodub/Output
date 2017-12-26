@@ -7,7 +7,7 @@
 # Usage:
 # >pgzrun Input04PJ04_b.py
 
-# v2.047
+# v2.059
 # 20171226
 
 import random
@@ -25,14 +25,31 @@ tankdy = 0
 tank = Actor('tank4')
 tank.center = (tankposx, tankposy)
 
-# define skydiver
-skydiver = Actor('skydiver')
-# define skydiving
-skydiving = 0
-skydinitial = (random.randint(10, 630), 10)
-skydfinal = (random.randint(10,630), random.randint(180,470))
+# drop and landing position
+def dropspot():
+    return (random.randint(10, 630), -20)
 
-# movement function
+def landingspot():
+    return (random.randint(10,630), random.randint(180,470))
+
+# define skydivers
+skydiverlist = []
+[skydiverlist.append(Actor('skydiver', center=dropspot())) for i in range(0,10)]
+# their targets
+targetlist = []
+[targetlist.append(landingspot()) for i in range(0,10)]
+# zip between them
+goals = zip(skydiverlist, targetlist)
+# parachuter queue
+queue = 0
+
+# order of parachuting
+def nextinline():
+    global queue
+    if queue < 9:
+        queue += 1
+
+# tank movement function
 def tankmove():
     # they're global
     global tankposx
@@ -82,20 +99,16 @@ def tankmove():
     # draw
     tank.center = (tankposx, tankposy)
 
+# skydiving
 def skydive():
-    global skydiving
-    global skydfinal
-    global anim
-    # if skydiving is zero, throw another skydiver
-    if skydiving == 0:
-        anim = animate(skydiver, pos=landingspot())
-        skydiving = 1
-    skydiver.draw() 
-    # if anim.running == False:
-    #     skydiving = 0
-
-def landingspot():
-    return (random.randint(10,630), random.randint(180,470))
+    global skydiverlist
+    global targetlist
+    # global goals
+    global queue
+    a = animate(skydiverlist[queue], pos=targetlist[queue], tween='linear')
+    if targetlist[queue][1] - skydiverlist[queue].y < 100 :
+        nextinline()
+    # return (skydiverlist[queue].center, targetlist[queue])
 
 # draw screen
 def draw():
@@ -106,7 +119,8 @@ def draw():
     # sky
     screen.draw.filled_rect(Rect((0,0), (640,180)), (0,240,255))
     # start
-    skydiver.draw()
+    global skydiverlist
+    [i.draw() for i in skydiverlist]
     tank.draw()
 
 def update():
