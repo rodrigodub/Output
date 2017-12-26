@@ -1,4 +1,4 @@
-# v2.050
+# v2.051
 # 20171226
 
 import random
@@ -21,11 +21,13 @@ def landingspot():
     return (random.randint(10,630), random.randint(180,470))
 
 # define skydiver
-skyd1 = Actor('skydiver', center=dropspot())
-skyd2 = Actor('skydiver', center=dropspot())
-skyd3 = Actor('skydiver', center=dropspot())
-skyd4 = Actor('skydiver', center=dropspot())
-skyd5 = Actor('skydiver', center=dropspot())
+# skyd1 = Actor('skydiver', center=dropspot())
+# skyd2 = Actor('skydiver', center=dropspot())
+# skyd3 = Actor('skydiver', center=dropspot())
+# skyd4 = Actor('skydiver', center=dropspot())
+# skyd5 = Actor('skydiver', center=dropspot())
+skydiverlist = []
+[skydiverlist.append(Actor('skydiver', center=dropspot())) for i in range(0,10)]
 
 
 # skydiver: (actor, startpos, endpos)
@@ -74,11 +76,13 @@ def draw():
     # screen
     screen.fill((255,255,0))
     # skydiver.draw()
-    skyd1.draw()
-    skyd2.draw()
-    skyd3.draw()
-    skyd4.draw()
-    skyd5.draw()
+    # skyd1.draw()
+    # skyd2.draw()
+    # skyd3.draw()
+    # skyd4.draw()
+    # skyd5.draw()
+    global skydiverlist
+    [i.draw() for i in skydiverlist]
 
 def update():
     # drop()
