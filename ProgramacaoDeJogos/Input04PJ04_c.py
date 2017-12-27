@@ -6,7 +6,7 @@
 # Usage:
 # >python3 Input04PJ04_c.py
 #
-# v2.065
+# v2.066
 # 20171227
 #################################################
 __author__ = 'Rodrigo Nobrega'
@@ -37,19 +37,20 @@ class Setscreen(object):
     def __init__(self, bg):
         self.size = (640,480)
         self.bgcolor = [90, 230, 90]
+        self.area = pygame.display.set_mode(self.size)
         self.show(bg)
     
     def show(self, bg):
-        screen = pygame.display.set_mode(self.size)
-        screen.fill(self.bgcolor)
-        screen.blit(Background(bg).image, (0,0))
-        return screen
+        # screen = pygame.display.set_mode(self.size)
+        self.area.fill(self.bgcolor)
+        self.area.blit(Background(bg).image, (0,0))
+        # return screen
 
 # tank
 class Tank(object):
     def __init__(self):
         self.image = load_image('tank4.png')
-        self.pos = (50,180)
+        self.pos = (50,280)
 
 # tankmovement
 
@@ -73,7 +74,7 @@ def main():
     pygame.init()
     screen = Setscreen('desert640.png')
     thetank = Tank()
-    screen.blit(thetank.image, thetank.pos)
+    screen.area.blit(thetank.image, thetank.pos)
     eventloop()
 
 
