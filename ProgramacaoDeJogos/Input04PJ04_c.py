@@ -6,22 +6,28 @@
 # Usage:
 # >python3 Input04PJ04_c.py
 #
-# v2.064
+# v2.065
 # 20171227
 #################################################
 __author__ = 'Rodrigo Nobrega'
 
 
 # import
-import sys, pygame
+import os, sys, pygame
 import random
+
+
+# load image
+def load_image(file):
+    path = os.path.join('images', file)
+    return pygame.image.load(path).convert()
 
 
 # background
 class Background(object):
     def __init__(self, image_file):
         # pygame.sprite.Sprite.__init__(self)  #call Sprite initializer
-        self.image = pygame.image.load(image_file)
+        self.image = load_image(image_file)
         self.rect = self.image.get_rect()
         self.rect.left, self.rect.top = 0,0
 
@@ -39,12 +45,25 @@ class Setscreen(object):
         screen.blit(Background(bg).image, (0,0))
         return screen
 
+# tank
+class Tank(object):
+    def __init__(self):
+        self.image = load_image('tank4.png')
+        self.pos = (50,180)
+
+# tankmovement
+
+# skydiver
+
+# skydmovement
+
 
 # event loop
 def eventloop():
     while 1:
         for event in pygame.event.get():
-            if event.type == pygame.QUIT: sys.exit()
+            if event.type == pygame.QUIT: 
+                sys.exit()
         pygame.display.flip()
 
 
@@ -52,11 +71,14 @@ def eventloop():
 def main():
     print('Main')
     pygame.init()
-    screen = Setscreen('images/desert640.png')
+    screen = Setscreen('desert640.png')
+    thetank = Tank()
+    screen.blit(thetank.image, thetank.pos)
     eventloop()
 
 
 # execute main
-main()
+if __name__ == '__main__': 
+    main()
 
 
