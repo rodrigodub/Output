@@ -7,8 +7,8 @@
 # Usage:
 # >pgzrun Input04PJ04_b.py
 
-# v2.059
-# 20171226
+# v2.060
+# 20171227
 
 import random
 
@@ -105,7 +105,7 @@ def skydive():
     global targetlist
     # global goals
     global queue
-    a = animate(skydiverlist[queue], pos=targetlist[queue], tween='linear')
+    a = animate(skydiverlist[queue], pos=targetlist[queue], tween='linear', duration=1.5)
     if targetlist[queue][1] - skydiverlist[queue].y < 100 :
         nextinline()
     # return (skydiverlist[queue].center, targetlist[queue])
