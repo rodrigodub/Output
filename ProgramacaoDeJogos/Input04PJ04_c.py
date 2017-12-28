@@ -4,9 +4,9 @@
 # Campo Minado / Movimento
 #
 # Usage:
-# >python3 Input04PJ04_c.py
+# > python3 Input04PJ04_c.py
 #
-# v2.067
+# v2.069
 # 20171228
 #################################################
 __author__ = 'Rodrigo Nobrega'
@@ -29,13 +29,13 @@ class Background(object):
         # pygame.sprite.Sprite.__init__(self)  #call Sprite initializer
         self.image = load_image(image_file)
         self.rect = self.image.get_rect()
-        self.rect.left, self.rect.top = 0,0
+        self.rect.left, self.rect.top = 0, 0
 
 
 # screen
 class Setscreen(object):
     def __init__(self, bg):
-        self.size = (640,480)
+        self.size = (640, 480)
         self.bgcolor = [90, 230, 90]
         self.area = pygame.display.set_mode(self.size)
         self.show(bg)
@@ -43,14 +43,20 @@ class Setscreen(object):
     def show(self, bg):
         # screen = pygame.display.set_mode(self.size)
         self.area.fill(self.bgcolor)
-        self.area.blit(Background(bg).image, (0,0))
+        self.area.blit(Background(bg).image, (0, 0))
         # return screen
 
 # tank
 class Tank(object):
     def __init__(self):
         self.image = load_image('tank4.png')
-        self.pos = (50,280)
+        self.x = 50
+        self.y = 280
+        self.pos = (self.x, self.y)
+
+    def move(self):
+        self.x += 2
+        self.pos = (self.x, self.y)
         
 
 # tankmovement
@@ -61,11 +67,13 @@ class Tank(object):
 
 
 # event loop
-def eventloop():
+def eventloop(scr, tnk):
     while 1:
         for event in pygame.event.get():
             if event.type == pygame.QUIT: 
                 sys.exit()
+        tnk.move()
+        scr.area.blit(tnk.image, tnk.pos)
         pygame.display.flip()
 
 
@@ -75,8 +83,8 @@ def main():
     pygame.init()
     screen = Setscreen('desert640.png')
     thetank = Tank()
-    screen.area.blit(thetank.image, thetank.pos)
-    eventloop()
+    #screen.area.blit(thetank.image, thetank.pos)
+    eventloop(screen, thetank)
 
 
 # execute main

@@ -18,30 +18,30 @@ from curses import wrapper
 
 
 def drawinsect(stdscr, posy, posx):
-	# draws insect
-	stdscr.addstr(posy, posx, ' )))')
-	stdscr.addstr(posy+1, posx, ' OOO<')
-	stdscr.addstr(posy+2, posx, ' )))')
-	stdscr.refresh()
-	time.sleep(0.2)
-	stdscr.addstr(posy, posx, ' (((')
-	stdscr.addstr(posy+1, posx, ' OOO<')
-	stdscr.addstr(posy+2, posx, ' (((')
-	stdscr.refresh()
-	time.sleep(0.2)
+    # draws insect
+    stdscr.addstr(posy, posx, ' )))')
+    stdscr.addstr(posy+1, posx, ' OOO<')
+    stdscr.addstr(posy+2, posx, ' )))')
+    stdscr.refresh()
+    time.sleep(0.2)
+    stdscr.addstr(posy, posx, ' (((')
+    stdscr.addstr(posy+1, posx, ' OOO<')
+    stdscr.addstr(posy+2, posx, ' (((')
+    stdscr.refresh()
+    time.sleep(0.2)
 
 
 def main(stdscr):
-	# disable blinking cursor
-	curses.curs_set(False)
-	# clear screen
-	stdscr.clear()
+    # disable blinking cursor
+    curses.curs_set(False)
+    # clear screen
+    stdscr.clear()
 
-	# main code
-	for i in range(0, 74):
-		drawinsect(stdscr, 10, i)
+    # main code
+    for i in range(0, 74):
+        drawinsect(stdscr, 10, i)
 
-	# end main code
-	stdscr.getkey()
+    # end main code
+    stdscr.getkey()
 
 wrapper(main)

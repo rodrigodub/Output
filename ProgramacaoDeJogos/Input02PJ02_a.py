@@ -20,39 +20,38 @@ from curses import wrapper
 
 
 class Cannon(object):
-	def __init__(self, stdscr):
-		stdscr.addstr(47, 38, chr(0x2584)+chr(0x2588)+chr(0x2584))
+    def __init__(self, stdscr):
+        stdscr.addstr(47, 38, chr(0x2584)+chr(0x2588)+chr(0x2584))
 
-	def fire(self, stdscr):
-		for n in range(45, 0, -1):
-			stdscr.addstr(n, 39, chr(0x25B2))
-			stdscr.addstr(n+1, 39, ' ')
-			time.sleep(0.025)
-			stdscr.refresh()
+    def fire(self, stdscr):
+        for n in range(45, 0, -1):
+            stdscr.addstr(n, 39, chr(0x25B2))
+            stdscr.addstr(n+1, 39, ' ')
+            time.sleep(0.025)
+            stdscr.refresh()
 
 
 def fireloop(stdscr, cannon):
-	fim = ''
-	while fim != 'x':
-		fim = stdscr.getkey()
-		if fim == 'f':
-			cannon.fire(stdscr)
+    fim = ''
+    while fim != 'x':
+        fim = stdscr.getkey()
+        if fim == 'f':
+            cannon.fire(stdscr)
 
 
 def main(stdscr):
-	# disable blinking cursor
-	curses.curs_set(False)
-	# clear screen
-	stdscr.clear()
+    # disable blinking cursor
+    curses.curs_set(False)
+    # clear screen
+    stdscr.clear()
 
-	# main code
-	a = Cannon(stdscr)
-	fireloop(stdscr, a)
+    # main code
+    a = Cannon(stdscr)
+    fireloop(stdscr, a)
 
-	# end main code
-	#stdscr.getkey()
+    # end main code
+    #stdscr.getkey()
 
 
 if __name__ == '__main__':
-	wrapper(main)
-	
+    wrapper(main)
