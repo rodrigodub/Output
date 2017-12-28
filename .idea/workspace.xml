@@ -2,15 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="645d30a0-0c4e-4c94-af04-4a2a47f55375" name="Default" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/Output.iml" afterPath="$PROJECT_DIR$/.idea/Output.iml" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" afterPath="$PROJECT_DIR$/.idea/misc.xml" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/Pygame_Tutorial/moveit.py" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change beforePath="$PROJECT_DIR$/ProgramacaoDeJogos/Input01PJ01_b.py" afterPath="$PROJECT_DIR$/ProgramacaoDeJogos/Input01PJ01_b.py" />
-      <change beforePath="$PROJECT_DIR$/ProgramacaoDeJogos/Input01PJ01_c.py" afterPath="$PROJECT_DIR$/ProgramacaoDeJogos/Input01PJ01_c.py" />
-      <change beforePath="$PROJECT_DIR$/ProgramacaoDeJogos/Input01PJ01_d.py" afterPath="$PROJECT_DIR$/ProgramacaoDeJogos/Input01PJ01_d.py" />
-      <change beforePath="$PROJECT_DIR$/ProgramacaoDeJogos/Input01PJ01_e.py" afterPath="$PROJECT_DIR$/ProgramacaoDeJogos/Input01PJ01_e.py" />
-      <change beforePath="$PROJECT_DIR$/ProgramacaoDeJogos/Input01PJ01_f.py" afterPath="$PROJECT_DIR$/ProgramacaoDeJogos/Input01PJ01_f.py" />
-      <change beforePath="$PROJECT_DIR$/ProgramacaoDeJogos/Input02PJ02_a.py" afterPath="$PROJECT_DIR$/ProgramacaoDeJogos/Input02PJ02_a.py" />
       <change beforePath="$PROJECT_DIR$/ProgramacaoDeJogos/Input04PJ04_c.py" afterPath="$PROJECT_DIR$/ProgramacaoDeJogos/Input04PJ04_c.py" />
     </list>
     <ignored path="Output.iws" />
@@ -33,10 +26,22 @@
       <file leaf-file-name="Input04PJ04_c.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/ProgramacaoDeJogos/Input04PJ04_c.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="120">
-              <caret line="8" column="0" lean-forward="false" selection-start-line="8" selection-start-column="0" selection-end-line="9" selection-end-column="10" />
+            <state relative-caret-position="179">
+              <caret line="12" column="0" lean-forward="true" selection-start-line="12" selection-start-column="0" selection-end-line="12" selection-end-column="0" />
               <folding>
                 <element signature="e#282#304#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="moveit.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/Pygame_Tutorial/moveit.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="535">
+              <caret line="53" column="39" lean-forward="false" selection-start-line="53" selection-start-column="39" selection-end-line="53" selection-end-column="39" />
+              <folding>
+                <element signature="e#340#357#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -77,14 +82,16 @@
         <option value="$PROJECT_DIR$/ProgramacaoDeJogos/Input01PJ01_f.py" />
         <option value="$PROJECT_DIR$/ProgramacaoDeJogos/Input01PJ01_b.py" />
         <option value="$PROJECT_DIR$/ProgramacaoDeJogos/Input02PJ02_a.py" />
+        <option value="$PROJECT_DIR$/Pygame_Tutorial/moveit.py" />
         <option value="$PROJECT_DIR$/ProgramacaoDeJogos/Input04PJ04_c.py" />
       </list>
     </option>
   </component>
   <component name="ProjectFrameBounds">
-    <option name="y" value="23" />
-    <option name="width" value="1440" />
-    <option name="height" value="831" />
+    <option name="x" value="-27" />
+    <option name="y" value="39" />
+    <option name="width" value="940" />
+    <option name="height" value="827" />
   </component>
   <component name="ProjectLevelVcsManager">
     <ConfirmationsSetting value="2" id="Add" />
@@ -117,6 +124,11 @@
               <item name="Output" type="b2602c69:ProjectViewProjectNode" />
               <item name="Output" type="462c0819:PsiDirectoryNode" />
               <item name="ProgramacaoDeJogos" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="Output" type="b2602c69:ProjectViewProjectNode" />
+              <item name="Output" type="462c0819:PsiDirectoryNode" />
+              <item name="Pygame_Tutorial" type="462c0819:PsiDirectoryNode" />
             </path>
           </expand>
           <select />
@@ -405,10 +417,10 @@
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="0" y="23" width="1440" height="831" extended-state="0" />
+    <frame x="-27" y="39" width="940" height="827" extended-state="0" />
     <editor active="true" />
     <layout>
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.16560958" sideWeight="0.5285326" order="0" side_tool="true" content_ui="combo" x="566" y="68" width="307" height="741" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.16539717" sideWeight="0.5285326" order="0" side_tool="true" content_ui="combo" x="566" y="68" width="307" height="741" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="8" side_tool="true" content_ui="tabs" />
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32880434" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
@@ -586,7 +598,7 @@
         <state relative-caret-position="637">
           <caret line="46" column="13" lean-forward="false" selection-start-line="46" selection-start-column="13" selection-end-line="46" selection-end-column="13" />
           <folding>
-            <element signature="e#339#358#0" expanded="true" />
+            <element signature="e#339#358#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -596,7 +608,7 @@
         <state relative-caret-position="225">
           <caret line="15" column="0" lean-forward="false" selection-start-line="15" selection-start-column="0" selection-end-line="15" selection-end-column="0" />
           <folding>
-            <element signature="e#345#356#0" expanded="true" />
+            <element signature="e#345#356#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -614,7 +626,7 @@
         <state relative-caret-position="118">
           <caret line="20" column="0" lean-forward="true" selection-start-line="20" selection-start-column="0" selection-end-line="20" selection-end-column="0" />
           <folding>
-            <element signature="e#356#367#0" expanded="true" />
+            <element signature="e#356#367#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -627,10 +639,20 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/Pygame_Tutorial/moveit.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="535">
+          <caret line="53" column="39" lean-forward="false" selection-start-line="53" selection-start-column="39" selection-end-line="53" selection-end-column="39" />
+          <folding>
+            <element signature="e#340#357#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/ProgramacaoDeJogos/Input04PJ04_c.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="120">
-          <caret line="8" column="0" lean-forward="false" selection-start-line="8" selection-start-column="0" selection-end-line="9" selection-end-column="10" />
+        <state relative-caret-position="179">
+          <caret line="12" column="0" lean-forward="true" selection-start-line="12" selection-start-column="0" selection-end-line="12" selection-end-column="0" />
           <folding>
             <element signature="e#282#304#0" expanded="true" />
           </folding>

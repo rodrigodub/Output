@@ -6,7 +6,7 @@
 # Usage:
 # > python3 Input04PJ04_c.py
 #
-# v2.069
+# v2.071
 # 20171228
 #################################################
 __author__ = 'Rodrigo Nobrega'
@@ -24,39 +24,41 @@ def load_image(file):
 
 
 # background
-class Background(object):
-    def __init__(self, image_file):
-        # pygame.sprite.Sprite.__init__(self)  #call Sprite initializer
-        self.image = load_image(image_file)
-        self.rect = self.image.get_rect()
-        self.rect.left, self.rect.top = 0, 0
+# class Background(object):
+#     def __init__(self, image_file):
+#         # pygame.sprite.Sprite.__init__(self)  #call Sprite initializer
+#         self.image = load_image(image_file)
+#         self.rect = self.image.get_rect()
+#         self.rect.left, self.rect.top = 0, 0
 
 
 # screen
 class Setscreen(object):
-    def __init__(self, bg):
+    def __init__(self, image_file):
         self.size = (640, 480)
         self.bgcolor = [90, 230, 90]
         self.area = pygame.display.set_mode(self.size)
-        self.show(bg)
-            
-    def show(self, bg):
-        # screen = pygame.display.set_mode(self.size)
+        self.image = load_image(image_file)
+        self.rect = self.image.get_rect()
+        #self.show(bg)
         self.area.fill(self.bgcolor)
-        self.area.blit(Background(bg).image, (0, 0))
-        # return screen
+        self.area.blit(self.image, (0, 0))
+            
+    # def show(self, bg):
+    #     # screen = pygame.display.set_mode(self.size)
+    #     #self.area.fill(self.bgcolor)
+    #     #self.area.blit(Background(bg).image, (0, 0))
+    #     # return screen
+    #     pass
 
 # tank
 class Tank(object):
-    def __init__(self):
+    def __init__(self, x, y):
         self.image = load_image('tank4.png')
-        self.x = 50
-        self.y = 280
-        self.pos = (self.x, self.y)
+        self.pos = self.image.get_rect().move(x, y)
 
     def move(self):
-        self.x += 2
-        self.pos = (self.x, self.y)
+        self.pos.left += 2
         
 
 # tankmovement
@@ -72,6 +74,7 @@ def eventloop(scr, tnk):
         for event in pygame.event.get():
             if event.type == pygame.QUIT: 
                 sys.exit()
+        scr.area.blit(scr.image, tnk.pos, tnk.pos)
         tnk.move()
         scr.area.blit(tnk.image, tnk.pos)
         pygame.display.flip()
@@ -82,7 +85,7 @@ def main():
     print('Main')
     pygame.init()
     screen = Setscreen('desert640.png')
-    thetank = Tank()
+    thetank = Tank(50, 240)
     #screen.area.blit(thetank.image, thetank.pos)
     eventloop(screen, thetank)
 
