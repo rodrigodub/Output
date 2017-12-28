@@ -2,8 +2,6 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="645d30a0-0c4e-4c94-af04-4a2a47f55375" name="Default" comment="">
-      <change beforePath="" afterPath="$PROJECT_DIR$/Pygame_Tutorial/moveit.py" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change beforePath="$PROJECT_DIR$/ProgramacaoDeJogos/Input04PJ04_c.py" afterPath="$PROJECT_DIR$/ProgramacaoDeJogos/Input04PJ04_c.py" />
     </list>
     <ignored path="Output.iws" />
@@ -26,22 +24,10 @@
       <file leaf-file-name="Input04PJ04_c.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/ProgramacaoDeJogos/Input04PJ04_c.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="179">
-              <caret line="12" column="0" lean-forward="true" selection-start-line="12" selection-start-column="0" selection-end-line="12" selection-end-column="0" />
+            <state relative-caret-position="120">
+              <caret line="8" column="0" lean-forward="false" selection-start-line="8" selection-start-column="0" selection-end-line="9" selection-end-column="10" />
               <folding>
                 <element signature="e#282#304#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="moveit.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/Pygame_Tutorial/moveit.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="535">
-              <caret line="53" column="39" lean-forward="false" selection-start-line="53" selection-start-column="39" selection-end-line="53" selection-end-column="39" />
-              <folding>
-                <element signature="e#340#357#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -651,8 +637,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/ProgramacaoDeJogos/Input04PJ04_c.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="179">
-          <caret line="12" column="0" lean-forward="true" selection-start-line="12" selection-start-column="0" selection-end-line="12" selection-end-column="0" />
+        <state relative-caret-position="120">
+          <caret line="8" column="0" lean-forward="false" selection-start-line="8" selection-start-column="0" selection-end-line="9" selection-end-column="10" />
           <folding>
             <element signature="e#282#304#0" expanded="true" />
           </folding>
