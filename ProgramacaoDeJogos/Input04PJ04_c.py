@@ -6,7 +6,7 @@
 # Usage:
 # > python3 Input04PJ04_c.py
 #
-# v2.072
+# v2.075
 # 20171228
 #################################################
 __author__ = 'Rodrigo Nobrega'
@@ -52,9 +52,18 @@ class Tank(object):
         self.image = load_image('tank4.png')
         self.pos = self.image.get_rect().move(x, y)
 
-    def move(self):
+    def move(self, vector):
         # movement rules
-        self.pos.left += 2
+        self.pos.left += vector[0]
+        self.pos.top += vector[1]
+        if self.pos.left > 640:
+            self.pos.left = 0
+        if self.pos.left < 0:
+            self.pos.left = 640
+        if self.pos.top > 480:
+            self.pos.top = 230
+        if self.pos.top < 230:
+            self.pos.top = 480
         
 
 # tankmovement
@@ -65,16 +74,30 @@ class Tank(object):
 
 
 # event loop
-def eventloop(scr, tnk):
-    while 1:
+def eventloop(scr, tnk, vec):
+    # arguments: scr=screen, tnk=tank, vec=tank vector
+    vector = vec
+    while True:
         # quit gracefully
         for event in pygame.event.get():
             if event.type == pygame.QUIT: 
                 sys.exit()
+            # tank movement
+            if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_SPACE:
+                    vector = (0, 0)
+                if event.key == pygame.K_RIGHT:
+                    vector = (2, 0)
+                if event.key == pygame.K_LEFT:
+                    vector = (-2, 0)
+                if event.key == pygame.K_UP:
+                    vector = (0, -2)
+                if event.key == pygame.K_DOWN:
+                    vector = (0, 2)
         # blit the background to erase the last tank position
         scr.area.blit(scr.image, tnk.pos, tnk.pos)
         # move tank
-        tnk.move()
+        tnk.move(vector)
         # blit tank in new position
         scr.area.blit(tnk.image, tnk.pos)
         # refresh display
@@ -83,15 +106,15 @@ def eventloop(scr, tnk):
 
 # main routine
 def main():
-    print('Main')
+    print('\n ::: Input 04 - Campo Minado :::')
     # start Pygame
     pygame.init()
     # start the display
     screen = Setupscreen('desert640.png')
-    # creates tank
+    # creates tank at initial position
     thetank = Tank(50, 300)
-    # start the event loop
-    eventloop(screen, thetank)
+    # start the event loop with tank moving right
+    eventloop(screen, thetank, (2, 0))
 
 
 # execute main

@@ -3,6 +3,7 @@
   <component name="ChangeListManager">
     <list default="true" id="645d30a0-0c4e-4c94-af04-4a2a47f55375" name="Default" comment="">
       <change beforePath="$PROJECT_DIR$/ProgramacaoDeJogos/Input04PJ04_c.py" afterPath="$PROJECT_DIR$/ProgramacaoDeJogos/Input04PJ04_c.py" />
+      <change beforePath="$PROJECT_DIR$/ProgramacaoDeJogos/images/desert640.png" afterPath="$PROJECT_DIR$/ProgramacaoDeJogos/images/desert640.png" />
     </list>
     <ignored path="Output.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -29,6 +30,16 @@
               <folding>
                 <element signature="e#282#304#0" expanded="true" />
               </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="Input04PJ04_b.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/ProgramacaoDeJogos/Input04PJ04_b.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="-672">
+              <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+              <folding />
             </state>
           </provider>
         </entry>
@@ -74,8 +85,8 @@
     </option>
   </component>
   <component name="ProjectFrameBounds">
-    <option name="x" value="-27" />
-    <option name="y" value="39" />
+    <option name="x" value="22" />
+    <option name="y" value="54" />
     <option name="width" value="940" />
     <option name="height" value="827" />
   </component>
@@ -110,11 +121,6 @@
               <item name="Output" type="b2602c69:ProjectViewProjectNode" />
               <item name="Output" type="462c0819:PsiDirectoryNode" />
               <item name="ProgramacaoDeJogos" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="Output" type="b2602c69:ProjectViewProjectNode" />
-              <item name="Output" type="462c0819:PsiDirectoryNode" />
-              <item name="Pygame_Tutorial" type="462c0819:PsiDirectoryNode" />
             </path>
           </expand>
           <select />
@@ -403,10 +409,10 @@
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="-27" y="39" width="940" height="827" extended-state="0" />
+    <frame x="22" y="54" width="940" height="827" extended-state="0" />
     <editor active="true" />
     <layout>
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.16539717" sideWeight="0.5285326" order="0" side_tool="true" content_ui="combo" x="566" y="68" width="307" height="741" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.23394994" sideWeight="0.5285326" order="0" side_tool="true" content_ui="combo" x="566" y="68" width="307" height="741" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="8" side_tool="true" content_ui="tabs" />
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32880434" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
@@ -632,6 +638,14 @@
           <folding>
             <element signature="e#340#357#0" expanded="true" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/ProgramacaoDeJogos/Input04PJ04_b.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-672">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
         </state>
       </provider>
     </entry>
