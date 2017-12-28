@@ -6,8 +6,8 @@
 # Usage:
 # >python3 Input04PJ04_c.py
 #
-# v2.066
-# 20171227
+# v2.067
+# 20171228
 #################################################
 __author__ = 'Rodrigo Nobrega'
 
@@ -20,7 +20,7 @@ import random
 # load image
 def load_image(file):
     path = os.path.join('images', file)
-    return pygame.image.load(path).convert()
+    return pygame.image.load(path).convert_alpha()
 
 
 # background
@@ -39,7 +39,7 @@ class Setscreen(object):
         self.bgcolor = [90, 230, 90]
         self.area = pygame.display.set_mode(self.size)
         self.show(bg)
-    
+            
     def show(self, bg):
         # screen = pygame.display.set_mode(self.size)
         self.area.fill(self.bgcolor)
@@ -51,6 +51,7 @@ class Tank(object):
     def __init__(self):
         self.image = load_image('tank4.png')
         self.pos = (50,280)
+        
 
 # tankmovement
 
