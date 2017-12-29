@@ -6,7 +6,7 @@
 # Usage:
 # > python3 Input04PJ04_c.py
 #
-# v2.077
+# v2.078
 # 20171229
 #################################################
 __author__ = 'Rodrigo Nobrega'
@@ -90,27 +90,54 @@ class Tank(object):
 
 
 # paratrooper
+class Paratrooper(object):
+    """Define a paratrooper, its initial and final position, and state (0: on air, 1: on ground, 2:rescued)"""
+    def __init__(self):
+        self.image = load_image('skydiver.png')
+        self.initial = (random.randint(0, 640), -20)
+        self.final = (random.randint(10, 630), random.randint(230, 470))
+        self.pos = self.image.get_rect().move(self.initial[0], self.initial[1])
+        self.state = 0
+        self.duration = 200
+        self.proximity = self.duration
+
+    def move(self):
+        if self.proximity > 0:
+            self.pos.left += (self.final[0] - self.initial[0]) / self.duration
+            self.pos.top += (self.final[1] - self.initial[1]) / self.duration
+            self.proximity -= 1
+        else:
+            self.state = 1
+            self.pos = self.image.get_rect().move(self.final[0], self.final[1])
+
+
+# paratrooperlist
 
 # skydmovement
 
 
 # event loop
-def eventloop(scr, tnk, vec):
-    # arguments: scr=screen, tnk=tank, vec=tank vector
-    vector = vec
+def eventloop(scr, tnk, prt):
+    # arguments: scr=screen, tnk=tank, prt=paratrooper
     while True:
         # quit gracefully
         for event in pygame.event.get():
-            if event.type == pygame.QUIT: 
+            if event.type == pygame.QUIT or pygame.key.get_pressed()[K_q]:
                 sys.exit()
         # check tank controls
         tnk.control()
         # blit the background to erase the last tank position
         scr.area.blit(scr.image, tnk.pos, tnk.pos)
+        # blit the background to erase the last paratrooper position
+        scr.area.blit(scr.image, prt.pos, prt.pos)
         # move tank
         tnk.move()
+        # move paratrooper
+        prt.move()
         # blit tank in new position
         scr.area.blit(tnk.image, tnk.pos)
+        # blit paratrooper in new position
+        scr.area.blit(prt.image, prt.pos)
         # refresh display
         pygame.display.flip()
 
@@ -124,8 +151,10 @@ def main():
     screen = Setupscreen('desert640.png')
     # creates tank at initial position
     thetank = Tank(50, 300)
+    # creates a paratrooper
+    parat1 = Paratrooper()
     # start the event loop with tank moving right
-    eventloop(screen, thetank, (2, 0))
+    eventloop(screen, thetank, parat1)
 
 
 # execute main
