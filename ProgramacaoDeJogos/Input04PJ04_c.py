@@ -6,7 +6,7 @@
 # Usage:
 # > python3 Input04PJ04_c.py
 #
-# v2.078
+# v2.080
 # 20171229
 #################################################
 __author__ = 'Rodrigo Nobrega'
@@ -100,15 +100,24 @@ class Paratrooper(object):
         self.state = 0
         self.duration = 200
         self.proximity = self.duration
+        # debug
+        print('Paratrooper initial: {}'.format(self.initial))
+        print('Paratrooper final: {}'.format(self.final))
+        print('Paratrooper rectangle: {}'.format(self.pos))
+        # end debug
 
     def move(self):
         if self.proximity > 0:
+            print('Proximity: {}'.format(self.proximity))
             self.pos.left += (self.final[0] - self.initial[0]) / self.duration
             self.pos.top += (self.final[1] - self.initial[1]) / self.duration
+            print('New rectangle: {}'.format(self.pos))
             self.proximity -= 1
         else:
+            print('Proximity: {}'.format(self.proximity))
             self.state = 1
             self.pos = self.image.get_rect().move(self.final[0], self.final[1])
+            print('Last rectangle: {}'.format(self.pos))
 
 
 # paratrooperlist
