@@ -6,7 +6,7 @@
 # Usage:
 # > python3 Input04PJ04_c.py
 #
-# v2.076
+# v2.077
 # 20171229
 #################################################
 __author__ = 'Rodrigo Nobrega'
@@ -52,11 +52,12 @@ class Tank(object):
     def __init__(self, x, y):
         self.image = load_image('tank4.png')
         self.pos = self.image.get_rect().move(x, y)
+        self.vector = (2, 0)
 
-    def move(self, vector):
+    def move(self):
         # movement rules
-        self.pos.left += vector[0]
-        self.pos.top += vector[1]
+        self.pos.left += self.vector[0]
+        self.pos.top += self.vector[1]
         if self.pos.left > 640:
             self.pos.left = 0
         if self.pos.left < 0:
@@ -65,9 +66,28 @@ class Tank(object):
             self.pos.top = 230
         if self.pos.top < 230:
             self.pos.top = 480
-        
 
-# tankmovement
+    def control(self):
+        keys = pygame.key.get_pressed()
+        if keys[K_SPACE]:
+            self.vector = (0, 0)
+        if keys[K_RIGHT]:
+            self.vector = (2, 0)
+        if keys[K_LEFT]:
+            self.vector = (-2, 0)
+        if keys[K_UP]:
+            self.vector = (0, -2)
+        if keys[K_DOWN]:
+            self.vector = (0, 2)
+        if keys[K_RIGHT] and keys[K_UP]:
+            self.vector = (2, -2)
+        if keys[K_LEFT] and keys[K_UP]:
+            self.vector = (-2, -2)
+        if keys[K_RIGHT] and keys[K_DOWN]:
+            self.vector = (2, 2)
+        if keys[K_LEFT] and keys[K_DOWN]:
+            self.vector = (-2, 2)
+
 
 # paratrooper
 
@@ -83,30 +103,12 @@ def eventloop(scr, tnk, vec):
         for event in pygame.event.get():
             if event.type == pygame.QUIT: 
                 sys.exit()
-            # tank movement
-            keys = pygame.key.get_pressed()
-            if keys[K_SPACE]:
-                vector = (0, 0)
-            if keys[K_RIGHT]:
-                vector = (2, 0)
-            if keys[K_LEFT]:
-                vector = (-2, 0)
-            if keys[K_UP]:
-                vector = (0, -2)
-            if keys[K_DOWN]:
-                vector = (0, 2)
-            if keys[K_RIGHT] and keys[K_UP]:
-                vector = (2, -2)
-            if keys[K_LEFT] and keys[K_UP]:
-                vector = (-2, -2)
-            if keys[K_RIGHT] and keys[K_DOWN]:
-                vector = (2, 2)
-            if keys[K_LEFT] and keys[K_DOWN]:
-                vector = (-2, 2)
+        # check tank controls
+        tnk.control()
         # blit the background to erase the last tank position
         scr.area.blit(scr.image, tnk.pos, tnk.pos)
         # move tank
-        tnk.move(vector)
+        tnk.move()
         # blit tank in new position
         scr.area.blit(tnk.image, tnk.pos)
         # refresh display
