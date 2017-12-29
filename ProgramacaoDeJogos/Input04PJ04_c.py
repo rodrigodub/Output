@@ -6,14 +6,15 @@
 # Usage:
 # > python3 Input04PJ04_c.py
 #
-# v2.075
-# 20171228
+# v2.076
+# 20171229
 #################################################
 __author__ = 'Rodrigo Nobrega'
 
 
 # import
 import os, sys, pygame
+from pygame.locals import *
 import random
 
 
@@ -83,17 +84,25 @@ def eventloop(scr, tnk, vec):
             if event.type == pygame.QUIT: 
                 sys.exit()
             # tank movement
-            if event.type == pygame.KEYDOWN:
-                if event.key == pygame.K_SPACE:
-                    vector = (0, 0)
-                if event.key == pygame.K_RIGHT:
-                    vector = (2, 0)
-                if event.key == pygame.K_LEFT:
-                    vector = (-2, 0)
-                if event.key == pygame.K_UP:
-                    vector = (0, -2)
-                if event.key == pygame.K_DOWN:
-                    vector = (0, 2)
+            keys = pygame.key.get_pressed()
+            if keys[K_SPACE]:
+                vector = (0, 0)
+            if keys[K_RIGHT]:
+                vector = (2, 0)
+            if keys[K_LEFT]:
+                vector = (-2, 0)
+            if keys[K_UP]:
+                vector = (0, -2)
+            if keys[K_DOWN]:
+                vector = (0, 2)
+            if keys[K_RIGHT] and keys[K_UP]:
+                vector = (2, -2)
+            if keys[K_LEFT] and keys[K_UP]:
+                vector = (-2, -2)
+            if keys[K_RIGHT] and keys[K_DOWN]:
+                vector = (2, 2)
+            if keys[K_LEFT] and keys[K_DOWN]:
+                vector = (-2, 2)
         # blit the background to erase the last tank position
         scr.area.blit(scr.image, tnk.pos, tnk.pos)
         # move tank
@@ -106,7 +115,7 @@ def eventloop(scr, tnk, vec):
 
 # main routine
 def main():
-    print('\n ::: Input 04 - Campo Minado :::')
+    print('\n ::: Input 04 - Campo Minado :::\n')
     # start Pygame
     pygame.init()
     # start the display
