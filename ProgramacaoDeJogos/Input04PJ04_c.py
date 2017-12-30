@@ -6,7 +6,7 @@
 # Usage:
 # > python3 Input04PJ04_c.py
 #
-# v2.081
+# v2.083
 # 20171230
 #################################################
 __author__ = 'Rodrigo Nobrega'
@@ -52,6 +52,7 @@ class Tank(object):
     def __init__(self, x, y):
         self.image = load_image('tank4.png')
         self.pos = self.image.get_rect().move(x, y)
+        # the displacement vector between each frame
         self.vector = (2, 0)
 
     def move(self):
@@ -98,52 +99,42 @@ class Paratrooper(object):
         self.final = (random.randint(10, 630), random.randint(230, 470))
         self.pos = self.image.get_rect().move(self.initial[0], self.initial[1])
         self.state = 0
-        #self.duration = 200
-        self.duration = 50
+        # number of frames between initial and final paratrooper position
+        self.duration = 200
+        # the more time passes (i.e. frames) the closest to final destination
         self.proximity = 0
+        # step sizes
         self.deltax = (self.final[0] - self.initial[0]) / self.duration
         self.deltay = (self.final[1] - self.initial[1]) / self.duration
-        # debug
-        print('Paratrooper initial: {}'.format(self.initial))
-        print('Paratrooper final: {}'.format(self.final))
-        print('Paratrooper rectangle: {}'.format(self.pos))
-        print('Delta X: {}'.format((self.final[0] - self.initial[0]) / self.duration))
-        print('Delta Y: {}'.format((self.final[1] - self.initial[1]) / self.duration))
-        # end debug
-        self.traject = self.trajectory()
+        # list with all trajectory intermediate positions
+        self.trajectory = self.calculatetrajectory()
 
     def move(self):
+        # move closer to the final destination
         if self.proximity < self.duration:
-            print('Proximity: {}'.format(self.proximity))
-            # self.pos.left += (self.final[0] - self.initial[0]) / self.duration
-            # self.pos.top += (self.final[1] - self.initial[1]) / self.duration
-            self.pos = self.image.get_rect().move(self.traject[self.proximity])
-            print('New rectangle: {}'.format(self.pos))
+            self.pos = self.image.get_rect().move(self.trajectory[self.proximity])
             self.proximity += 1
+        # move to final destination
         else:
-            print('Proximity: {}'.format(self.proximity))
             self.state = 1
-            self.pos = self.image.get_rect().move(self.traject[self.proximity])
-            print('New rectangle: {}'.format(self.pos))
             self.pos = self.image.get_rect().move(self.final[0], self.final[1])
-            print('Last rectangle: {}'.format(self.pos))
-            #sys.exit()
 
-    def trajectory(self):
+    def calculatetrajectory(self):
         trajectoryfloat = []
+        # first position is the initial position
         previouspos = self.initial
         trajectoryfloat.append(previouspos)
+        # append a tuple (float x, float y) for each frame with the delta steps
         for i in range(0, self.duration):
             newpos = (previouspos[0] + self.deltax, previouspos[1] + self.deltay)
             trajectoryfloat.append(newpos)
             previouspos = newpos
+        # calculate a new trajectory list with tuples (int x, int y), and return it
         trajectoryint = [(int(i[0]), int(i[1])) for i in trajectoryfloat]
         return trajectoryint
 
 
 # paratrooperlist
-
-# skydmovement
 
 
 # event loop
@@ -159,15 +150,15 @@ def eventloop(scr, tnk, prt):
         # blit the background to erase the last tank position
         scr.area.blit(scr.image, tnk.pos, tnk.pos)
         # blit the background to erase the last paratrooper position
-        #scr.area.blit(scr.image, prt.pos, prt.pos)
+        scr.area.blit(scr.image, prt.pos, prt.pos)
         # move tank
         tnk.move()
         # move paratrooper
         prt.move()
-        # blit tank in new position
-        scr.area.blit(tnk.image, tnk.pos)
         # blit paratrooper in new position
         scr.area.blit(prt.image, prt.pos)
+        # blit tank in new position
+        scr.area.blit(tnk.image, tnk.pos)
         # refresh display
         pygame.display.flip()
 
