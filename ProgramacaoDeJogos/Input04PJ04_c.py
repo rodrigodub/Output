@@ -6,8 +6,8 @@
 # Usage:
 # > python3 Input04PJ04_c.py
 #
-# v2.080
-# 20171229
+# v2.081
+# 20171230
 #################################################
 __author__ = 'Rodrigo Nobrega'
 
@@ -98,26 +98,47 @@ class Paratrooper(object):
         self.final = (random.randint(10, 630), random.randint(230, 470))
         self.pos = self.image.get_rect().move(self.initial[0], self.initial[1])
         self.state = 0
-        self.duration = 200
-        self.proximity = self.duration
+        #self.duration = 200
+        self.duration = 50
+        self.proximity = 0
+        self.deltax = (self.final[0] - self.initial[0]) / self.duration
+        self.deltay = (self.final[1] - self.initial[1]) / self.duration
         # debug
         print('Paratrooper initial: {}'.format(self.initial))
         print('Paratrooper final: {}'.format(self.final))
         print('Paratrooper rectangle: {}'.format(self.pos))
+        print('Delta X: {}'.format((self.final[0] - self.initial[0]) / self.duration))
+        print('Delta Y: {}'.format((self.final[1] - self.initial[1]) / self.duration))
         # end debug
+        self.traject = self.trajectory()
 
     def move(self):
-        if self.proximity > 0:
+        if self.proximity < self.duration:
             print('Proximity: {}'.format(self.proximity))
-            self.pos.left += (self.final[0] - self.initial[0]) / self.duration
-            self.pos.top += (self.final[1] - self.initial[1]) / self.duration
+            # self.pos.left += (self.final[0] - self.initial[0]) / self.duration
+            # self.pos.top += (self.final[1] - self.initial[1]) / self.duration
+            self.pos = self.image.get_rect().move(self.traject[self.proximity])
             print('New rectangle: {}'.format(self.pos))
-            self.proximity -= 1
+            self.proximity += 1
         else:
             print('Proximity: {}'.format(self.proximity))
             self.state = 1
+            self.pos = self.image.get_rect().move(self.traject[self.proximity])
+            print('New rectangle: {}'.format(self.pos))
             self.pos = self.image.get_rect().move(self.final[0], self.final[1])
             print('Last rectangle: {}'.format(self.pos))
+            #sys.exit()
+
+    def trajectory(self):
+        trajectoryfloat = []
+        previouspos = self.initial
+        trajectoryfloat.append(previouspos)
+        for i in range(0, self.duration):
+            newpos = (previouspos[0] + self.deltax, previouspos[1] + self.deltay)
+            trajectoryfloat.append(newpos)
+            previouspos = newpos
+        trajectoryint = [(int(i[0]), int(i[1])) for i in trajectoryfloat]
+        return trajectoryint
 
 
 # paratrooperlist
@@ -138,7 +159,7 @@ def eventloop(scr, tnk, prt):
         # blit the background to erase the last tank position
         scr.area.blit(scr.image, tnk.pos, tnk.pos)
         # blit the background to erase the last paratrooper position
-        scr.area.blit(scr.image, prt.pos, prt.pos)
+        #scr.area.blit(scr.image, prt.pos, prt.pos)
         # move tank
         tnk.move()
         # move paratrooper
