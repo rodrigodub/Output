@@ -6,7 +6,7 @@
 # Usage:
 # > python3 Input04PJ04_c.py
 #
-# v2.083
+# v2.084
 # 20171230
 #################################################
 __author__ = 'Rodrigo Nobrega'
@@ -135,11 +135,19 @@ class Paratrooper(object):
 
 
 # paratrooperlist
+class Paratrooperlist(object):
+    def __init__(self):
+        self.platoon = []
+
+    def release(self):
+        # release a new paratrooper if platoon is empty or if last paratrooper has landed
+        if len(self.platoon) == 0 or (len(self.platoon) < 10 and self.platoon[-1].state == 1):
+            self.platoon.append(Paratrooper())
 
 
 # event loop
 def eventloop(scr, tnk, prt):
-    # arguments: scr=screen, tnk=tank, prt=paratrooper
+    # arguments: scr=screen, tnk=tank, prt=paratrooper list
     while True:
         # quit gracefully
         for event in pygame.event.get():
@@ -147,16 +155,18 @@ def eventloop(scr, tnk, prt):
                 sys.exit()
         # check tank controls
         tnk.control()
+        # release a paratrooper
+        prt.release()
+        # blit the background to erase the last paratrooper position
+        scr.area.blit(scr.image, prt.platoon[-1].pos, prt.platoon[-1].pos)
         # blit the background to erase the last tank position
         scr.area.blit(scr.image, tnk.pos, tnk.pos)
-        # blit the background to erase the last paratrooper position
-        scr.area.blit(scr.image, prt.pos, prt.pos)
         # move tank
         tnk.move()
         # move paratrooper
-        prt.move()
+        prt.platoon[-1].move()
         # blit paratrooper in new position
-        scr.area.blit(prt.image, prt.pos)
+        scr.area.blit(prt.platoon[-1].image, prt.platoon[-1].pos)
         # blit tank in new position
         scr.area.blit(tnk.image, tnk.pos)
         # refresh display
@@ -172,8 +182,8 @@ def main():
     screen = Setupscreen('desert640.png')
     # creates tank at initial position
     thetank = Tank(50, 300)
-    # creates a paratrooper
-    parat1 = Paratrooper()
+    # creates a paratrooper list
+    parat1 = Paratrooperlist()
     # start the event loop with tank moving right
     eventloop(screen, thetank, parat1)
 
