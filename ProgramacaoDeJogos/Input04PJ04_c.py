@@ -6,7 +6,7 @@
 # Usage:
 # > python3 Input04PJ04_c.py
 #
-# v2.088
+# v2.089
 # 20171231
 #################################################
 __author__ = 'Rodrigo Nobrega'
@@ -16,11 +16,12 @@ __author__ = 'Rodrigo Nobrega'
 import os, sys, pygame
 from pygame.locals import *
 import random
+import time
 
 
 # load image function
 def load_image(file):
-    path = os.path.join('images', file)
+    path = os.path.join('images/minefield', file)
     return pygame.image.load(path).convert_alpha()
 
 
@@ -153,6 +154,19 @@ class Paratrooperlist(object):
         return rescued
 
 
+# mine
+class Landmine(object):
+    def __init__(self):
+        self.image = load_image('explosion.png')
+        self.pos = self.image.get_rect().move(random.randint(10, 630), random.randint(230, 430))
+        # state: 0=hidden, 1=shown
+        self.state = 0
+
+    def fire(self, tnk):
+        if self.pos.colliderect(tnk.pos):
+            self.state = 1
+
+
 # write text
 def writetext(font, text):
     a = font.render(text, 0, (0, 0, 0))
@@ -160,8 +174,9 @@ def writetext(font, text):
 
 
 # event loop
-def eventloop(scr, fnt, tnk, prt, sco):
-    # arguments: scr=screen, fnt=font, tnk=tank, prt=paratrooper list, sco=score
+def eventloop(scr, fnt, tnk, prt, sco, min):
+    # arguments: scr=screen, fnt=font, tnk=tank, prt=paratrooper list, sco=score, min=mine
+    a = 1
     while True:
         # quit gracefully
         for event in pygame.event.get():
@@ -172,7 +187,6 @@ def eventloop(scr, fnt, tnk, prt, sco):
         # release a paratrooper
         prt.release()
         # blit the background to erase the last paratrooper position
-        #scr.area.blit(scr.image, prt.platoon[-1].pos, prt.platoon[-1].pos)
         [scr.area.blit(scr.image, i.pos, i.pos) for i in prt.platoon]
         # blit the background to erase the last tank position
         scr.area.blit(scr.image, tnk.pos, tnk.pos)
@@ -189,6 +203,15 @@ def eventloop(scr, fnt, tnk, prt, sco):
         # write text
         scr.area.blit(scr.image, (120, 5, 50, 30), (120, 5, 50, 30))
         scr.area.blit(writetext(fnt, 'Paratroopers: {}'.format(sco)), (10, 10))
+        # blit mine
+        # scr.area.blit(min.image, min.pos)
+        # test mine
+        if min.fire(tnk):
+            # blit mine
+            scr.area.blit(min.image, min.pos)
+            pygame.display.flip()
+            time.sleep(5)
+            a = 0
         # refresh display
         pygame.display.flip()
 
@@ -206,8 +229,10 @@ def main():
     thetank = Tank(50, 300)
     # creates a paratrooper list
     parat1 = Paratrooperlist()
+    # hide a mine
+    mine = Landmine()
     # start the event loop with tank moving right
-    eventloop(screen, chicago, thetank, parat1, score)
+    eventloop(screen, chicago, thetank, parat1, score, mine)
 
 
 # execute main
