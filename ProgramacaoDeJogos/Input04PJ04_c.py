@@ -6,7 +6,7 @@
 # Usage:
 # > python3 Input04PJ04_c.py
 #
-# v2.085
+# v2.086
 # 20171231
 #################################################
 __author__ = 'Rodrigo Nobrega'
@@ -145,9 +145,15 @@ class Paratrooperlist(object):
             self.platoon.append(Paratrooper())
 
 
+# write text
+def writetext(font, text):
+    a = font.render(text, 1, (0, 0, 0))
+    return a
+
+
 # event loop
-def eventloop(scr, tnk, prt):
-    # arguments: scr=screen, tnk=tank, prt=paratrooper list
+def eventloop(scr, fnt, tnk, prt):
+    # arguments: scr=screen, fnt=font, tnk=tank, prt=paratrooper list
     while True:
         # quit gracefully
         for event in pygame.event.get():
@@ -169,6 +175,8 @@ def eventloop(scr, tnk, prt):
         [scr.area.blit(i.image, i.pos) for i in prt.platoon]
         # blit tank in new position
         scr.area.blit(tnk.image, tnk.pos)
+        # write text
+        scr.area.blit(writetext(fnt, 'Text to display'), (10, 10))
         # refresh display
         pygame.display.flip()
 
@@ -178,6 +186,7 @@ def main():
     print('\n ::: Input 04 - Campo Minado :::\n\n       Press [Q] to quit.\n')
     # start Pygame
     pygame.init()
+    chicago = pygame.font.Font('./fonts/Chicago Normal.ttf', 12)
     # start the display
     screen = Setupscreen('desert640.png')
     # creates tank at initial position
@@ -185,7 +194,7 @@ def main():
     # creates a paratrooper list
     parat1 = Paratrooperlist()
     # start the event loop with tank moving right
-    eventloop(screen, thetank, parat1)
+    eventloop(screen, chicago, thetank, parat1)
 
 
 # execute main
