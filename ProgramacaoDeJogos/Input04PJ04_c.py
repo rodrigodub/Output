@@ -6,7 +6,7 @@
 # Usage:
 # > python3 Input04PJ04_c.py
 #
-# v2.087
+# v2.088
 # 20171231
 #################################################
 __author__ = 'Rodrigo Nobrega'
@@ -115,7 +115,7 @@ class Paratrooper(object):
             self.pos = self.image.get_rect().move(self.trajectory[self.proximity])
             self.proximity += 1
         # move to final destination
-        else:
+        elif self.state != 2:
             self.state = 1
             self.pos = self.image.get_rect().move(self.final[0], self.final[1])
 
@@ -141,7 +141,7 @@ class Paratrooperlist(object):
 
     def release(self):
         # release a new paratrooper if platoon is empty or if last paratrooper has landed
-        if len(self.platoon) == 0 or (len(self.platoon) < 10 and self.platoon[-1].state == 1):
+        if len(self.platoon) == 0 or (len(self.platoon) < 10 and self.platoon[-1].state > 0):
             self.platoon.append(Paratrooper())
 
     def rescue(self, tnk):
@@ -172,19 +172,20 @@ def eventloop(scr, fnt, tnk, prt, sco):
         # release a paratrooper
         prt.release()
         # blit the background to erase the last paratrooper position
-        scr.area.blit(scr.image, prt.platoon[-1].pos, prt.platoon[-1].pos)
+        #scr.area.blit(scr.image, prt.platoon[-1].pos, prt.platoon[-1].pos)
+        [scr.area.blit(scr.image, i.pos, i.pos) for i in prt.platoon]
         # blit the background to erase the last tank position
         scr.area.blit(scr.image, tnk.pos, tnk.pos)
         # move tank
         tnk.move()
         # move paratrooper
         prt.platoon[-1].move()
+        # rescue and calculate score
+        sco += prt.rescue(tnk)
         # blit paratroopers in new position
         [scr.area.blit(i.image, i.pos) for i in prt.platoon if i.state < 2]
         # blit tank in new position
         scr.area.blit(tnk.image, tnk.pos)
-        # rescue and calculate score
-        sco += prt.rescue(tnk)
         # write text
         scr.area.blit(scr.image, (120, 5, 50, 30), (120, 5, 50, 30))
         scr.area.blit(writetext(fnt, 'Paratroopers: {}'.format(sco)), (10, 10))
