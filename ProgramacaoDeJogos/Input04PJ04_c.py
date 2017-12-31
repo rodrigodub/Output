@@ -6,8 +6,8 @@
 # Usage:
 # > python3 Input04PJ04_c.py
 #
-# v2.084
-# 20171230
+# v2.085
+# 20171231
 #################################################
 __author__ = 'Rodrigo Nobrega'
 
@@ -165,8 +165,8 @@ def eventloop(scr, tnk, prt):
         tnk.move()
         # move paratrooper
         prt.platoon[-1].move()
-        # blit paratrooper in new position
-        scr.area.blit(prt.platoon[-1].image, prt.platoon[-1].pos)
+        # blit paratroopers in new position
+        [scr.area.blit(i.image, i.pos) for i in prt.platoon]
         # blit tank in new position
         scr.area.blit(tnk.image, tnk.pos)
         # refresh display
@@ -175,7 +175,7 @@ def eventloop(scr, tnk, prt):
 
 # main routine
 def main():
-    print('\n ::: Input 04 - Campo Minado :::\n')
+    print('\n ::: Input 04 - Campo Minado :::\n\n       Press [Q] to quit.\n')
     # start Pygame
     pygame.init()
     # start the display
