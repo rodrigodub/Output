@@ -6,7 +6,7 @@
 # Usage:
 # > python3 Input04PJ04_c.py
 #
-# v2.086
+# v2.087
 # 20171231
 #################################################
 __author__ = 'Rodrigo Nobrega'
@@ -144,16 +144,24 @@ class Paratrooperlist(object):
         if len(self.platoon) == 0 or (len(self.platoon) < 10 and self.platoon[-1].state == 1):
             self.platoon.append(Paratrooper())
 
+    def rescue(self, tnk):
+        rescued = 0
+        for i in [a for a in self.platoon if a.state < 2]:
+            if i.pos.colliderect(tnk.pos):
+                i.state = 2
+                rescued += 1
+        return rescued
+
 
 # write text
 def writetext(font, text):
-    a = font.render(text, 1, (0, 0, 0))
+    a = font.render(text, 0, (0, 0, 0))
     return a
 
 
 # event loop
-def eventloop(scr, fnt, tnk, prt):
-    # arguments: scr=screen, fnt=font, tnk=tank, prt=paratrooper list
+def eventloop(scr, fnt, tnk, prt, sco):
+    # arguments: scr=screen, fnt=font, tnk=tank, prt=paratrooper list, sco=score
     while True:
         # quit gracefully
         for event in pygame.event.get():
@@ -172,11 +180,14 @@ def eventloop(scr, fnt, tnk, prt):
         # move paratrooper
         prt.platoon[-1].move()
         # blit paratroopers in new position
-        [scr.area.blit(i.image, i.pos) for i in prt.platoon]
+        [scr.area.blit(i.image, i.pos) for i in prt.platoon if i.state < 2]
         # blit tank in new position
         scr.area.blit(tnk.image, tnk.pos)
+        # rescue and calculate score
+        sco += prt.rescue(tnk)
         # write text
-        scr.area.blit(writetext(fnt, 'Text to display'), (10, 10))
+        scr.area.blit(scr.image, (120, 5, 50, 30), (120, 5, 50, 30))
+        scr.area.blit(writetext(fnt, 'Paratroopers: {}'.format(sco)), (10, 10))
         # refresh display
         pygame.display.flip()
 
@@ -186,7 +197,8 @@ def main():
     print('\n ::: Input 04 - Campo Minado :::\n\n       Press [Q] to quit.\n')
     # start Pygame
     pygame.init()
-    chicago = pygame.font.Font('./fonts/Chicago Normal.ttf', 12)
+    chicago = pygame.font.Font('./fonts/Chicago Normal.ttf', 16)
+    score = 0
     # start the display
     screen = Setupscreen('desert640.png')
     # creates tank at initial position
@@ -194,7 +206,7 @@ def main():
     # creates a paratrooper list
     parat1 = Paratrooperlist()
     # start the event loop with tank moving right
-    eventloop(screen, chicago, thetank, parat1)
+    eventloop(screen, chicago, thetank, parat1, score)
 
 
 # execute main
