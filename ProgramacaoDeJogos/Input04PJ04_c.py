@@ -6,7 +6,7 @@
 # Usage:
 # > python3 Input04PJ04_c.py
 #
-# v2.090
+# v2.091
 # 20180103
 #################################################
 __author__ = 'Rodrigo Nobrega'
@@ -109,6 +109,7 @@ class Paratrooper(object):
         self.deltay = (self.final[1] - self.initial[1]) / self.duration
         # list with all trajectory intermediate positions
         self.trajectory = self.calculatetrajectory()
+        self.sound = pygame.mixer.Sound('sounds/minefield/Robot_blip.wav')
 
     def move(self):
         # move closer to the final destination
@@ -151,6 +152,7 @@ class Paratrooperlist(object):
             if i.pos.colliderect(tnk.pos):
                 i.state = 2
                 rescued += 1
+                i.sound.play()
         return rescued
 
 
@@ -223,6 +225,7 @@ def main():
     print('\n ::: Input 04 - Campo Minado :::\n\n       Press [Q] to quit.\n')
     # start Pygame
     pygame.init()
+    pygame.mixer.init()
     chicago = pygame.font.Font('./fonts/Chicago Normal.ttf', 16)
     score = 0
     # start the display
