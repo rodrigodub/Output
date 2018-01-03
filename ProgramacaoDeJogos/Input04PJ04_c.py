@@ -6,8 +6,8 @@
 # Usage:
 # > python3 Input04PJ04_c.py
 #
-# v2.089
-# 20171231
+# v2.090
+# 20180103
 #################################################
 __author__ = 'Rodrigo Nobrega'
 
@@ -157,13 +157,14 @@ class Paratrooperlist(object):
 # mine
 class Landmine(object):
     def __init__(self):
-        self.image = load_image('explosion.png')
+        self.image = load_image('explosion2.png')
         self.pos = self.image.get_rect().move(random.randint(10, 630), random.randint(230, 430))
+        self.posinternal = Rect(self.pos.x+15, self.pos.y+15, 20, 20)
         # state: 0=hidden, 1=shown
         self.state = 0
 
     def fire(self, tnk):
-        if self.pos.colliderect(tnk.pos):
+        if self.posinternal.colliderect(tnk.pos):
             self.state = 1
 
 
@@ -177,7 +178,7 @@ def writetext(font, text):
 def eventloop(scr, fnt, tnk, prt, sco, min):
     # arguments: scr=screen, fnt=font, tnk=tank, prt=paratrooper list, sco=score, min=mine
     a = 1
-    while True:
+    while a == 1:
         # quit gracefully
         for event in pygame.event.get():
             if event.type == pygame.QUIT or pygame.key.get_pressed()[K_q]:
@@ -206,7 +207,8 @@ def eventloop(scr, fnt, tnk, prt, sco, min):
         # blit mine
         # scr.area.blit(min.image, min.pos)
         # test mine
-        if min.fire(tnk):
+        min.fire(tnk)
+        if min.state == 1:
             # blit mine
             scr.area.blit(min.image, min.pos)
             pygame.display.flip()
