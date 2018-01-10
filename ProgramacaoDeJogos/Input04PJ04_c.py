@@ -6,8 +6,8 @@
 # Usage:
 # > python3 Input04PJ04_c.py
 #
-# v2.091
-# 20180103
+# v2.092
+# 20180110
 #################################################
 __author__ = 'Rodrigo Nobrega'
 
@@ -96,6 +96,7 @@ class Paratrooper(object):
     """Define a paratrooper, its initial and final position, and state (0: on air, 1: on ground, 2:rescued)"""
     def __init__(self):
         self.image = load_image('skydiver.png')
+        self.sound = pygame.mixer.Sound('sounds/minefield/Robot_blip.wav')
         self.initial = (random.randint(0, 640), -20)
         self.final = (random.randint(10, 630), random.randint(230, 470))
         self.pos = self.image.get_rect().move(self.initial[0], self.initial[1])
@@ -109,7 +110,6 @@ class Paratrooper(object):
         self.deltay = (self.final[1] - self.initial[1]) / self.duration
         # list with all trajectory intermediate positions
         self.trajectory = self.calculatetrajectory()
-        self.sound = pygame.mixer.Sound('sounds/minefield/Robot_blip.wav')
 
     def move(self):
         # move closer to the final destination
@@ -160,6 +160,7 @@ class Paratrooperlist(object):
 class Landmine(object):
     def __init__(self):
         self.image = load_image('explosion2.png')
+        self.sound = pygame.mixer.Sound('sounds/minefield/Grenade_Explosion.wav')
         self.pos = self.image.get_rect().move(random.randint(10, 630), random.randint(230, 430))
         self.posinternal = Rect(self.pos.x+15, self.pos.y+15, 20, 20)
         # state: 0=hidden, 1=shown
@@ -213,6 +214,7 @@ def eventloop(scr, fnt, tnk, prt, sco, min):
         if min.state == 1:
             # blit mine
             scr.area.blit(min.image, min.pos)
+            min.sound.play()
             pygame.display.flip()
             time.sleep(5)
             a = 0
