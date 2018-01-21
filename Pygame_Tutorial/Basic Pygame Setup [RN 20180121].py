@@ -6,7 +6,7 @@
 # Usage:
 # > python3 Input05PB06_b.py
 #
-# v2.097
+# v2.096
 # 20180121
 #################################################
 __author__ = 'Rodrigo Nobrega'
@@ -26,9 +26,8 @@ def load_image(file):
 
 
 # write text
-def writetext(font, text, colour):
-    # colour: tuple (r, g, b)
-    a = font.render(text, 0, colour)
+def writetext(font, text):
+    a = font.render(text, 0, (0, 0, 0))
     return a
 
 
@@ -59,30 +58,9 @@ class Setupscreen(object):
             self.area.blit(self.image, (0, 0))
 
 
-# fuel choice
-class Choice(object):
-    """Chooses between the available fuel"""
-    def __init__(self):
-        self.option = ''
-        self.type = ['Ethanol', 'Gasoline', 'Diesel']
-
-    def select(self):
-        keys = pygame.key.get_pressed()
-        if keys[K_e]:
-            self.option = self.type[0]
-        if keys[K_g]:
-            self.option = self.type[1]
-        if keys[K_d]:
-            self.option = self.type[2]
-
-
-
-# tank fill
-
-
-# event loop CHOICE
-def eventloop1(scr, fnt, opt):
-    # arguments: scr=screen, fnt=font, opt=fuel option
+# event loop
+def eventloop(scr, fnt, sco):
+    # arguments: scr=screen, fnt=font, tnk=tank, prt=paratrooper list, sco=score, min=mine
     a = 1
     while a == 1:
         # quit gracefully
@@ -90,22 +68,10 @@ def eventloop1(scr, fnt, opt):
             if event.type == pygame.QUIT or pygame.key.get_pressed()[K_q]:
                 sys.exit()
         # write text
-        #scr.area.blit(scr.image, (120, 5, 50, 30), (120, 5, 50, 30))
-        scr.area.blit(writetext(fnt, 'Input 05', (0, 0, 0)), (285, 10))
-        scr.area.blit(writetext(fnt, 'Programacao Basic 6', (0, 0, 0)), (235, 26))
-        scr.area.blit(writetext(fnt, 'Choose the Fuel Type', (100, 100, 100)), (235, 150))
-        scr.area.blit(writetext(fnt, opt.type[0], (0, 0, 0)), (285, 200))
-        scr.area.blit(writetext(fnt, opt.type[0][0], (180, 0, 0)), (285, 200))
-        scr.area.blit(writetext(fnt, opt.type[1], (0, 0, 0)), (285, 220))
-        scr.area.blit(writetext(fnt, opt.type[1][0], (180, 0, 0)), (285, 220))
-        scr.area.blit(writetext(fnt, opt.type[2], (0, 0, 0)), (285, 240))
-        scr.area.blit(writetext(fnt, opt.type[2][0], (180, 0, 0)), (285, 240))
-        # check option
-        opt.select()
-        if opt.option != '':
-            a = 0
+        # scr.area.blit(scr.image, (120, 5, 50, 30), (120, 5, 50, 30))
+        scr.area.blit(writetext(fnt, 'OK: {}'.format(sco)), (10, 10))
         # refresh display
-        pygame.display.update()
+        pygame.display.flip()
 
 
 # main routine
@@ -115,15 +81,12 @@ def main():
     pygame.init()
     pygame.mixer.init()
     font1 = pygame.font.Font('./fonts/Chicago Normal.ttf', 16)
+    score = 0
     # start the display
-    # screen = Setupscreen()
-    screen = Setupscreen('background green 640x480.png')
-    #create choice
-    option = Choice()
-    # starts the event loop CHOICE
-    eventloop1(screen, font1, option)
-    # starts the event loop TANK FILL
-    #eventloop2(screen, font1, option)
+    screen = Setupscreen()
+    #screen = Setupscreen('background green 640x480.png')
+    # start the event loop with tank moving right
+    eventloop(screen, font1, score)
 
 
 # execute main
