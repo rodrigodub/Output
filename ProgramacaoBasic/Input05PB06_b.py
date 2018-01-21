@@ -6,7 +6,7 @@
 # Usage:
 # > python3 Input05PB06_b.py
 #
-# v2.097
+# v2.098
 # 20180121
 #################################################
 __author__ = 'Rodrigo Nobrega'
@@ -90,20 +90,37 @@ def eventloop1(scr, fnt, opt):
             if event.type == pygame.QUIT or pygame.key.get_pressed()[K_q]:
                 sys.exit()
         # write text
-        #scr.area.blit(scr.image, (120, 5, 50, 30), (120, 5, 50, 30))
         scr.area.blit(writetext(fnt, 'Input 05', (0, 0, 0)), (285, 10))
         scr.area.blit(writetext(fnt, 'Programacao Basic 6', (0, 0, 0)), (235, 26))
         scr.area.blit(writetext(fnt, 'Choose the Fuel Type', (100, 100, 100)), (235, 150))
         scr.area.blit(writetext(fnt, opt.type[0], (0, 0, 0)), (285, 200))
-        scr.area.blit(writetext(fnt, opt.type[0][0], (180, 0, 0)), (285, 200))
+        scr.area.blit(writetext(fnt, opt.type[0][0], (180, 100, 100)), (285, 200))
         scr.area.blit(writetext(fnt, opt.type[1], (0, 0, 0)), (285, 220))
-        scr.area.blit(writetext(fnt, opt.type[1][0], (180, 0, 0)), (285, 220))
+        scr.area.blit(writetext(fnt, opt.type[1][0], (180, 100, 100)), (285, 220))
         scr.area.blit(writetext(fnt, opt.type[2], (0, 0, 0)), (285, 240))
-        scr.area.blit(writetext(fnt, opt.type[2][0], (180, 0, 0)), (285, 240))
+        scr.area.blit(writetext(fnt, opt.type[2][0], (180, 100, 100)), (285, 240))
         # check option
         opt.select()
         if opt.option != '':
             a = 0
+        # refresh display
+        pygame.display.update()
+
+
+# event loop TANK FILL
+def eventloop2(scr, fnt1, fnt2, opt):
+    # arguments: scr=screen, fntn=font, opt=fuel option
+    # clear screen (part of it)
+    scr.area.blit(scr.image, (230, 145, 180, 115), (230, 145, 180, 115))
+    a = 1
+    while a == 1:
+        # quit gracefully
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT or pygame.key.get_pressed()[K_q]:
+                sys.exit()
+        # write text
+        scr.area.blit(writetext(fnt1, 'Press N to fill', (100, 100, 100)), (260, 150))
+        scr.area.blit(writetext(fnt2, '{}'.format(opt.option), (180, 100, 100)), (260, 170))
         # refresh display
         pygame.display.update()
 
@@ -115,6 +132,7 @@ def main():
     pygame.init()
     pygame.mixer.init()
     font1 = pygame.font.Font('./fonts/Chicago Normal.ttf', 16)
+    font2 = pygame.font.Font('./fonts/Chicago Normal.ttf', 32)
     # start the display
     # screen = Setupscreen()
     screen = Setupscreen('background green 640x480.png')
@@ -123,7 +141,7 @@ def main():
     # starts the event loop CHOICE
     eventloop1(screen, font1, option)
     # starts the event loop TANK FILL
-    #eventloop2(screen, font1, option)
+    eventloop2(screen, font1, font2, option)
 
 
 # execute main
