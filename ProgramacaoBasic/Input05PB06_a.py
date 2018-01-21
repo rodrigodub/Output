@@ -6,14 +6,21 @@
 # Usage:
 # > python3 Input05PB06_a.py
 #
-# v2.093
-# 20180120
+# v2.094
+# 20180121
 #################################################
-# coding: utf-8
 
-x = 0
-    
-while True:
-    for t in range(0, 10):
-        print(x)
+import time
+
+
+def main():
+    x = 0
+    while True:
+        print('{} '.format(x))
+        time.sleep(.05)
         x += 1
+
+
+# execute main
+if __name__ == '__main__':
+    main()
