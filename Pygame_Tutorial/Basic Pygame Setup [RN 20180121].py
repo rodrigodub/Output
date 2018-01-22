@@ -6,7 +6,7 @@
 # Usage:
 # > python3 name.py
 #
-# v2.100
+# v2.103
 # 20180122
 #################################################
 __author__ = 'Rodrigo Nobrega'
@@ -26,8 +26,9 @@ def load_image(file):
 
 
 # write text
-def writetext(font, text):
-    a = font.render(text, 0, (0, 0, 0))
+def writetext(font, text, colour):
+    # colour: tuple (r, g, b)
+    a = font.render(text, 0, colour)
     return a
 
 
@@ -69,7 +70,7 @@ def eventloop(scr, fnt, sco):
                 sys.exit()
         # write text
         # scr.area.blit(scr.image, (120, 5, 50, 30), (120, 5, 50, 30))
-        scr.area.blit(writetext(fnt, 'OK: {}'.format(sco)), (10, 10))
+        scr.area.blit(writetext(fnt, 'OK: {}'.format(sco), (100, 100, 100)), (10, 10))
         # refresh display
         pygame.display.flip()
 

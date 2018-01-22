@@ -6,7 +6,7 @@
 # Usage:
 # > python3 Input06PJ05.py
 #
-# v2.101
+# v2.103
 # 20180122
 #################################################
 __author__ = 'Rodrigo Nobrega'
@@ -26,8 +26,9 @@ def load_image(file):
 
 
 # write text
-def writetext(font, text):
-    a = font.render(text, 0, (0, 0, 0))
+def writetext(font, text, colour):
+    # colour: tuple (r, g, b)
+    a = font.render(text, 0, colour)
     return a
 
 
@@ -58,9 +59,17 @@ class Setupscreen(object):
             self.area.blit(self.image, (0, 0))
 
 
+# Space station
+class Spacestation(object):
+    """"Everything related to the Space Station"""
+    def __init__(self):
+        self.image = load_image('spacestation_64.png')
+        self.pos = self.image.get_rect().move(320-32, 240-32)
+
+
 # event loop
-def eventloop(scr, fnt, sco):
-    # arguments: scr=screen, fnt=font, tnk=tank, prt=paratrooper list, sco=score, min=mine
+def eventloop(scr, fnt, sco, sta):
+    # arguments: scr=screen, fnt=font, sco=score, sta=station
     a = 1
     while a == 1:
         # quit gracefully
@@ -69,9 +78,11 @@ def eventloop(scr, fnt, sco):
                 sys.exit()
         # write text
         # scr.area.blit(scr.image, (120, 5, 50, 30), (120, 5, 50, 30))
-        scr.area.blit(writetext(fnt, 'OK: {}'.format(sco)), (10, 10))
+        scr.area.blit(writetext(fnt, 'OK: {}'.format(sco), (250, 250, 250)), (10, 10))
+        # draw station
+        scr.area.blit(sta.image, sta.pos)
         # refresh display
-        pygame.display.flip()
+        pygame.display.update()
 
 
 # main routine
@@ -85,8 +96,10 @@ def main():
     # start the display
     # screen = Setupscreen()
     screen = Setupscreen('saturn.png')
-    # start the event loop with tank moving right
-    eventloop(screen, font1, score)
+    # space station
+    station = Spacestation()
+    # start the event loop
+    eventloop(screen, font1, score, station)
 
 
 # execute main
