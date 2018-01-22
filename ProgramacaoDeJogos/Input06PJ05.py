@@ -1,12 +1,12 @@
 #################################################
-#                   NAME
-# Detail 1
-# Detail 2
+#                   INPUT 6
+# Programacao de Jogos 5
+# Deadly Enemies and Aliens
 #
 # Usage:
-# > python3 name.py
+# > python3 Input06PJ05.py
 #
-# v2.100
+# v2.101
 # 20180122
 #################################################
 __author__ = 'Rodrigo Nobrega'
@@ -21,7 +21,7 @@ from pygame.locals import *
 
 # load image function
 def load_image(file):
-    path = os.path.join('images', file)
+    path = os.path.join('images/aliens', file)
     return pygame.image.load(path).convert_alpha()
 
 
@@ -76,15 +76,15 @@ def eventloop(scr, fnt, sco):
 
 # main routine
 def main():
-    print('\n ::: Input 05 - Variables :::\n\n       Press [Q] to quit.\n')
+    print('\n ::: Input 06 - Deadly Enemies and Aliens :::\n\n       Press [Q] to quit.\n')
     # start Pygame
     pygame.init()
     pygame.mixer.init()
     font1 = pygame.font.Font('./fonts/Chicago Normal.ttf', 16)
     score = 0
     # start the display
-    screen = Setupscreen()
-    #screen = Setupscreen('background green 640x480.png')
+    # screen = Setupscreen()
+    screen = Setupscreen('saturn.png')
     # start the event loop with tank moving right
     eventloop(screen, font1, score)
 
