@@ -6,8 +6,8 @@
 # Usage:
 # > python3 Input06PJ05.py
 #
-# v2.105
-# 20180123
+# v2.106
+# 20180124
 #################################################
 __author__ = 'Rodrigo Nobrega'
 
@@ -64,12 +64,62 @@ class Spacestation(object):
     """"Everything related to the Space Station"""
     def __init__(self):
         self.image = load_image('spacestation_64.png')
-        self.pos = self.image.get_rect().move(320-32, 240-32)
+        #self.pos = self.image.get_rect().move(320-32, 240-32)
+        self.pos = self.image.get_rect()
+        self.pos.center = (320,240)
+        # shield images
+        self.shield1 = load_image('shield_1.png')
+        self.shield2 = load_image('shield_2.png')
+        self.shield3 = load_image('shield_3.png')
+        self.shield4 = load_image('shield_4.png')
+        # shield positions
+        self.shield1pos = self.shield1.get_rect()
+        self.shield2pos = self.shield2.get_rect()
+        self.shield3pos = self.shield3.get_rect()
+        self.shield4pos = self.shield4.get_rect()
+        # center them on space station
+        self.shield1pos.bottomright = (320, 240)
+        self.shield2pos.bottomleft = (320, 240)
+        self.shield3pos.topleft = (320, 240)
+        self.shield4pos.topright = (320, 240)
+
+
+class Action(object):
+    def __init__(self):
+        pass
+
+    def defend(self, scr, sta):
+        # params: scr=screen, sta=station
+        keys = pygame.key.get_pressed()
+        if keys[K_1]:
+            scr.area.blit(sta.shield1, sta.shield1pos)
+        else:
+            scr.area.blit(scr.image, sta.shield1pos, sta.shield1pos)
+            scr.area.blit(sta.image, sta.pos)
+            #scr.area.blit(sta.image, Rect(sta.pos.left, sta.pos.top, 32, 32))
+        if keys[K_2]:
+            scr.area.blit(sta.shield2, sta.shield2pos)
+        else:
+            scr.area.blit(scr.image, sta.shield2pos, sta.shield2pos)
+            scr.area.blit(sta.image, sta.pos)
+            #scr.area.blit(sta.image, Rect(sta.pos.midleft, sta.pos.top, 32, 32))
+        if keys[K_3]:
+            scr.area.blit(sta.shield3, sta.shield3pos)
+        else:
+            scr.area.blit(scr.image, sta.shield3pos, sta.shield3pos)
+            scr.area.blit(sta.image, sta.pos)
+            #scr.area.blit(sta.image, Rect(sta.pos.midleft, sta.pos.midtop, 32, 32))
+        if keys[K_4]:
+            scr.area.blit(sta.shield4, sta.shield4pos)
+        else:
+            scr.area.blit(scr.image, sta.shield4pos, sta.shield4pos)
+            scr.area.blit(sta.image, sta.pos)
+            #scr.area.blit(sta.image, Rect(sta.pos.left, sta.pos.midtop, 32, 32))
 
 
 # event loop
-def eventloop(scr, fnt, sco, sta):
-    # arguments: scr=screen, fnt=font, sco=score, sta=station
+def eventloop(scr, fnt, sco, sta, act):
+    # arguments: scr=screen, fnt=font, sco=score, sta=station, act=action
     a = 1
     while a == 1:
         # quit gracefully
@@ -81,6 +131,8 @@ def eventloop(scr, fnt, sco, sta):
         scr.area.blit(writetext(fnt, 'OK: {}'.format(sco), (250, 250, 250)), (10, 10))
         # draw station
         scr.area.blit(sta.image, sta.pos)
+        # control actions
+        act.defend(scr, sta)
         # refresh display
         pygame.display.update()
 
@@ -98,8 +150,10 @@ def main():
     screen = Setupscreen('saturn.png')
     # space station
     station = Spacestation()
+    # the actions
+    action = Action()
     # start the event loop
-    eventloop(screen, font1, score, station)
+    eventloop(screen, font1, score, station, action)
 
 
 # execute main
