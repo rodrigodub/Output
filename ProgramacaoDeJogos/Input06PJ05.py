@@ -6,8 +6,8 @@
 # Usage:
 # > python3 Input06PJ05.py
 #
-# v2.107
-# 20180126
+# v2.108
+# 20180128
 #################################################
 __author__ = 'Rodrigo Nobrega'
 
@@ -16,6 +16,7 @@ __author__ = 'Rodrigo Nobrega'
 import os, sys, pygame
 from pygame.locals import *
 import random
+import math
 # import time
 
 
@@ -30,6 +31,16 @@ def writetext(font, text, colour):
     # colour: tuple (r, g, b)
     a = font.render(text, 0, colour)
     return a
+
+
+# tests if inside the space station shield perimeter
+# radius = 32 (station) + 8 (shield) + 32 (alien ship)
+# space station centre = (320, 240)
+def testinside(x, y, radius):
+    if radius > math.sqrt(pow((x - 320), 2) + pow((y - 240), 2)):
+        return False
+    else:
+        return True
 
 
 # screen
@@ -89,6 +100,14 @@ class Alien(object):
         self.image = load_image('alienship_64.png')
         self.pos = self.image.get_rect()
         self.pos.center = (random.randint(0, 640), random.randint(0, 480))
+        self.posprev = self.pos
+
+    def move(self, scr):
+        if self.pos.centerx > 0 and self.pos.centerx < 640 and self.pos.centery > 10 and self.pos.centery < 480:
+            self.pos.center = (self.pos.centerx + random.randint(-10,10), self.pos.centery + random.randint(-10,10))
+            scr.area.blit(scr.image, self.posprev, self.posprev)
+            scr.area.blit(self.image, self.pos)
+            self.posprev = self.pos
 
 
 # Controller
@@ -122,14 +141,16 @@ class Action(object):
 
 
 # event loop
-def eventloop(scr, fnt, sco, sta, ali, act):
-    # arguments: scr=screen, fnt=font, sco=score, sta=station, ali=alien, act=action
+def eventloop(scr, fnt, clk, sco, sta, ali, act):
+    # arguments: scr=screen, fnt=font, clk=clock, sco=score, sta=station, ali=alien, act=action
     a = 1
     while a == 1:
         # quit gracefully
         for event in pygame.event.get():
             if event.type == pygame.QUIT or pygame.key.get_pressed()[K_q]:
                 sys.exit()
+        # measure time
+        clk.tick(60)
         # write text
         # scr.area.blit(scr.image, (120, 5, 50, 30), (120, 5, 50, 30))
         scr.area.blit(writetext(fnt, 'OK: {}'.format(sco), (250, 250, 250)), (10, 10))
@@ -137,6 +158,8 @@ def eventloop(scr, fnt, sco, sta, ali, act):
         scr.area.blit(sta.image, sta.pos)
         # draw alien
         scr.area.blit(ali.image, ali.pos)
+        # move alien
+        ali.move(scr)
         # control actions
         act.defend(scr, sta)
         # refresh display
@@ -150,6 +173,7 @@ def main():
     pygame.init()
     pygame.mixer.init()
     font1 = pygame.font.Font('./fonts/Chicago Normal.ttf', 16)
+    clock = pygame.time.Clock()
     score = 0
     # start the display
     # screen = Setupscreen()
@@ -161,7 +185,7 @@ def main():
     # the actions
     action = Action()
     # start the event loop
-    eventloop(screen, font1, score, station, alien, action)
+    eventloop(screen, font1, clock, score, station, alien, action)
 
 
 # execute main

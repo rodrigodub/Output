@@ -6,8 +6,8 @@
 # Usage:
 # > python3 name.py
 #
-# v2.103
-# 20180122
+# v2.108
+# 20180128
 #################################################
 __author__ = 'Rodrigo Nobrega'
 
@@ -60,14 +60,16 @@ class Setupscreen(object):
 
 
 # event loop
-def eventloop(scr, fnt, sco):
-    # arguments: scr=screen, fnt=font, tnk=tank, prt=paratrooper list, sco=score, min=mine
+def eventloop(scr, fnt, clk, sco):
+    # arguments: scr=screen, fnt=font, clk=clock, tnk=tank, prt=paratrooper list, sco=score, min=mine
     a = 1
     while a == 1:
         # quit gracefully
         for event in pygame.event.get():
             if event.type == pygame.QUIT or pygame.key.get_pressed()[K_q]:
                 sys.exit()
+        # measure time
+        clk.tick(60)
         # write text
         # scr.area.blit(scr.image, (120, 5, 50, 30), (120, 5, 50, 30))
         scr.area.blit(writetext(fnt, 'OK: {}'.format(sco), (100, 100, 100)), (10, 10))
@@ -82,12 +84,13 @@ def main():
     pygame.init()
     pygame.mixer.init()
     font1 = pygame.font.Font('./fonts/Chicago Normal.ttf', 16)
+    clock = pygame.time.Clock()
     score = 0
     # start the display
     screen = Setupscreen()
     #screen = Setupscreen('background green 640x480.png')
     # start the event loop with tank moving right
-    eventloop(screen, font1, score)
+    eventloop(screen, font1, clock, score)
 
 
 # execute main
