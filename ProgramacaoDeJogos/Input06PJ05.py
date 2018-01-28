@@ -6,7 +6,7 @@
 # Usage:
 # > python3 Input06PJ05.py
 #
-# v2.108
+# v2.109
 # 20180128
 #################################################
 __author__ = 'Rodrigo Nobrega'
@@ -104,8 +104,8 @@ class Alien(object):
 
     def move(self, scr):
         if self.pos.centerx > 0 and self.pos.centerx < 640 and self.pos.centery > 10 and self.pos.centery < 480:
-            self.pos.center = (self.pos.centerx + random.randint(-10,10), self.pos.centery + random.randint(-10,10))
             scr.area.blit(scr.image, self.posprev, self.posprev)
+            self.pos.center = (self.pos.centerx + random.randint(-10,10), self.pos.centery + random.randint(-10,10))
             scr.area.blit(self.image, self.pos)
             self.posprev = self.pos
 
