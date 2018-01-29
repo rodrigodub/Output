@@ -6,7 +6,7 @@
 # Usage:
 # > python3 Input06PJ05.py
 #
-# v2.113
+# v2.115
 # 20180129
 #################################################
 __author__ = 'Rodrigo Nobrega'
@@ -125,6 +125,10 @@ class Alien(object):
             self.pos.centery = 480 - self.pos.centery
         elif self.pos.centery > 480:
             self.pos.centery = 42
+        # tests if alien ship is intersecting space station
+        # radius = 80 (shield) + 32 (border of alien ship)
+        if math.sqrt(pow((self.pos.centerx - 320), 2) + pow((self.pos.centery - 240), 2)) < 113:
+            self.vector = [-i for i in self.vector]
         # draws alien ship
         scr.area.blit(self.image, self.pos)
         # makes the previous position as the current one
