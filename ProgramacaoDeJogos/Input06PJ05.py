@@ -6,7 +6,7 @@
 # Usage:
 # > python3 Input06PJ05.py
 #
-# v2.112
+# v2.113
 # 20180129
 #################################################
 __author__ = 'Rodrigo Nobrega'
@@ -79,10 +79,10 @@ class Spacestation(object):
         self.pos = self.image.get_rect()
         self.pos.center = (320, 240)
         # shield images
-        self.shield1 = load_image('shield_1.png')
-        self.shield2 = load_image('shield_2.png')
-        self.shield3 = load_image('shield_3.png')
-        self.shield4 = load_image('shield_4.png')
+        self.shield1 = load_image('shield_1b.png')
+        self.shield2 = load_image('shield_2b.png')
+        self.shield3 = load_image('shield_3b.png')
+        self.shield4 = load_image('shield_4b.png')
         # shield positions
         self.shield1pos = self.shield1.get_rect()
         self.shield2pos = self.shield2.get_rect()
