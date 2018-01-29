@@ -6,7 +6,7 @@
 # Usage:
 # > python3 Input06PJ05.py
 #
-# v2.111
+# v2.112
 # 20180129
 #################################################
 __author__ = 'Rodrigo Nobrega'
@@ -52,6 +52,7 @@ class Setupscreen(object):
         self.bgcolour = [230, 230, 230]
         # the canvas
         self.area = pygame.display.set_mode(self.size)
+        self.title = pygame.display.set_caption('Deadly Enemies and Aliens')
         # background image and its enclosing rectangle
         if image_file:
             self.image = load_image(image_file)
@@ -110,9 +111,9 @@ class Alien(object):
         # clears the previous position
         scr.area.blit(scr.image, self.posprev, self.posprev)
         # changes direction occasionally, modifying vector
-        if random.randint(1, 10) == 1:
-            self.vector[0] = random.randint(1, 3) * 10 - 20
-            self.vector[1] = random.randint(1, 3) * 10 - 20
+        if random.randint(1, 20) == 1:
+            self.vector[0] = random.randint(1, 3) * 5 - 10
+            self.vector[1] = random.randint(1, 3) * 5 - 10
         # new position = old position + vector
         self.pos.center = (self.pos.centerx + self.vector[0], self.pos.centery + self.vector[1])
         # if ship is crossing borders, appears on the other side
@@ -120,10 +121,10 @@ class Alien(object):
             self.pos.centerx += 640
         elif self.pos.centerx > 640:
             self.pos.centerx -= 640
-        elif self.pos.centery < 20:
+        elif self.pos.centery < 42:
             self.pos.centery = 480 - self.pos.centery
         elif self.pos.centery > 480:
-            self.pos.centery = 20
+            self.pos.centery = 42
         # draws alien ship
         scr.area.blit(self.image, self.pos)
         # makes the previous position as the current one
