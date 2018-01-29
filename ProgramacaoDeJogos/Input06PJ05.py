@@ -6,8 +6,8 @@
 # Usage:
 # > python3 Input06PJ05.py
 #
-# v2.109
-# 20180128
+# v2.110
+# 20180129
 #################################################
 __author__ = 'Rodrigo Nobrega'
 
@@ -103,11 +103,19 @@ class Alien(object):
         self.posprev = self.pos
 
     def move(self, scr):
-        if self.pos.centerx > 0 and self.pos.centerx < 640 and self.pos.centery > 10 and self.pos.centery < 480:
-            scr.area.blit(scr.image, self.posprev, self.posprev)
-            self.pos.center = (self.pos.centerx + random.randint(-10,10), self.pos.centery + random.randint(-10,10))
-            scr.area.blit(self.image, self.pos)
-            self.posprev = self.pos
+        # if self.pos.centerx > 0 and self.pos.centerx < 640 and self.pos.centery > 10 and self.pos.centery < 480:
+        if self.pos.centerx < 0:
+            self.pos.centerx += 640
+        elif self.pos.centerx > 640:
+            self.pos.centerx -= 640
+        elif self.pos.centery < 20:
+            self.pos.centery = 480 - self.pos.centery
+        elif self.pos.centery > 480:
+            self.pos.centery = 20
+        scr.area.blit(scr.image, self.posprev, self.posprev)
+        self.pos.center = (self.pos.centerx + random.randint(-10,10), self.pos.centery + random.randint(-10,10))
+        scr.area.blit(self.image, self.pos)
+        self.posprev = self.pos
 
 
 # Controller
