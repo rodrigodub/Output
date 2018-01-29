@@ -6,7 +6,7 @@
 # Usage:
 # > python3 Input06PJ05.py
 #
-# v2.110
+# v2.111
 # 20180129
 #################################################
 __author__ = 'Rodrigo Nobrega'
@@ -96,14 +96,26 @@ class Spacestation(object):
 
 # Alien ship
 class Alien(object):
+    """Class to deal with the alien ship"""
     def __init__(self):
+        # alien ship image and position
         self.image = load_image('alienship_64.png')
         self.pos = self.image.get_rect()
         self.pos.center = (random.randint(0, 640), random.randint(0, 480))
         self.posprev = self.pos
+        # vector defines the amount of movement in each axis
+        self.vector = [0, 0]
 
     def move(self, scr):
-        # if self.pos.centerx > 0 and self.pos.centerx < 640 and self.pos.centery > 10 and self.pos.centery < 480:
+        # clears the previous position
+        scr.area.blit(scr.image, self.posprev, self.posprev)
+        # changes direction occasionally, modifying vector
+        if random.randint(1, 10) == 1:
+            self.vector[0] = random.randint(1, 3) * 10 - 20
+            self.vector[1] = random.randint(1, 3) * 10 - 20
+        # new position = old position + vector
+        self.pos.center = (self.pos.centerx + self.vector[0], self.pos.centery + self.vector[1])
+        # if ship is crossing borders, appears on the other side
         if self.pos.centerx < 0:
             self.pos.centerx += 640
         elif self.pos.centerx > 640:
@@ -112,9 +124,9 @@ class Alien(object):
             self.pos.centery = 480 - self.pos.centery
         elif self.pos.centery > 480:
             self.pos.centery = 20
-        scr.area.blit(scr.image, self.posprev, self.posprev)
-        self.pos.center = (self.pos.centerx + random.randint(-10,10), self.pos.centery + random.randint(-10,10))
+        # draws alien ship
         scr.area.blit(self.image, self.pos)
+        # makes the previous position as the current one
         self.posprev = self.pos
 
 
