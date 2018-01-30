@@ -6,7 +6,7 @@
 # Usage:
 # > python3 Input06PJ05.py
 #
-# v2.116
+# v2.118
 # 20180130
 #################################################
 __author__ = 'Rodrigo Nobrega'
@@ -144,6 +144,15 @@ class Alien(object):
         self.posprev = self.pos
         # vector defines the amount of movement in each axis
         self.vector = [0, 0]
+        # blast has the same movement components as the ship
+        self.blastimage = load_image('blast.png')
+        self.blastpos = self.blastimage.get_rect()
+        self.blastposprev = self.blastpos
+        self.blastvector = [0, 0]
+        # if firestate is 0, it can fire
+        self.firestate = 0
+        # this is the shield that needs to be used
+        self.defenseshield = 0
 
     def move(self, scr):
         # clears the previous position
@@ -172,6 +181,38 @@ class Alien(object):
         # makes the previous position as the current one
         self.posprev = self.pos
 
+    def fire(self):
+        # define if it's OK to fire, the trajectory and the shield to be used
+        if self.firestate == 0:
+            # OK to fire, decides when
+            if random.randint(1, 50) == 1:
+                self.firestate = 1
+                self.blastpos.center = self.pos.center
+                # define for each frame the blast delta X and Y
+                dx = (self.blastpos.centerx - 320)
+                dy = (self.blastpos.centery - 240)
+                # define which shield must be used to defend
+                if dx < 0 and dy < 0:
+                    self.defenseshield = 1
+                if dx > 0 and dy < 0:
+                    self.defenseshield = 2
+                if dx > 0 and dy > 0:
+                    self.defenseshield = 3
+                else:
+                    self.defenseshield = 4
+                # define vector
+                self.blastvector = [dx, dy]
+
+    def moveblast(self, scr):
+        if self.firestate == 1:
+            scr.area.blit(scr.image, self.blastposprev, self.blastposprev)
+            scr.area.blit(self.blastimage, self.blastpos)
+            self.blastposprev = self.blastpos
+            self.blastpos.centerx += self.blastvector[0]
+            self.blastpos.centery += self.blastvector[1]
+            if self.blastpos.center == (320, 240):
+                self.firestate = 0
+
 
 # event loop
 def eventloop(scr, fnt, clk, sco, sta, ali):
@@ -187,12 +228,19 @@ def eventloop(scr, fnt, clk, sco, sta, ali):
         # write text
         # scr.area.blit(scr.image, (120, 5, 50, 30), (120, 5, 50, 30))
         scr.area.blit(writetext(fnt, 'Shield', (200, 200, 200)), (10, 10))
+        # temp shield to be used, to delete further
+        scr.area.blit(scr.image, (600, 10, 30, 30))
+        scr.area.blit(writetext(fnt, '{}'.format(ali.defenseshield), (200, 200, 200)), (600, 10))
         # draw station
         scr.area.blit(sta.image, sta.pos)
         # draw alien
         scr.area.blit(ali.image, ali.pos)
         # move alien
         ali.move(scr)
+        # fire blast
+        ali.fire()
+        # move blast
+        ali.moveblast(scr)
         # control actions
         sta.defend(scr)
         # draw fuel
