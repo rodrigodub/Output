@@ -6,8 +6,8 @@
 # Usage:
 # > python3 Input06PJ05.py
 #
-# v2.115
-# 20180129
+# v2.116
+# 20180130
 #################################################
 __author__ = 'Rodrigo Nobrega'
 
@@ -78,6 +78,7 @@ class Spacestation(object):
         self.image = load_image('spacestation_64.png')
         self.pos = self.image.get_rect()
         self.pos.center = (320, 240)
+        self.fuel = 100
         # shield images
         self.shield1 = load_image('shield_1b.png')
         self.shield2 = load_image('shield_2b.png')
@@ -93,6 +94,43 @@ class Spacestation(object):
         self.shield2pos.bottomleft = (320, 240)
         self.shield3pos.topleft = (320, 240)
         self.shield4pos.topright = (320, 240)
+
+    def defend(self, scr):
+        # params: scr=screen
+        if self.fuel > 0:
+            keys = pygame.key.get_pressed()
+            if keys[K_1]:
+                scr.area.blit(self.shield1, self.shield1pos)
+                self.fuel -= 0.1
+            else:
+                scr.area.blit(scr.image, self.shield1pos, self.shield1pos)
+                scr.area.blit(self.image, self.pos)
+            if keys[K_2]:
+                scr.area.blit(self.shield2, self.shield2pos)
+                self.fuel -= 0.1
+            else:
+                scr.area.blit(scr.image, self.shield2pos, self.shield2pos)
+                scr.area.blit(self.image, self.pos)
+            if keys[K_3]:
+                scr.area.blit(self.shield3, self.shield3pos)
+                self.fuel -= 0.1
+            else:
+                scr.area.blit(scr.image, self.shield3pos, self.shield3pos)
+                scr.area.blit(self.image, self.pos)
+            if keys[K_4]:
+                scr.area.blit(self.shield4, self.shield4pos)
+                self.fuel -= 0.1
+            else:
+                scr.area.blit(scr.image, self.shield4pos, self.shield4pos)
+                scr.area.blit(self.image, self.pos)
+        else:
+            scr.area.blit(scr.image, (280, 200, 80, 80), (280, 200, 80, 80))
+            scr.area.blit(self.image, self.pos)
+
+    def burn(self, scr):
+        # params: scr=screen
+        scr.area.blit(scr.image, (60, 15, 100, 10), (60, 15, 100, 10))
+        scr.area.fill((200, 200, 200), (60, 15, self.fuel, 10))
 
 
 # Alien ship
@@ -135,39 +173,9 @@ class Alien(object):
         self.posprev = self.pos
 
 
-# Controller
-class Action(object):
-    def __init__(self):
-        pass
-
-    def defend(self, scr, sta):
-        # params: scr=screen, sta=station
-        keys = pygame.key.get_pressed()
-        if keys[K_1]:
-            scr.area.blit(sta.shield1, sta.shield1pos)
-        else:
-            scr.area.blit(scr.image, sta.shield1pos, sta.shield1pos)
-            scr.area.blit(sta.image, sta.pos)
-        if keys[K_2]:
-            scr.area.blit(sta.shield2, sta.shield2pos)
-        else:
-            scr.area.blit(scr.image, sta.shield2pos, sta.shield2pos)
-            scr.area.blit(sta.image, sta.pos)
-        if keys[K_3]:
-            scr.area.blit(sta.shield3, sta.shield3pos)
-        else:
-            scr.area.blit(scr.image, sta.shield3pos, sta.shield3pos)
-            scr.area.blit(sta.image, sta.pos)
-        if keys[K_4]:
-            scr.area.blit(sta.shield4, sta.shield4pos)
-        else:
-            scr.area.blit(scr.image, sta.shield4pos, sta.shield4pos)
-            scr.area.blit(sta.image, sta.pos)
-
-
 # event loop
-def eventloop(scr, fnt, clk, sco, sta, ali, act):
-    # arguments: scr=screen, fnt=font, clk=clock, sco=score, sta=station, ali=alien, act=action
+def eventloop(scr, fnt, clk, sco, sta, ali):
+    # arguments: scr=screen, fnt=font, clk=clock, sco=score, sta=station, ali=alien
     a = 1
     while a == 1:
         # quit gracefully
@@ -178,7 +186,7 @@ def eventloop(scr, fnt, clk, sco, sta, ali, act):
         clk.tick(60)
         # write text
         # scr.area.blit(scr.image, (120, 5, 50, 30), (120, 5, 50, 30))
-        scr.area.blit(writetext(fnt, 'OK: {}'.format(sco), (250, 250, 250)), (10, 10))
+        scr.area.blit(writetext(fnt, 'Shield', (200, 200, 200)), (10, 10))
         # draw station
         scr.area.blit(sta.image, sta.pos)
         # draw alien
@@ -186,7 +194,9 @@ def eventloop(scr, fnt, clk, sco, sta, ali, act):
         # move alien
         ali.move(scr)
         # control actions
-        act.defend(scr, sta)
+        sta.defend(scr)
+        # draw fuel
+        sta.burn(scr)
         # refresh display
         pygame.display.update()
 
@@ -208,9 +218,9 @@ def main():
     # alien ship
     alien = Alien()
     # the actions
-    action = Action()
+    # action = Action()
     # start the event loop
-    eventloop(screen, font1, clock, score, station, alien, action)
+    eventloop(screen, font1, clock, score, station, alien)
 
 
 # execute main
