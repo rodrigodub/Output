@@ -6,8 +6,8 @@
 # Usage:
 # > python3 Input06PJ05.py
 #
-# v2.118
-# 20180130
+# v2.119
+# 20180131
 #################################################
 __author__ = 'Rodrigo Nobrega'
 
@@ -38,9 +38,9 @@ def writetext(font, text, colour):
 # space station centre = (320, 240)
 def testinside(x, y, radius):
     if radius > math.sqrt(pow((x - 320), 2) + pow((y - 240), 2)):
-        return False
-    else:
         return True
+    else:
+        return False
 
 
 # screen
@@ -149,7 +149,7 @@ class Alien(object):
         self.blastpos = self.blastimage.get_rect()
         self.blastposprev = self.blastpos
         self.blastvector = [0, 0]
-        # if firestate is 0, it can fire
+        # if firestate is 0, it can fire. If it's 1, it is firing
         self.firestate = 0
         # this is the shield that needs to be used
         self.defenseshield = 0
@@ -174,7 +174,7 @@ class Alien(object):
             self.pos.centery = 42
         # tests if alien ship is intersecting space station
         # radius = 80 (shield) + 32 (border of alien ship)
-        if math.sqrt(pow((self.pos.centerx - 320), 2) + pow((self.pos.centery - 240), 2)) < 113:
+        if testinside(self.pos.centerx, self.pos.centery, 113) == True:
             self.vector = [-i for i in self.vector]
         # draws alien ship
         scr.area.blit(self.image, self.pos)
@@ -185,12 +185,14 @@ class Alien(object):
         # define if it's OK to fire, the trajectory and the shield to be used
         if self.firestate == 0:
             # OK to fire, decides when
-            if random.randint(1, 50) == 1:
+            if random.randint(1, 100) == 1:
+                # change firestate to 'firing'
                 self.firestate = 1
+                # initial blast position = alien ship position
                 self.blastpos.center = self.pos.center
                 # define for each frame the blast delta X and Y
-                dx = (self.blastpos.centerx - 320)
-                dy = (self.blastpos.centery - 240)
+                dx = (self.blastpos.centerx - 320) / 10
+                dy = (self.blastpos.centery - 240) / 10
                 # define which shield must be used to defend
                 if dx < 0 and dy < 0:
                     self.defenseshield = 1
@@ -198,19 +200,23 @@ class Alien(object):
                     self.defenseshield = 2
                 if dx > 0 and dy > 0:
                     self.defenseshield = 3
-                else:
+                if dx < 0 and dy > 0:
                     self.defenseshield = 4
-                # define vector
-                self.blastvector = [dx, dy]
+                # define vector; opposite signal as blast have to move in the opposite direction
+                self.blastvector = [-dx, -dy]
 
     def moveblast(self, scr):
+        # test if it's OK to move blast
         if self.firestate == 1:
+            # erase the previous blast position, draw the new blast position
             scr.area.blit(scr.image, self.blastposprev, self.blastposprev)
             scr.area.blit(self.blastimage, self.blastpos)
+            # update previous position, update new position
             self.blastposprev = self.blastpos
             self.blastpos.centerx += self.blastvector[0]
             self.blastpos.centery += self.blastvector[1]
-            if self.blastpos.center == (320, 240):
+            # test if blast is inside the space station (32 station radius, 10 blast radius)
+            if testinside(self.blastpos.centerx, self.blastpos.centery, 42):
                 self.firestate = 0
 
 
