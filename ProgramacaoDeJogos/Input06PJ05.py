@@ -6,8 +6,8 @@
 # Usage:
 # > python3 Input06PJ05.py
 #
-# v2.119
-# 20180131
+# v2.120
+# 20180201
 #################################################
 __author__ = 'Rodrigo Nobrega'
 
@@ -141,7 +141,9 @@ class Alien(object):
         self.image = load_image('alienship_64.png')
         self.pos = self.image.get_rect()
         self.pos.center = (random.randint(0, 640), random.randint(0, 480))
-        self.posprev = self.pos
+        #self.posprev = self.pos
+        self.posprev = self.image.get_rect()
+        self.posprev.center = self.pos.center
         # vector defines the amount of movement in each axis
         self.vector = [0, 0]
         # blast has the same movement components as the ship
@@ -174,7 +176,7 @@ class Alien(object):
             self.pos.centery = 42
         # tests if alien ship is intersecting space station
         # radius = 80 (shield) + 32 (border of alien ship)
-        if testinside(self.pos.centerx, self.pos.centery, 113) == True:
+        if testinside(self.pos.centerx, self.pos.centery, 113):
             self.vector = [-i for i in self.vector]
         # draws alien ship
         scr.area.blit(self.image, self.pos)
@@ -190,9 +192,10 @@ class Alien(object):
                 self.firestate = 1
                 # initial blast position = alien ship position
                 self.blastpos.center = self.pos.center
+                self.blastposprev.center = self.blastpos.center
                 # define for each frame the blast delta X and Y
-                dx = (self.blastpos.centerx - 320) / 10
-                dy = (self.blastpos.centery - 240) / 10
+                dx = int((self.blastpos.centerx - 320) / 50)
+                dy = int((self.blastpos.centery - 240) / 50)
                 # define which shield must be used to defend
                 if dx < 0 and dy < 0:
                     self.defenseshield = 1
@@ -208,15 +211,19 @@ class Alien(object):
     def moveblast(self, scr):
         # test if it's OK to move blast
         if self.firestate == 1:
-            # erase the previous blast position, draw the new blast position
+            # erase the previous blast position
             scr.area.blit(scr.image, self.blastposprev, self.blastposprev)
-            scr.area.blit(self.blastimage, self.blastpos)
-            # update previous position, update new position
-            self.blastposprev = self.blastpos
+            # update new position
             self.blastpos.centerx += self.blastvector[0]
             self.blastpos.centery += self.blastvector[1]
-            # test if blast is inside the space station (32 station radius, 10 blast radius)
-            if testinside(self.blastpos.centerx, self.blastpos.centery, 42):
+            # draw the new blast position
+            scr.area.blit(self.blastimage, self.blastpos)
+            # update previous position
+            self.blastposprev.center = self.blastpos.center
+            # test if blast is inside the space station (32 station radius) or outside margins
+            if testinside(self.blastpos.centerx, self.blastpos.centery, 32) \
+                    or self.blastpos.bottom < 0 or self.blastpos.top > 480 \
+                    or self.blastpos.left > 640 or self.blastpos.right < 0:
                 self.firestate = 0
 
 
