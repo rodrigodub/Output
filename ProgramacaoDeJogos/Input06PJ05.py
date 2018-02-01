@@ -6,7 +6,7 @@
 # Usage:
 # > python3 Input06PJ05.py
 #
-# v2.120
+# v2.121
 # 20180201
 #################################################
 __author__ = 'Rodrigo Nobrega'
@@ -208,7 +208,7 @@ class Alien(object):
                 # define vector; opposite signal as blast have to move in the opposite direction
                 self.blastvector = [-dx, -dy]
 
-    def moveblast(self, scr):
+    def moveblast(self, scr, sta):
         # test if it's OK to move blast
         if self.firestate == 1:
             # erase the previous blast position
@@ -221,9 +221,35 @@ class Alien(object):
             # update previous position
             self.blastposprev.center = self.blastpos.center
             # test if blast is inside the space station (32 station radius) or outside margins
-            if testinside(self.blastpos.centerx, self.blastpos.centery, 32) \
-                    or self.blastpos.bottom < 0 or self.blastpos.top > 480 \
-                    or self.blastpos.left > 640 or self.blastpos.right < 0:
+            if self.blastpos.bottom < 0 or self.blastpos.top > 480 or self.blastpos.left > 640 or self.blastpos.right < 0:
+                self.firestate = 0
+            # test if hits the station
+            if testinside(self.blastpos.centerx, self.blastpos.centery, 42):
+                if sta.fuel <= 0:
+                    print('BOOOOOOOOM')
+                else:
+                    keys = pygame.key.get_pressed()
+                    if self.blastvector[0] > 0 and self.blastvector[1] > 0:
+                        if keys[K_1]:
+                            print('Defended')
+                        else:
+                            print('BOOOM')
+                    if self.blastvector[0] > 0 and self.blastvector[1] < 0:
+                        if keys[K_4]:
+                            print('Defended')
+                        else:
+                            print('BOOOM')
+                    if self.blastvector[0] < 0 and self.blastvector[1] > 0:
+                        if keys[K_2]:
+                            print('Defended')
+                        else:
+                            print('BOOOM')
+                    if self.blastvector[0] < 0 and self.blastvector[1] < 0:
+                        if keys[K_3]:
+                            print('Defended')
+                        else:
+                            print('BOOOM')
+                scr.area.blit(scr.image, self.blastposprev, self.blastposprev)
                 self.firestate = 0
 
 
