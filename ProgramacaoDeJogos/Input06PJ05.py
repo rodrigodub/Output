@@ -6,8 +6,8 @@
 # Usage:
 # > python3 Input06PJ05.py
 #
-# v2.121
-# 20180201
+# v2.122
+# 20180202
 #################################################
 __author__ = 'Rodrigo Nobrega'
 
@@ -111,13 +111,14 @@ class Spacestation(object):
             else:
                 scr.area.blit(scr.image, self.shield2pos, self.shield2pos)
                 scr.area.blit(self.image, self.pos)
-            if keys[K_3]:
+            # switching keys 3 and 4 for a more intuitive control
+            if keys[K_4]:
                 scr.area.blit(self.shield3, self.shield3pos)
                 self.fuel -= 0.1
             else:
                 scr.area.blit(scr.image, self.shield3pos, self.shield3pos)
                 scr.area.blit(self.image, self.pos)
-            if keys[K_4]:
+            if keys[K_3]:
                 scr.area.blit(self.shield4, self.shield4pos)
                 self.fuel -= 0.1
             else:
@@ -201,10 +202,11 @@ class Alien(object):
                     self.defenseshield = 1
                 if dx > 0 and dy < 0:
                     self.defenseshield = 2
+                # switching 3 & 4 etc
                 if dx > 0 and dy > 0:
-                    self.defenseshield = 3
-                if dx < 0 and dy > 0:
                     self.defenseshield = 4
+                if dx < 0 and dy > 0:
+                    self.defenseshield = 3
                 # define vector; opposite signal as blast have to move in the opposite direction
                 self.blastvector = [-dx, -dy]
 
@@ -235,7 +237,7 @@ class Alien(object):
                         else:
                             print('BOOOM')
                     if self.blastvector[0] > 0 and self.blastvector[1] < 0:
-                        if keys[K_4]:
+                        if keys[K_3]:
                             print('Defended')
                         else:
                             print('BOOOM')
@@ -245,7 +247,7 @@ class Alien(object):
                         else:
                             print('BOOOM')
                     if self.blastvector[0] < 0 and self.blastvector[1] < 0:
-                        if keys[K_3]:
+                        if keys[K_4]:
                             print('Defended')
                         else:
                             print('BOOOM')
@@ -279,7 +281,7 @@ def eventloop(scr, fnt, clk, sco, sta, ali):
         # fire blast
         ali.fire()
         # move blast
-        ali.moveblast(scr)
+        ali.moveblast(scr, sta)
         # control actions
         sta.defend(scr)
         # draw fuel
