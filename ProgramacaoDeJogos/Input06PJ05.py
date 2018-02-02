@@ -6,7 +6,7 @@
 # Usage:
 # > python3 Input06PJ05.py
 #
-# v2.122
+# v2.123
 # 20180202
 #################################################
 __author__ = 'Rodrigo Nobrega'
@@ -41,6 +41,15 @@ def testinside(x, y, radius):
         return True
     else:
         return False
+
+# explosion
+def explode(scr, sta, ali):
+    print('BOOM')
+    scr.area.blit(scr.image, ali.blastposprev, ali.blastposprev)
+    scr.area.blit(sta.explosion, sta.expos)
+    pygame.display.update()
+    pygame.time.wait(3000)
+    sys.exit()
 
 
 # screen
@@ -94,6 +103,9 @@ class Spacestation(object):
         self.shield2pos.bottomleft = (320, 240)
         self.shield3pos.topleft = (320, 240)
         self.shield4pos.topright = (320, 240)
+        # explosion
+        self.explosion = load_image('explosion.png')
+        self.expos = Rect(270, 190, 100, 100)
 
     def defend(self, scr):
         # params: scr=screen
@@ -228,29 +240,29 @@ class Alien(object):
             # test if hits the station
             if testinside(self.blastpos.centerx, self.blastpos.centery, 42):
                 if sta.fuel <= 0:
-                    print('BOOOOOOOOM')
+                    explode(scr, sta, self)
                 else:
                     keys = pygame.key.get_pressed()
                     if self.blastvector[0] > 0 and self.blastvector[1] > 0:
                         if keys[K_1]:
                             print('Defended')
                         else:
-                            print('BOOOM')
+                            explode(scr, sta, self)
                     if self.blastvector[0] > 0 and self.blastvector[1] < 0:
                         if keys[K_3]:
                             print('Defended')
                         else:
-                            print('BOOOM')
+                            explode(scr, sta, self)
                     if self.blastvector[0] < 0 and self.blastvector[1] > 0:
                         if keys[K_2]:
                             print('Defended')
                         else:
-                            print('BOOOM')
+                            explode(scr, sta, self)
                     if self.blastvector[0] < 0 and self.blastvector[1] < 0:
                         if keys[K_4]:
                             print('Defended')
                         else:
-                            print('BOOOM')
+                            explode(scr, sta, self)
                 scr.area.blit(scr.image, self.blastposprev, self.blastposprev)
                 self.firestate = 0
 
