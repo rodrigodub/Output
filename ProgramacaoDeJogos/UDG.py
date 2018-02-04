@@ -6,7 +6,7 @@
 # Usage:
 # > python3 UDG.py
 #
-# v2.127
+# v2.128
 # 20180204
 #################################################
 __author__ = 'Rodrigo Nobrega'
@@ -66,11 +66,21 @@ class Grid(object):
     """This is the large scale grid"""
     def __init__(self):
         self.array = np.zeros((8, 8))
+        self.array[7, 7] = 1
 
     def drawgrid(self, scr):
+        for i in range(0, 8):
+            for j in range(0, 8):
+                pygame.draw.rect(scr.display, self.pixelcolor(j, i), ((i*50)+100, (j*50)+100, 50, 50), 0)
         for i in range(100, 550, 50):
             pygame.draw.line(scr.display, (0, 0, 0), (i, 100), (i, 500))
             pygame.draw.line(scr.display, (0, 0, 0), (100, i), (500, i))
+
+    def pixelcolor(self, i, j):
+        if self.array[i, j] == 0:
+            return (230, 255, 230)
+        else:
+            return (0, 0, 0)
 
 
 # event loop
@@ -90,7 +100,7 @@ def eventloop(scr, fnt, clk, grd):
         # draw grid
         grd.drawgrid(scr)
         # refresh display
-        pygame.display.flip()
+        pygame.display.update()
 
 
 # main routine
