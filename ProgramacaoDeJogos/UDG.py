@@ -6,7 +6,7 @@
 # Usage:
 # > python3 UDG.py
 #
-# v2.130
+# v2.131
 # 20180204
 #################################################
 __author__ = 'Rodrigo Nobrega'
@@ -18,6 +18,13 @@ from pygame.locals import *
 import numpy as np
 # import random
 # import math
+
+
+# Global variables
+BLACK = (0, 0, 0)
+BACKGROUND = (230, 230, 230)
+PIXELCOLOR = (230, 255, 230)
+HIGHLIGHT = (255, 255, 200)
 
 
 # load image function
@@ -39,7 +46,7 @@ class Screen(object):
     def __init__(self, image_file=None):
         # physical parameters
         self.size = (1024, 576)
-        self.bgcolour = [230, 230, 230]
+        self.bgcolour = BACKGROUND
         # the canvas
         self.display = pygame.display.set_mode(self.size)
         self.title = pygame.display.set_caption('User Defined Graphics app')
@@ -75,14 +82,14 @@ class Grid(object):
 
     def drawgrid(self, scr):
         for i in range(100, 550, 50):
-            pygame.draw.line(scr.display, (0, 0, 0), (i, 100), (i, 500))
-            pygame.draw.line(scr.display, (0, 0, 0), (100, i), (500, i))
+            pygame.draw.line(scr.display, BLACK, (i, 100), (i, 500))
+            pygame.draw.line(scr.display, BLACK, (100, i), (500, i))
 
     def pixelcolor(self, i, j):
         if self.array[i, j] == 0:
-            return (230, 255, 230)
+            return PIXELCOLOR
         else:
-            return (0, 0, 0)
+            return BLACK
 
 
 # the cursor
@@ -95,38 +102,58 @@ class Cursor(object):
     def move(self):
         keys = pygame.key.get_pressed()
         if keys[K_UP]:
-            self.posprev[1] = self.pos[1]
+            self.posprev = [i for i in self.pos]
             self.pos[1] -= 1
             if self.pos[1] < 0:
                 self.pos[1] = 7
         if keys[K_DOWN]:
-            self.posprev[1] = self.pos[1]
+            self.posprev = [i for i in self.pos]
             self.pos[1] += 1
             if self.pos[1] > 7:
                 self.pos[1] = 0
         if keys[K_LEFT]:
-            self.posprev[0] = self.pos[0]
+            self.posprev = [i for i in self.pos]
             self.pos[0] -= 1
             if self.pos[0] < 0:
                 self.pos[0] = 8
         if keys[K_RIGHT]:
-            self.posprev[0] = self.pos[0]
+            self.posprev = [i for i in self.pos]
             self.pos[0] += 1
             if self.pos[0] > 8:
                 self.pos[0] = 0
 
     def draw(self, scr):
         if self.pos[0] < 8:
-            pygame.draw.rect(scr.display, (230, 255, 230)
+            # clears previous on the grid and on the codes
+            pygame.draw.rect(scr.display, PIXELCOLOR
                              , ((self.posprev[0] * 50 + 100), (self.posprev[1] * 50 + 100)
                                 , (self.size[0][0]), (self.size[0][1]))
                              , 0)
-            pygame.draw.rect(scr.display, (255, 255, 200)
+            pygame.draw.rect(scr.display, BACKGROUND
+                             , ((600), (self.pos[1] * 50 + 100)
+                                , (self.size[1][0]), (self.size[1][1]))
+                             , 0)
+            pygame.draw.rect(scr.display, BACKGROUND
+                             , ((500), (self.pos[1] * 50 + 100)
+                                , (self.size[0][0]), (self.size[0][1]))
+                             , 0)
+            # draws current
+            pygame.draw.rect(scr.display, HIGHLIGHT
                              , ((self.pos[0]*50 + 100), (self.pos[1]*50 + 100)
                                 , (self.size[0][0]), (self.size[0][1]))
                              , 0)
         else:
-            pygame.draw.rect(scr.display, (255, 255, 200)
+            # clears previous
+            pygame.draw.rect(scr.display, BACKGROUND
+                             , ((600), (self.posprev[1] * 50 + 100)
+                                , (self.size[1][0]), (self.size[1][1]))
+                             , 0)
+            pygame.draw.rect(scr.display, BACKGROUND
+                             , ((500), (self.pos[1] * 50 + 100)
+                                , (self.size[0][0]), (self.size[0][1]))
+                             , 0)
+            # draws current
+            pygame.draw.rect(scr.display, HIGHLIGHT
                              , ((self.pos[0] * 50 + 200), (self.pos[1] * 50 + 100)
                                 , (self.size[1][0]), (self.size[1][1]))
                              , 0)
@@ -145,7 +172,8 @@ def eventloop(scr, fnt, clk, grd, csr):
         clk.tick(10)
         # write text
         # scr.display.blit(scr.image, (120, 5, 50, 30), (120, 5, 50, 30))
-        scr.display.blit(writetext(fnt, 'UDG', (100, 100, 100)), (10, 10))
+        pygame.draw.rect(scr.display, BACKGROUND, (0, 0, 500, 40), 0)
+        scr.display.blit(writetext(fnt, 'UDG - current {} - previous {}'.format(csr.pos, csr.posprev), (100, 100, 100)), (10, 10))
         # draw pixels
         grd.drawpixels(scr)
         # draw cursor
