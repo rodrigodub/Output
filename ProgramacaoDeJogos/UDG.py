@@ -6,7 +6,7 @@
 # Usage:
 # > python3 UDG.py
 #
-# v2.128
+# v2.129
 # 20180204
 #################################################
 __author__ = 'Rodrigo Nobrega'
@@ -66,12 +66,14 @@ class Grid(object):
     """This is the large scale grid"""
     def __init__(self):
         self.array = np.zeros((8, 8))
-        self.array[7, 7] = 1
+        #self.array[7, 7] = 1
 
-    def drawgrid(self, scr):
+    def drawpixels(self, scr):
         for i in range(0, 8):
             for j in range(0, 8):
                 pygame.draw.rect(scr.display, self.pixelcolor(j, i), ((i*50)+100, (j*50)+100, 50, 50), 0)
+
+    def drawgrid(self, scr):
         for i in range(100, 550, 50):
             pygame.draw.line(scr.display, (0, 0, 0), (i, 100), (i, 500))
             pygame.draw.line(scr.display, (0, 0, 0), (100, i), (500, i))
@@ -83,9 +85,51 @@ class Grid(object):
             return (0, 0, 0)
 
 
+# the cursor
+class Cursor(object):
+    def __init__(self):
+        self.pos = [0, 0]
+        self.posprev = [0, 0]
+        self.size = [(50, 50), (75, 50)]
+
+    def move(self):
+        keys = pygame.key.get_pressed()
+        if keys[K_UP]:
+            self.posprev[1] = self.pos[1]
+            self.pos[1] -= 1
+            if self.pos[1] < 0:
+                self.pos[1] = 7
+        if keys[K_DOWN]:
+            self.posprev[1] = self.pos[1]
+            self.pos[1] += 1
+            if self.pos[1] > 7:
+                self.pos[1] = 0
+        if keys[K_LEFT]:
+            self.posprev[0] = self.pos[0]
+            self.pos[0] -= 1
+            if self.pos[0] < 0:
+                self.pos[0] = 7
+        if keys[K_RIGHT]:
+            self.posprev[0] = self.pos[0]
+            self.pos[0] += 1
+            if self.pos[0] > 8:
+                self.pos[0] = 0
+
+    def draw(self, scr):
+        if self.pos[0] < 8:
+            pygame.draw.rect(scr.display, (230, 255, 230)
+                             , ((self.posprev[0] * 50 + 100), (self.posprev[1] * 50 + 100)
+                                , (self.size[0][0]), (self.size[0][1]))
+                             , 0)
+            pygame.draw.rect(scr.display, (50, 200, 200)
+                             , ((self.pos[0]*50 + 100), (self.pos[1]*50 + 100)
+                                , (self.size[0][0]), (self.size[0][1]))
+                             , 0)
+
+
 # event loop
-def eventloop(scr, fnt, clk, grd):
-    # arguments: scr=screen, fnt=font, clk=clock, grd=big grid
+def eventloop(scr, fnt, clk, grd, csr):
+    # arguments: scr=screen, fnt=font, clk=clock, grd=big grid, csr=cursor
     a = 1
     while a == 1:
         # quit gracefully
@@ -93,10 +137,15 @@ def eventloop(scr, fnt, clk, grd):
             if event.type == pygame.QUIT or pygame.key.get_pressed()[K_q]:
                 sys.exit()
         # measure time
-        clk.tick(60)
+        clk.tick(10)
         # write text
         # scr.display.blit(scr.image, (120, 5, 50, 30), (120, 5, 50, 30))
         scr.display.blit(writetext(fnt, 'UDG', (100, 100, 100)), (10, 10))
+        # draw pixels
+        grd.drawpixels(scr)
+        # draw cursor
+        csr.move()
+        csr.draw(scr)
         # draw grid
         grd.drawgrid(scr)
         # refresh display
@@ -116,9 +165,10 @@ def main():
     screen = Screen()
     # start the big grid
     grid = Grid()
-    #screen = Screen('background green 640x480.png')
+    # create cursor
+    cursor = Cursor()
     # start the event loop with tank moving right
-    eventloop(screen, font1, clock, grid)
+    eventloop(screen, font1, clock, grid, cursor)
 
 
 # execute main
