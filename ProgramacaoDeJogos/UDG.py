@@ -6,7 +6,7 @@
 # Usage:
 # > python3 UDG.py
 #
-# v2.131
+# v2.133
 # 20180204
 #################################################
 __author__ = 'Rodrigo Nobrega'
@@ -23,8 +23,8 @@ import numpy as np
 # Global variables
 BLACK = (0, 0, 0)
 BACKGROUND = (230, 230, 230)
-PIXELCOLOR = (230, 255, 230)
-HIGHLIGHT = (255, 255, 200)
+PIXELCOLOR = (255, 255, 255)
+HIGHLIGHT = (255, 128, 128)
 
 
 # load image function
@@ -159,9 +159,69 @@ class Cursor(object):
                              , 0)
 
 
+# the Data array
+class Udg(object):
+    def __init__(self):
+        self.array = [0, 0, 0, 0, 0, 0, 0, 0]
+        # mode: M=decimal, H=hex
+        self.mode = 'M'
+
+    def clearlist(self, scr):
+        for i in range(0, 8):
+            pygame.draw.rect(scr.display, BACKGROUND, (600, (i*50)+100, 75, 50), 0)
+
+    def list(self, scr: Screen, fnt):
+        for i in range(0, 8):
+            scr.display.blit(writetext(fnt, '{}'.format(self.array[i]), BLACK), (630, (i*50)+115))
+
+    def changenumber(self, csr: Cursor):
+        if csr.pos[0] == 8:
+            keys = pygame.key.get_pressed()
+            if keys[K_1] and int('{}1'.format(self.array[csr.pos[1]])[-3:]) <= 255:
+                self.array[csr.pos[1]] = int('{}1'.format(self.array[csr.pos[1]])[-3:])
+            elif keys[K_1]:
+                self.array[csr.pos[1]] = 1
+            if keys[K_2] and int('{}2'.format(self.array[csr.pos[1]])[-3:]) <= 255:
+                self.array[csr.pos[1]] = int('{}2'.format(self.array[csr.pos[1]])[-3:])
+            elif keys[K_2]:
+                self.array[csr.pos[1]] = 2
+            if keys[K_3] and int('{}3'.format(self.array[csr.pos[1]])[-3:]) <= 255:
+                self.array[csr.pos[1]] = int('{}3'.format(self.array[csr.pos[1]])[-3:])
+            elif keys[K_3]:
+                self.array[csr.pos[1]] = 3
+            if keys[K_4] and int('{}4'.format(self.array[csr.pos[1]])[-3:]) <= 255:
+                self.array[csr.pos[1]] = int('{}4'.format(self.array[csr.pos[1]])[-3:])
+            elif keys[K_4]:
+                self.array[csr.pos[1]] = 4
+            if keys[K_5] and int('{}5'.format(self.array[csr.pos[1]])[-3:]) <= 255:
+                self.array[csr.pos[1]] = int('{}5'.format(self.array[csr.pos[1]])[-3:])
+            elif keys[K_5]:
+                self.array[csr.pos[1]] = 5
+            if keys[K_6] and int('{}6'.format(self.array[csr.pos[1]])[-3:]) <= 255:
+                self.array[csr.pos[1]] = int('{}6'.format(self.array[csr.pos[1]])[-3:])
+            elif keys[K_6]:
+                self.array[csr.pos[1]] = 6
+            if keys[K_7] and int('{}7'.format(self.array[csr.pos[1]])[-3:]) <= 255:
+                self.array[csr.pos[1]] = int('{}7'.format(self.array[csr.pos[1]])[-3:])
+            elif keys[K_7]:
+                self.array[csr.pos[1]] = 7
+            if keys[K_8] and int('{}8'.format(self.array[csr.pos[1]])[-3:]) <= 255:
+                self.array[csr.pos[1]] = int('{}8'.format(self.array[csr.pos[1]])[-3:])
+            elif keys[K_8]:
+                self.array[csr.pos[1]] = 8
+            if keys[K_9] and int('{}9'.format(self.array[csr.pos[1]])[-3:]) <= 255:
+                self.array[csr.pos[1]] = int('{}9'.format(self.array[csr.pos[1]])[-3:])
+            elif keys[K_9]:
+                self.array[csr.pos[1]] = 9
+            if keys[K_0] and int('{}0'.format(self.array[csr.pos[1]])[-3:]) <= 255:
+                self.array[csr.pos[1]] = int('{}0'.format(self.array[csr.pos[1]])[-3:])
+            elif keys[K_0]:
+                self.array[csr.pos[1]] = 0
+
+
 # event loop
-def eventloop(scr, fnt, clk, grd, csr):
-    # arguments: scr=screen, fnt=font, clk=clock, grd=big grid, csr=cursor
+def eventloop(scr, fnt, clk, grd, csr, udg):
+    # arguments: scr=screen, fnt=font, clk=clock, grd=big grid, csr=cursor, udg=udg
     a = 1
     while a == 1:
         # quit gracefully
@@ -171,16 +231,21 @@ def eventloop(scr, fnt, clk, grd, csr):
         # measure time
         clk.tick(10)
         # write text
-        # scr.display.blit(scr.image, (120, 5, 50, 30), (120, 5, 50, 30))
-        pygame.draw.rect(scr.display, BACKGROUND, (0, 0, 500, 40), 0)
-        scr.display.blit(writetext(fnt, 'UDG - current {} - previous {}'.format(csr.pos, csr.posprev), (100, 100, 100)), (10, 10))
+        #pygame.draw.rect(scr.display, BACKGROUND, (0, 0, 500, 40), 0)
+        scr.display.blit(writetext(fnt, 'User Defined Graphics', (100, 100, 100)), (10, 10))
         # draw pixels
         grd.drawpixels(scr)
+        # clears the udg data list, for updating
+        udg.clearlist(scr)
         # draw cursor
         csr.move()
         csr.draw(scr)
         # draw grid
         grd.drawgrid(scr)
+        # writes the udg data list
+        udg.list(scr, fnt)
+        # changes number
+        udg.changenumber(csr)
         # refresh display
         pygame.display.update()
 
@@ -191,7 +256,7 @@ def main():
     # start Pygame
     pygame.init()
     pygame.mixer.init()
-    font1 = pygame.font.Font('./fonts/Chicago Normal.ttf', 16)
+    font1 = pygame.font.Font('./fonts/Chicago Normal.ttf', 18)
     clock = pygame.time.Clock()
     score = 0
     # start the display
@@ -200,8 +265,10 @@ def main():
     grid = Grid()
     # create cursor
     cursor = Cursor()
+    # create the UDG list
+    udg = Udg()
     # start the event loop with tank moving right
-    eventloop(screen, font1, clock, grid, cursor)
+    eventloop(screen, font1, clock, grid, cursor, udg)
 
 
 # execute main
