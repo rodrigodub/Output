@@ -6,7 +6,7 @@
 # Usage:
 # > python3 UDG.py
 #
-# v2.134
+# v2.135
 # 20180204
 #################################################
 __author__ = 'Rodrigo Nobrega'
@@ -224,7 +224,7 @@ class Udg(object):
                 self.array[csr.pos[1]] = 0
 
     def update(self, grd):
-        for i in range(0, 7):
+        for i in range(0, 8):
             grd.array[i] = [n for n in eightbitstring(self.array[i])]
 
 
