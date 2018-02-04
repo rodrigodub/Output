@@ -6,7 +6,7 @@
 # Usage:
 # > python3 UDG.py
 #
-# v2.129
+# v2.130
 # 20180204
 #################################################
 __author__ = 'Rodrigo Nobrega'
@@ -108,7 +108,7 @@ class Cursor(object):
             self.posprev[0] = self.pos[0]
             self.pos[0] -= 1
             if self.pos[0] < 0:
-                self.pos[0] = 7
+                self.pos[0] = 8
         if keys[K_RIGHT]:
             self.posprev[0] = self.pos[0]
             self.pos[0] += 1
@@ -121,9 +121,14 @@ class Cursor(object):
                              , ((self.posprev[0] * 50 + 100), (self.posprev[1] * 50 + 100)
                                 , (self.size[0][0]), (self.size[0][1]))
                              , 0)
-            pygame.draw.rect(scr.display, (50, 200, 200)
+            pygame.draw.rect(scr.display, (255, 255, 200)
                              , ((self.pos[0]*50 + 100), (self.pos[1]*50 + 100)
                                 , (self.size[0][0]), (self.size[0][1]))
+                             , 0)
+        else:
+            pygame.draw.rect(scr.display, (255, 255, 200)
+                             , ((self.pos[0] * 50 + 200), (self.pos[1] * 50 + 100)
+                                , (self.size[1][0]), (self.size[1][1]))
                              , 0)
 
 
