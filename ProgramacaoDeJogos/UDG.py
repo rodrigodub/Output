@@ -6,7 +6,7 @@
 # Usage:
 # > python3 UDG.py
 #
-# v2.133
+# v2.134
 # 20180204
 #################################################
 __author__ = 'Rodrigo Nobrega'
@@ -38,6 +38,11 @@ def writetext(font, text, colour):
     # colour: tuple (r, g, b)
     a = font.render(text, 0, colour)
     return a
+
+
+# eight-bit string
+def eightbitstring(num):
+    return '00000000{}'.format(bin(num)[2:])[-8:]
 
 
 # screen
@@ -218,6 +223,10 @@ class Udg(object):
             elif keys[K_0]:
                 self.array[csr.pos[1]] = 0
 
+    def update(self, grd):
+        for i in range(0, 7):
+            grd.array[i] = [n for n in eightbitstring(self.array[i])]
+
 
 # event loop
 def eventloop(scr, fnt, clk, grd, csr, udg):
@@ -246,6 +255,8 @@ def eventloop(scr, fnt, clk, grd, csr, udg):
         udg.list(scr, fnt)
         # changes number
         udg.changenumber(csr)
+        # updates grid
+        udg.update(grd)
         # refresh display
         pygame.display.update()
 
