@@ -6,7 +6,7 @@
 # Usage:
 # > python3 Input08PJ07.py
 #
-# v2.138
+# v2.139
 # 20180206
 #################################################
 __author__ = 'Rodrigo Nobrega'
@@ -20,7 +20,14 @@ class Maze(object):
         self.ny = int(576/self.bs)
         # dim p
         self.p = np.zeros((self.nx, self.ny), dtype=int)
+        # draw border
         self.border()
+        # coordinates
+        self.x = 2
+        self.y = 2
+        self.lx = 2
+        self.ly = 2
+
 
     def border(self):
         for j in range(0, self.nx):
@@ -39,6 +46,7 @@ def main():
           .format(lab.bs, lab.nx, lab.ny))
     print('\n')
     print('P[] size: {} cols X {} lins'.format(len(lab.p[0]), len(lab.p)))
+    print(lab.p)
     print('\n::::::::::::::::::::::::::::::::::::::::::::\n')
 
 
