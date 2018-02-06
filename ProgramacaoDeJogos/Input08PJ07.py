@@ -6,8 +6,8 @@
 # Usage:
 # > python3 Input08PJ07.py
 #
-# v2.136
-# 20180204
+# v2.137
+# 20180205
 #################################################
 __author__ = 'Rodrigo Nobrega'
 
@@ -15,6 +15,7 @@ __author__ = 'Rodrigo Nobrega'
 # import
 import os, sys, pygame
 from pygame.locals import *
+import numpy as np
 # import random
 # import math
 
@@ -73,7 +74,10 @@ class Labirinth(object):
         self.blocksize = 20
         #self.numbercolumns = 2 * int(0.5 * 1024 / self.blocksize)
         self.numbercolumns = int(1024 / self.blocksize)
-        self.numberlines = 2 * int(0.5 * 526 / self.blocksize)
+        #self.numberlines = 2 * int(0.5 * 526 / self.blocksize)
+        self.numberlines = int(526 / self.blocksize)
+        #
+        self.array = np.zeros((49, 25), dtype=np.int16)
 
     def drawmargin(self, scr):
         for i in range(0, self.numbercolumns):
