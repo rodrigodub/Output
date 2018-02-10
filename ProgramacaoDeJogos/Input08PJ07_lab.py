@@ -6,27 +6,36 @@
 # Usage:
 # > python3 Input08PJ07.py
 #
-# v2.139
-# 20180206
+# v2.140
+# 20180210
 #################################################
 __author__ = 'Rodrigo Nobrega'
 
 import numpy as np
+import random
 
 class Maze(object):
     def __init__(self):
+        # block size
         self.bs = 20
+        # number of columns in x and y
         self.nx = int(1024/self.bs)
         self.ny = int(576/self.bs)
-        # dim p
+        # dim p - p is the labirinth
         self.p = np.zeros((self.nx, self.ny), dtype=int)
         # draw border
         self.border()
         # coordinates
         self.x = 2
         self.y = 2
+        # last coordinates
         self.lx = 2
         self.ly = 2
+        # maze positions
+        self.j = 0
+        self.g = 0
+        # create maze
+        self.createmaze1()
 
 
     def border(self):
@@ -36,6 +45,47 @@ class Maze(object):
         for j in range(0, self.ny):
             self.p[0, j] = 6
             self.p[self.nx-1, j] = 6
+
+    def createmaze1(self):
+        self.j = random.randint(0, 3)
+        self.g = self.j
+        self.createmaze2()
+
+    def createmaze2(self):
+        self.y = self.ly + 2 * ((self.j == 0) - (self.j == 2))
+        self.x = self.lx + 2 * ((self.j == 3) - (self.j == 1))
+        if self.p[self.x, self.y] == 0:
+            self.p[self.x, self.y] = self.j+1
+            self.p[int((self.x + self.lx) / 2), int((self.y + self.ly) / 2)] = 5
+            self.lx = self.x
+            self.ly = self.y
+            self.createmaze1()
+        else:
+            self.createmaze3()
+
+    def createmaze3(self):
+        self.j = (self.j + 1) % 4
+        if self.j != self.g:
+            self.createmaze2()
+        else:
+            self.createmaze4()
+
+    def createmaze4(self):
+        self.j = self.p[self.lx, self.ly] - 1
+        self.p[self.lx, self.ly] = 5
+        if self.j < 4:
+            self.lx = self.lx - 2 * ((self.j == 3) - (self.j == 1))
+            self.ly = self.ly - 2 * ((self.j == 0) - (self.j == 2))
+            self.createmaze1()
+        else:
+            self.createmaze5()
+
+    def createmaze5(self):
+        for cnt in range(0, 21):
+            self.p[2 + 2 * random.randint(0, (self.nx - 3)/2), 1 + random.randint(0, (self.ny - 3))] = 5
+            self.p[1 + random.randint(0, (self.nx - 3)), 2 + 2 * random.randint(0, (self.ny - 3)/2)] = 5
+
+
 
 
 # main routine
