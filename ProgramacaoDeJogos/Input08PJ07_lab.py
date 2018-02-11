@@ -6,8 +6,8 @@
 # Usage:
 # > python3 Input08PJ07.py
 #
-# v2.140
-# 20180210
+# v2.142
+# 20180211
 #################################################
 __author__ = 'Rodrigo Nobrega'
 
@@ -23,14 +23,19 @@ class Maze(object):
         self.ny = int(576/self.bs)
         # dim p - p is the labirinth
         self.p = np.zeros((self.nx, self.ny), dtype=int)
+        # self.p = np.zeros((self.nx + 5, self.ny + 5), dtype=int)
         # draw border
         self.border()
         # coordinates
-        self.x = 2
-        self.y = 2
+        self.x = 1
+        self.y = 1
+        #self.x = 2
+        #self.y = 2
         # last coordinates
-        self.lx = 2
-        self.ly = 2
+        self.lx = 1
+        self.ly = 1
+        #self.lx = 2
+        #self.ly = 2
         # maze positions
         self.j = 0
         self.g = 0
@@ -54,6 +59,14 @@ class Maze(object):
     def createmaze2(self):
         self.y = self.ly + 2 * ((self.j == 0) - (self.j == 2))
         self.x = self.lx + 2 * ((self.j == 3) - (self.j == 1))
+        if self.x > self.nx-1:
+            self.x -= self.nx
+        if self.y > self.ny-1:
+            self.y -= self.ny
+        try:
+            self.p[self.x, self.y]
+        except IndexError:
+            self.createmaze3()
         if self.p[self.x, self.y] == 0:
             self.p[self.x, self.y] = self.j+1
             self.p[int((self.x + self.lx) / 2), int((self.y + self.ly) / 2)] = 5
@@ -71,8 +84,11 @@ class Maze(object):
             self.createmaze4()
 
     def createmaze4(self):
-        self.j = self.p[self.lx, self.ly] - 1
-        self.p[self.lx, self.ly] = 5
+        try:
+            self.j = self.p[self.lx, self.ly] - 1
+            self.p[self.lx, self.ly] = 5
+        except IndexError:
+            print('Index Error')
         if self.j < 4:
             self.lx = self.lx - 2 * ((self.j == 3) - (self.j == 1))
             self.ly = self.ly - 2 * ((self.j == 0) - (self.j == 2))
@@ -82,10 +98,8 @@ class Maze(object):
 
     def createmaze5(self):
         for cnt in range(0, 21):
-            self.p[2 + 2 * random.randint(0, (self.nx - 3)/2), 1 + random.randint(0, (self.ny - 3))] = 5
-            self.p[1 + random.randint(0, (self.nx - 3)), 2 + 2 * random.randint(0, (self.ny - 3)/2)] = 5
-
-
+            self.p[2 + 2 * random.randint(0, int((self.nx - 3)/2)), 1 + random.randint(0, (self.ny - 3))] = 5
+            self.p[1 + random.randint(0, (self.nx - 3)), 2 + 2 * random.randint(0, int((self.ny - 3)/2))] = 5
 
 
 # main routine
@@ -98,7 +112,6 @@ def main():
     print('P[] size: {} cols X {} lins'.format(len(lab.p[0]), len(lab.p)))
     print(lab.p)
     print('\n::::::::::::::::::::::::::::::::::::::::::::\n')
-
 
 
 # execute main
