@@ -7,8 +7,9 @@
 # > python3 Input08PJ07.py
 #
 # v2.145
-# 20180211
+# 20180212
 # trying https://en.wikipedia.org/wiki/Maze_generation_algorithm
+# Recursive Backtracker
 #################################################
 __author__ = 'Rodrigo Nobrega'
 
@@ -21,92 +22,70 @@ class Maze(object):
         self.bs = 20
         # number of columns in x and y
         self.nx = int(1024/self.bs)
-        self.ny = int(576/self.bs)
-        # dim p - p is the labirinth
+        self.ny = int(546/self.bs)
+        # dim p - p is the maze
         self.p = np.zeros((self.nx, self.ny), dtype=int)
-        # draw border
-        self.border()
-        # coordinates
-        self.x = 1
-        self.y = 1
-        # last coordinates
-        self.lx = 1
-        self.ly = 1
-        # maze positions
-        self.j = 0
-        self.g = 0
-        # create maze
+        # current position, last position
+        self.x = random.randint(1, self.nx-2)
+        self.y = random.randint(1, self.ny-2)
+        self.lx = self.x
+        self.ly = self.y
+        # directions
+        self.direction = {'N': (0, -1), 'S': (0, 1), 'E': (1, 0), 'W': (-1, 0)}
+        # initial direction
+        self.turn = random.choice('NSEW')
+        # stack
+        self.stack = []
+        # add first cell
+        self.record()
+        # iterate
+        while len(self.stack) > 0:
+            self.move()
+
+    def record(self):
+        self.p[self.x, self.y] = 1
+        self.stack.append((self.x, self.y))
+        # mark visited neighbours
         try:
-            self.createmaze1()
-        except RecursionError:
-            print('Recursion Error')
-
-    def border(self):
-        # horizontal borders
-        for j in range(0, self.nx):
-            self.p[j, self.ny-1] = 6
-            self.p[j, 0] = 6
-        # vertical borders
-        for j in range(0, self.ny):
-            self.p[0, j] = 6
-            self.p[self.nx-1, j] = 6
-
-    def createmaze1(self):
-        # direction
-        self.j = random.randint(0, 3)
-        self.g = self.j
-        self.createmaze2()
-
-    def createmaze2(self):
-        # increment
-        self.y = self.ly + 2 * ((self.j == 0) - (self.j == 2))
-        self.x = self.lx + 2 * ((self.j == 3) - (self.j == 1))
-        # prevent coord indexes to be greater than array size
-        if self.x >= self.nx-1:
-            self.x -= self.nx
-        if self.y >= self.ny-1:
-            self.y -= self.ny
-        # but still need to catch exception
-        try:
-            self.p[self.x, self.y]
+            if self.p[self.x-1, self.y] == 0:
+                self.p[self.x-1, self.y] = 2
         except IndexError:
-            self.createmaze3()
-        # main routine, change the following two blocks
-        if self.p[self.x, self.y] == 0:
-            self.p[self.x, self.y] = self.j+1
-            self.p[int((self.x + self.lx) / 2), int((self.y + self.ly) / 2)] = 5
-            self.lx = self.x
-            self.ly = self.y
-            self.createmaze1()
-        else:
-            self.createmaze3()
-
-    def createmaze3(self):
-        # choose new direction
-        self.j = (self.j + 1) % 4
-        if self.j != self.g:
-            self.createmaze2()
-        else:
-            self.createmaze4()
-
-    def createmaze4(self):
-        # have to catch de index exception for the last postions
+            pass
         try:
-            self.j = self.p[self.lx, self.ly] - 1
-            self.p[self.lx, self.ly] = 5
+            if self.p[self.x+1, self.y] == 0:
+                self.p[self.x+1, self.y] = 2
         except IndexError:
-            print('Index Error')
-        if self.j < 4:
-            self.lx = self.lx - 2 * ((self.j == 3) - (self.j == 1))
-            self.ly = self.ly - 2 * ((self.j == 0) - (self.j == 2))
-            self.createmaze1()
-        else:
-            self.createmaze5()
+            pass
+        try:
+            if self.p[self.x, self.y-1] == 0:
+                self.p[self.x, self.y-1] = 2
+        except IndexError:
+            pass
+        try:
+            if self.p[self.x, self.y+1] == 0:
+                self.p[self.x, self.y+1] = 2
+        except IndexError:
+            pass
 
-    def createmaze5(self):
-        for cnt in range(0, 21):
-            self.p[2 + 2 * random.randint(0, int((self.nx - 3)/2)), 1 + random.randint(0, (self.ny - 3))] = 5
-            self.p[1 + random.randint(0, (self.nx - 3)), 2 + 2 * random.randint(0, int((self.ny - 3)/2))] = 5
+    def move(self):
+        # new cell position
+        self.x += self.direction[self.turn][0]
+        self.y += self.direction[self.turn][1]
+        # test if in range, otherwise use last position
+        if self.x in range(0, self.nx) and self.y in range(0, self.ny):
+            # test if unvisited neighbours, otherwise pop last
+            if self.p[self.x, self.y] == 0:
+                self.record()
+            else:
+                a = self.stack.pop()
+                self.x = a[0]
+                self.y = a[1]
+        else:
+            self.x = self.lx
+            self.y = self.ly
+        self.lx = self.x
+        self.ly = self.y
+        self.turn = random.choice('NSEW')
 
 
 # main routine
