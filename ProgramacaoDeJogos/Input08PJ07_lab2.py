@@ -6,7 +6,7 @@
 # Usage:
 # > python3 Input08PJ07.py
 #
-# v2.146
+# v2.147
 # 20180213
 # trying https://en.wikipedia.org/wiki/Maze_generation_algorithm
 # Recursive Backtracker
@@ -33,7 +33,7 @@ class Maze(object):
         # directions
         self.direction = {'N': (0, -1), 'S': (0, 1), 'E': (1, 0), 'W': (-1, 0)}
         # initial direction
-        self.turn = random.choice('NSEW')
+        # self.turn = random.choice('NSEW')
         # stack
         self.stack = []
         # add first cell
@@ -53,7 +53,11 @@ class Maze(object):
         return [(n[0], n[1]) for n in neigh if self.p[n[0], n[1]] == 0]
 
     def move(self):
-        pass
+        # calculate potential moves
+        potential = self.unvisited(self.neighbours(self.x, self.y))
+        # calculate if potentials have unvisited neighbours
+        good = [(i[0], i[1]) for i in potential if len(self.unvisited(self.neighbours(i[0], i[1]))) > 2]
+        return good
         # new cell position
         # self.x += self.direction[self.turn][0]
         # self.y += self.direction[self.turn][1]
