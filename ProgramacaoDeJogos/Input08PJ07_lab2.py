@@ -6,8 +6,8 @@
 # Usage:
 # > python3 Input08PJ07.py
 #
-# v2.145
-# 20180212
+# v2.146
+# 20180213
 # trying https://en.wikipedia.org/wiki/Maze_generation_algorithm
 # Recursive Backtracker
 #################################################
@@ -39,53 +39,39 @@ class Maze(object):
         # add first cell
         self.record()
         # iterate
-        while len(self.stack) > 0:
-            self.move()
+        # while len(self.stack) > 0:
+        #     self.move()
 
     def record(self):
         self.p[self.x, self.y] = 1
         self.stack.append((self.x, self.y))
-        # mark visited neighbours
-        try:
-            if self.p[self.x-1, self.y] == 0:
-                self.p[self.x-1, self.y] = 2
-        except IndexError:
-            pass
-        try:
-            if self.p[self.x+1, self.y] == 0:
-                self.p[self.x+1, self.y] = 2
-        except IndexError:
-            pass
-        try:
-            if self.p[self.x, self.y-1] == 0:
-                self.p[self.x, self.y-1] = 2
-        except IndexError:
-            pass
-        try:
-            if self.p[self.x, self.y+1] == 0:
-                self.p[self.x, self.y+1] = 2
-        except IndexError:
-            pass
+
+    def neighbours(self, ax, ay):
+        return [(ax + self.direction[n][0], ay + self.direction[n][1]) for n in self.direction]
+
+    def unvisited(self, neigh):
+        return [(n[0], n[1]) for n in neigh if self.p[n[0], n[1]] == 0]
 
     def move(self):
+        pass
         # new cell position
-        self.x += self.direction[self.turn][0]
-        self.y += self.direction[self.turn][1]
-        # test if in range, otherwise use last position
-        if self.x in range(0, self.nx) and self.y in range(0, self.ny):
-            # test if unvisited neighbours, otherwise pop last
-            if self.p[self.x, self.y] == 0:
-                self.record()
-            else:
-                a = self.stack.pop()
-                self.x = a[0]
-                self.y = a[1]
-        else:
-            self.x = self.lx
-            self.y = self.ly
-        self.lx = self.x
-        self.ly = self.y
-        self.turn = random.choice('NSEW')
+        # self.x += self.direction[self.turn][0]
+        # self.y += self.direction[self.turn][1]
+        # # test if in range, otherwise use last position
+        # if self.x in range(0, self.nx) and self.y in range(0, self.ny):
+        #     # test if unvisited neighbours, otherwise pop last
+        #     if self.p[self.x, self.y] == 0:
+        #         self.record()
+        #     else:
+        #         a = self.stack.pop()
+        #         self.x = a[0]
+        #         self.y = a[1]
+        # else:
+        #     self.x = self.lx
+        #     self.y = self.ly
+        # self.lx = self.x
+        # self.ly = self.y
+        # self.turn = random.choice('NSEW')
 
 
 # main routine
