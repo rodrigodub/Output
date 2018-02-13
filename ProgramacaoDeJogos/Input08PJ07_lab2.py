@@ -28,8 +28,8 @@ class Maze(object):
         # current position, last position
         self.x = random.randint(1, self.nx-2)
         self.y = random.randint(1, self.ny-2)
-        self.lx = self.x
-        self.ly = self.y
+        # self.lx = self.x
+        # self.ly = self.y
         # directions
         self.direction = {'N': (0, -1), 'S': (0, 1), 'E': (1, 0), 'W': (-1, 0)}
         # initial direction
@@ -47,7 +47,8 @@ class Maze(object):
         self.stack.append((self.x, self.y))
 
     def neighbours(self, ax, ay):
-        return [(ax + self.direction[n][0], ay + self.direction[n][1]) for n in self.direction]
+        return [(ax + self.direction[n][0], ay + self.direction[n][1]) for n in self.direction
+                if 0 < ax + self.direction[n][0] < self.nx-1 and 0 < ay + self.direction[n][1] < self.ny-1]
 
     def unvisited(self, neigh):
         return [(n[0], n[1]) for n in neigh if self.p[n[0], n[1]] == 0]
@@ -68,29 +69,10 @@ class Maze(object):
             self.x = choice[0]
             self.y = choice[1]
 
-        # new cell position
-        # self.x += self.direction[self.turn][0]
-        # self.y += self.direction[self.turn][1]
-        # # test if in range, otherwise use last position
-        # if self.x in range(0, self.nx) and self.y in range(0, self.ny):
-        #     # test if unvisited neighbours, otherwise pop last
-        #     if self.p[self.x, self.y] == 0:
-        #         self.record()
-        #     else:
-        #         a = self.stack.pop()
-        #         self.x = a[0]
-        #         self.y = a[1]
-        # else:
-        #     self.x = self.lx
-        #     self.y = self.ly
-        # self.lx = self.x
-        # self.ly = self.y
-        # self.turn = random.choice('NSEW')
-
 
 # main routine
 def main():
-    print('\n ::: Labirinth :::\n\n::::::::::::::::::::::::::::::::::::::::::::\n')
+    print('\n ::: Maze :::\n\n::::::::::::::::::::::::::::::::::::::::::::\n')
     lab = Maze()
     print('Block Size [BS]: {}\nNumber of columns [NX]: {}\nNumber of lines [NY]: {}'
           .format(lab.bs, lab.nx, lab.ny))
