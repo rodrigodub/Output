@@ -1,13 +1,13 @@
 #################################################
 #                   INPUT 8
 # Programacao de Jogos 7
-# Labirinth 2 - Treasure Hunt
+# Maze 2 - Treasure Hunt
 # UK : Input 7
 # Usage:
 # > python3 Input08PJ07.py
 #
-# v2.149
-# 20180213
+# v2.150
+# 20180214
 # https://en.wikipedia.org/wiki/Maze_generation_algorithm
 # Recursive Backtracker
 #################################################
