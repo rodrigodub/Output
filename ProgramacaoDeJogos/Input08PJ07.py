@@ -6,7 +6,7 @@
 # Usage:
 # > python3 Input08PJ07.py
 #
-# v2.151
+# v2.152
 # 20180217
 # https://en.wikipedia.org/wiki/Maze_generation_algorithm
 # Recursive Backtracker
@@ -148,16 +148,51 @@ class Treasure(object):
         # new position, and draw
         self.x = r[0]
         self.y = r[1]
-        self.pos = (self.x * 20, self.y * 20 + 30)
+        self.pos = (maz.x * 20, maz.y * 20 + 30)
         scr.display.blit(self.image, self.pos)
 
 
 # The Pirate player
+class Pirate(object):
+    def __init__(self):
+        # player
+        self.image = load_image('pirate.png')
+        self.pos = self.image.get_rect()
+        # position
+        self.x = 2
+        self.y = 2
+        self.pos = (self.x * 20, self.y * 20 + 30)
+        # previous position
+        self.lx = self.x
+        self.ly = self.y
+
+    def move(self, maz: Maze, scr: Screen):
+        # deletes previous position
+        pygame.draw.rect(scr.display, PIXELCOLOR, (self.lx * maz.bs, self.ly * maz.bs + 30, maz.bs, maz.bs), 0)
+        # monitor keyboard
+        keys = pygame.key.get_pressed()
+        if keys[K_RIGHT]:
+            if maz.p[self.x + 1, self.y] == 1:
+                self.x += 1
+        if keys[K_LEFT]:
+            if maz.p[self.x - 1, self.y] == 1:
+                self.x -= 1
+        if keys[K_UP]:
+            if maz.p[self.x, self.y - 1] == 1:
+                self.y -= 1
+        if keys[K_DOWN]:
+            if maz.p[self.x, self.y + 1] == 1:
+                self.y += 1
+        # draws new position and updates last
+        self.pos = (self.x * maz.bs, self.y * maz.bs + 30)
+        scr.display.blit(self.image, self.pos)
+        self.lx = self.x
+        self.ly = self.y
 
 
 # event loop
-def eventloop(scr, fnt, clk, maz, tre):
-    # arguments: scr=screen, fnt=font, clk=clock, maz=labirinth, tre=treasure
+def eventloop(scr, fnt, clk, maz, tre, pir):
+    # arguments: scr=screen, fnt=font, clk=clock, maz=labirinth, tre=treasure, pir=pirate
     a = 1
     while a == 1:
         # quit gracefully
@@ -169,6 +204,8 @@ def eventloop(scr, fnt, clk, maz, tre):
         # write text
         # scr.display.blit(scr.image, (120, 5, 50, 30), (120, 5, 50, 30))
         scr.display.blit(writetext(fnt, 'OK', BLACK), (10, 10))
+        # draw & move pirate
+        pir.move(maz, scr)
         # refresh display
         pygame.display.flip()
 
@@ -190,8 +227,10 @@ def main():
     # add the Treasure
     treasure = Treasure()
     treasure.place(maze, screen)
+    # add the pirate
+    pirate = Pirate()
     # start the event loop
-    eventloop(screen, font1, clock, maze, treasure)
+    eventloop(screen, font1, clock, maze, treasure, pirate)
 
 
 # execute main
