@@ -6,7 +6,7 @@
 # Usage:
 # > python3 Input08PJ07.py
 #
-# v2.152
+# v2.153
 # 20180217
 # https://en.wikipedia.org/wiki/Maze_generation_algorithm
 # Recursive Backtracker
@@ -189,6 +189,10 @@ class Pirate(object):
         self.lx = self.x
         self.ly = self.y
 
+    def goal(self, tre: Treasure):
+        if self.pos == tre.pos:
+            print('$$$$$$$$$$$$$')
+
 
 # event loop
 def eventloop(scr, fnt, clk, maz, tre, pir):
@@ -206,6 +210,10 @@ def eventloop(scr, fnt, clk, maz, tre, pir):
         scr.display.blit(writetext(fnt, 'OK', BLACK), (10, 10))
         # draw & move pirate
         pir.move(maz, scr)
+        # found the treasure?
+        pir.goal(tre)
+        # feedback
+        # print('Pirate: {}       Treasure: {}'.format(pir.pos, tre.pos))
         # refresh display
         pygame.display.flip()
 
