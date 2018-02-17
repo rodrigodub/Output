@@ -6,8 +6,8 @@
 # Usage:
 # > python3 Input08PJ07.py
 #
-# v2.150
-# 20180214
+# v2.151
+# 20180217
 # https://en.wikipedia.org/wiki/Maze_generation_algorithm
 # Recursive Backtracker
 #################################################
@@ -31,7 +31,7 @@ BORDER = (255, 128, 128)
 
 # load image function
 def load_image(file):
-    path = os.path.join('images', file)
+    path = os.path.join('images/maze', file)
     return pygame.image.load(path).convert_alpha()
 
 
@@ -129,9 +129,35 @@ class Maze(object):
                     pygame.draw.rect(scr.display, BORDER, (i * self.bs, (j * self.bs) + 30, self.bs, self.bs), 0)
 
 
+# The Treasure
+class Treasure(object):
+    def __init__(self):
+        # treasure
+        self.image = load_image('treasure.png')
+        self.pos = self.image.get_rect()
+        # start positioning it on the wall
+        self.x = 0
+        self.y = 0
+
+    def place(self, maz: Maze, scr: Screen):
+        # wall position
+        r = (0, 0)
+        # randomize position until falling in the maze (i.e. outside the wall)
+        while maz.p[r[0], r[1]] == 0:
+            r = (random.randint(1, maz.nx-2), random.randint(1, maz.ny-2))
+        # new position, and draw
+        self.x = r[0]
+        self.y = r[1]
+        self.pos = (self.x * 20, self.y * 20 + 30)
+        scr.display.blit(self.image, self.pos)
+
+
+# The Pirate player
+
+
 # event loop
-def eventloop(scr, fnt, clk, maz):
-    # arguments: scr=screen, fnt=font, clk=clock, maz=labirinth
+def eventloop(scr, fnt, clk, maz, tre):
+    # arguments: scr=screen, fnt=font, clk=clock, maz=labirinth, tre=treasure
     a = 1
     while a == 1:
         # quit gracefully
@@ -143,8 +169,6 @@ def eventloop(scr, fnt, clk, maz):
         # write text
         # scr.display.blit(scr.image, (120, 5, 50, 30), (120, 5, 50, 30))
         scr.display.blit(writetext(fnt, 'OK', BLACK), (10, 10))
-        # draws maze
-        maz.draw(scr)
         # refresh display
         pygame.display.flip()
 
@@ -162,8 +186,12 @@ def main():
     screen = Screen()
     # creates the Labirinth
     maze = Maze()
+    maze.draw(screen)
+    # add the Treasure
+    treasure = Treasure()
+    treasure.place(maze, screen)
     # start the event loop
-    eventloop(screen, font1, clock, maze)
+    eventloop(screen, font1, clock, maze, treasure)
 
 
 # execute main
