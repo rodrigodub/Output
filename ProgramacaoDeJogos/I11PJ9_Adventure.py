@@ -11,104 +11,135 @@
 # Usage:
 # > python3 I11PJ9_Adventure.py
 #
-# v2.300
-# 20190211
+# v2.301
+# 20190214
 #################################################
 __author__ = 'Rodrigo Nobrega'
 
 
-# # import
-# import arcade
-#
-#
-# # Global variables
-# SCREEN_WIDTH = 1024
-# SCREEN_HEIGHT = 576
-#
-#
-# class MyGame(arcade.Window):
-#     """
-#     Main application class.
-#
-#     NOTE: Go ahead and delete the methods you don't need.
-#     If you do need a method, delete the 'pass' and replace it
-#     with your own code. Don't leave 'pass' in this program.
-#     """
-#
-#     def __init__(self, width, height):
-#         super().__init__(width, height, title="Treasure Hunt")
-#
-#         arcade.set_background_color(arcade.color.AMAZON)
-#
-#         # If you have sprite lists, you should create them here,
-#         # and set them to None
-#
-#     def setup(self):
-#         # Create your sprites and sprite lists here
-#         pass
-#
-#     def on_draw(self):
-#         """
-#         Render the screen.
-#         """
-#
-#         # This command should happen before we start drawing. It will clear
-#         # the screen to the background color, and erase what we drew last frame.
-#         arcade.start_render()
-#
-#         # Call draw() on all your sprite lists below
-#
-#     def update(self, delta_time):
-#         """
-#         All the logic to move, and the game logic goes here.
-#         Normally, you'll call update() on the sprite lists that
-#         need it.
-#         """
-#         pass
-#
-#     def on_key_press(self, key, key_modifiers):
-#         """
-#         Called whenever a key on the keyboard is pressed.
-#
-#         For a full list of keys, see:
-#         http://arcade.academy/arcade.key.html
-#         """
-#         pass
-#
-#     def on_key_release(self, key, key_modifiers):
-#         """
-#         Called whenever the user lets off a previously pressed key.
-#         """
-#         pass
-#
-#     def on_mouse_motion(self, x, y, delta_x, delta_y):
-#         """
-#         Called whenever the mouse moves.
-#         """
-#         pass
-#
-#     def on_mouse_press(self, x, y, button, key_modifiers):
-#         """
-#         Called when the user presses a mouse button.
-#         """
-#         pass
-#
-#     def on_mouse_release(self, x, y, button, key_modifiers):
-#         """
-#         Called when a user releases a mouse button.
-#         """
-#         pass
+# import
+import os
+import sys
+import pygame
+from pygame.locals import *
+# import numpy as np
+# import random
+# import math
+
+
+# Global variables
+BLACK = (0, 0, 0)
+BACKGROUND = (230, 230, 230)
+PIXELCOLOR = (255, 192, 128)
+BORDER = (255, 128, 128)
+
+
+# load image function
+def load_image(file):
+    path = os.path.join('images/', file)
+    return pygame.image.load(path).convert_alpha()
+
+
+# write text
+def writetext(font, text, colour):
+    # colour: tuple (r, g, b)
+    a = font.render(text, 0, colour)
+    return a
+
+
+# Adventure base classes
+class Location(object):
+    """"Base class for the Map tiles"""
+    def __init__(self, position):
+        self.position = position
+        self.directions = {'north': 0, 'south': 0, 'east': 0, 'west': 0}
+
+    def description(self):
+        raise NotImplementedError
+
+    def modifyplayer(self):
+        raise NotImplementedError
+
+
+class Item(object):
+    """"Base class for the Items"""
+    def __init__(self):
+        pass
+
+
+class Enemy(object):
+    """"Base class for the Enemy"""
+    def __init__(self):
+        pass
+
+
+class Player(object):
+    """"Base class for the Player"""
+    def __init__(self):
+        pass
+
+
+# screen
+class Screen(object):
+    """Starts a screen and displays background"""
+    def __init__(self, image_file=None):
+        # physical parameters
+        self.size = (1024, 576)
+        self.bgcolour = BACKGROUND
+        # the canvas
+        self.display = pygame.display.set_mode(self.size)
+        self.title = pygame.display.set_caption('--ADVENTURE--')
+        # background image and its enclosing rectangle
+        if image_file:
+            self.image = load_image(image_file)
+            self.rect = self.image.get_rect()
+        else:
+            self.image = ''
+            self.rect = Rect(0, 0, 0, 0)
+        # show image
+        self.show()
+
+    def show(self):
+        # fill screen with solid colour
+        self.display.fill(self.bgcolour)
+        # blit background image
+        if self.image != '':
+            self.display.blit(self.image, (0, 0))
+
+
+# event loop
+def eventloop(scr, fnt, clk):
+    # arguments: scr=screen, fnt=font, clk=clock
+    a = 1
+    while a == 1:
+        # quit gracefully
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT or pygame.key.get_pressed()[K_q]:
+                sys.exit()
+        # measure time
+        clk.tick(60)
+        # write text
+        # scr.display.blit(scr.image, (120, 5, 50, 30), (120, 5, 50, 30))
+        scr.display.blit(writetext(fnt, 'OK', BLACK), (10, 10))
+        # refresh display
+        pygame.display.flip()
 
 
 # main routine
 def main():
-    """ Main method """
-    # game = MyGame(SCREEN_WIDTH, SCREEN_HEIGHT)
-    # game.setup()
-    # arcade.run()
-    pass
+    print('\n ::: Adventure :::\n\n       Press [Q] to quit.\n')
+    # start Pygame
+    pygame.init()
+    pygame.mixer.init()
+    font1 = pygame.font.Font('./fonts/Chicago Normal.ttf', 16)
+    clock = pygame.time.Clock()
+    # score = 0
+    # start the display
+    screen = Screen()
+    # start the event loop
+    eventloop(screen, font1, clock)
 
 
 # execute main
-if __name__ == "__main__":
+if __name__ == '__main__':
     main()
