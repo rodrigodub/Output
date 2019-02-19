@@ -11,8 +11,8 @@
 # Usage:
 # > python3 I11PJ9_Adventure.py
 #
-# v2.301
-# 20190214
+# v2.302
+# 20190219
 #################################################
 __author__ = 'Rodrigo Nobrega'
 
@@ -22,7 +22,7 @@ import os
 import sys
 import pygame
 from pygame.locals import *
-# import numpy as np
+import numpy as np
 # import random
 # import math
 
@@ -52,7 +52,7 @@ class Location(object):
     """"Base class for the Map tiles"""
     def __init__(self, position):
         self.position = position
-        self.directions = {'north': 0, 'south': 0, 'east': 0, 'west': 0}
+        # self.directions = {'north': 0, 'south': 0, 'east': 0, 'west': 0}
 
     def description(self):
         raise NotImplementedError
@@ -77,6 +77,30 @@ class Player(object):
     """"Base class for the Player"""
     def __init__(self):
         pass
+
+
+# World setup functions
+def map():
+    a = np.arange(24)+1
+    b = a.reshape(4, 6)
+    return b
+
+
+def setupworld():
+    class Entrance(Location):
+        def __init__(self, loc):
+            super().__init__(loc)
+            # self.directions = {'north': 10, 'south': 22, 'east': 17, 'west': 15}
+
+        def description(self):
+            return 'You are in the entrance hall.'
+
+        def modifyplayer(self):
+            pass
+
+    entrance = Entrance(16)
+    # entrance.description() = 'You are in the entrance hall.'
+    return {entrance.position:entrance}
 
 
 # screen
@@ -140,6 +164,14 @@ def main():
     eventloop(screen, font1, clock)
 
 
+# test routine
+def test():
+    world = setupworld()
+    print(world[16].description())
+
+
 # execute main
 if __name__ == '__main__':
-    main()
+    # main()
+    test()
+
