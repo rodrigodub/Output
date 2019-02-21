@@ -14,7 +14,7 @@
 # 20190221
 #################################################
 __author__ = 'Rodrigo Nobrega'
-__version__ = 'v2.303'
+__version__ = 'v2.304'
 
 
 # import
@@ -152,11 +152,36 @@ def main():
 def test():
     mapa = map()
     world = setupworld()
-    print(mapa)
-    print(world)
+    #
+    print('\nThe Map:\n', mapa, '\n')
+    #
+    print('\nThe World:\n', world, '\n')
+    #
     for k, v in world.items():
         print('{}: {} / {}'.format(k, v.name, v.description))
-    print(world.keys())
+    #
+    myposition = 16
+    available = world.keys()
+    print('\nMy position: ', myposition)
+    print('Available positions: ', available)
+    print('My position exist in the available positions? ', myposition in available)
+    print('My position exist in the map? ', myposition in mapa)
+    mylocationinmap = np.where(mapa == myposition)
+    print('Where is my position located on the map? ', mylocationinmap)
+    southofme = ([mylocationinmap[0] + 1, mylocationinmap[1]])
+    # southofme = mapa[mylocationinmap[0] + 1, mylocationinmap[1]]
+    print('What is in the South? ', southofme)
+    print('What value is in the South? ', mapa[southofme])
+    print('Is the South available? ', mapa[southofme][0] in available)
+    # print(mylocationinmap[0])
+    # print(mylocationinmap[0] + 1)
+    # print(mapa[2, 3])
+    # print(mapa[mylocationinmap[0], mylocationinmap[1]])
+    # print(mapa[mylocationinmap[0], mylocationinmap[1]] + 1)
+    # print(mapa[mylocationinmap[0], mylocationinmap[1] + 1])
+    # print(mapa[mylocationinmap[0] + 1, mylocationinmap[1]])
+    # print(mapa[mylocationinmap[0] + 1, mylocationinmap[1]][0])
+    # print(mapa[mylocationinmap[0] + 1, mylocationinmap[1]][0] in available)
 
 
 # execute main
