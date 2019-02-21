@@ -11,10 +11,10 @@
 # Usage:
 # > python3 I11PJ9_Adventure.py
 #
-# v2.302
-# 20190219
+# 20190221
 #################################################
 __author__ = 'Rodrigo Nobrega'
+__version__ = 'v2.303'
 
 
 # import
@@ -50,15 +50,9 @@ def writetext(font, text, colour):
 # Adventure base classes
 class Location(object):
     """"Base class for the Map tiles"""
-    def __init__(self, position):
-        self.position = position
-        # self.directions = {'north': 0, 'south': 0, 'east': 0, 'west': 0}
-
-    def description(self):
-        raise NotImplementedError
-
-    def modifyplayer(self):
-        raise NotImplementedError
+    def __init__(self, name, description):
+        self.name = name
+        self.description = description
 
 
 class Item(object):
@@ -87,20 +81,10 @@ def map():
 
 
 def setupworld():
-    class Entrance(Location):
-        def __init__(self, loc):
-            super().__init__(loc)
-            # self.directions = {'north': 10, 'south': 22, 'east': 17, 'west': 15}
-
-        def description(self):
-            return 'You are in the entrance hall.'
-
-        def modifyplayer(self):
-            pass
-
-    entrance = Entrance(16)
-    # entrance.description() = 'You are in the entrance hall.'
-    return {entrance.position:entrance}
+    worlddict = {10: Location("Dusty Room", "You are in a dusty room. There are lots of spider webs and the "\
+                                           "furniture is covered by a thick layer of dust.")
+        , 16: Location("Entrance Hall", "You are in the entrance hall. It's a white room with green leaves wallpaper.")}
+    return worlddict
 
 
 # screen
@@ -166,8 +150,13 @@ def main():
 
 # test routine
 def test():
+    mapa = map()
     world = setupworld()
-    print(world[16].description())
+    print(mapa)
+    print(world)
+    for k, v in world.items():
+        print('{}: {} / {}'.format(k, v.name, v.description))
+    print(world.keys())
 
 
 # execute main

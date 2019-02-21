@@ -7,3 +7,4 @@
 .idea/Output.iml
 .idea/modules.xml
 .DS_Store
+*.pyc
