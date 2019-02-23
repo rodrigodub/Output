@@ -11,10 +11,10 @@
 # Usage:
 # > python3 I11PJ9_Adventure.py
 #
-# 20190221
+# 20190223
 #################################################
 __author__ = 'Rodrigo Nobrega'
-__version__ = 'v2.304'
+__version__ = 'v2.305'
 
 
 # import
@@ -29,7 +29,7 @@ import numpy as np
 
 # Global variables
 BLACK = (0, 0, 0)
-BACKGROUND = (230, 230, 230)
+BACKGROUND = (0, 196, 0)
 PIXELCOLOR = (255, 192, 128)
 BORDER = (255, 128, 128)
 
@@ -69,8 +69,9 @@ class Enemy(object):
 
 class Player(object):
     """"Base class for the Player"""
-    def __init__(self):
-        pass
+    def __init__(self, position):
+        self.position = position
+        self.inventory = []
 
 
 # World setup functions
@@ -81,9 +82,10 @@ def map():
 
 
 def setupworld():
-    worlddict = {10: Location("Dusty Room", "You are in a dusty room. There are lots of spider webs and the "\
-                                           "furniture is covered by a thick layer of dust.")
-        , 16: Location("Entrance Hall", "You are in the entrance hall. It's a white room with green leaves wallpaper.")}
+    worlddict = {10: Location("Dusty Room", "You are in a dusty room. There are lots of spider webs and the furniture "
+                                            "is covered by a thick layer of dust.")
+        , 16: Location("Entrance Hall", "You are in the entrance hall. It's a white room with walls covered with an"
+                                        " aged wallpaper with a pattern of green leaves.")}
     return worlddict
 
 
@@ -116,8 +118,8 @@ class Screen(object):
 
 
 # event loop
-def eventloop(scr, fnt, clk):
-    # arguments: scr=screen, fnt=font, clk=clock
+def eventloop(scr, fnt, clk, map, wld, ply):
+    # arguments: scr=screen, fnt=font, clk=clock, map=themap, wld=world, ply=player
     a = 1
     while a == 1:
         # quit gracefully
@@ -126,9 +128,11 @@ def eventloop(scr, fnt, clk):
                 sys.exit()
         # measure time
         clk.tick(60)
+        # iterate the game state
+        txt = wld[ply.position].description
         # write text
         # scr.display.blit(scr.image, (120, 5, 50, 30), (120, 5, 50, 30))
-        scr.display.blit(writetext(fnt, 'OK', BLACK), (10, 10))
+        scr.display.blit(writetext(fnt, '{}'.format(txt), BLACK), (10, 10))
         # refresh display
         pygame.display.flip()
 
@@ -144,16 +148,20 @@ def main():
     # score = 0
     # start the display
     screen = Screen()
+    # creates the map
+    themap = map()
+    world = setupworld()
+    player = Player(16)
     # start the event loop
-    eventloop(screen, font1, clock)
+    eventloop(screen, font1, clock, themap, world, player)
 
 
 # test routine
 def test():
-    mapa = map()
+    themap = map()
     world = setupworld()
     #
-    print('\nThe Map:\n', mapa, '\n')
+    print('\nThe Map:\n', themap, '\n')
     #
     print('\nThe World:\n', world, '\n')
     #
@@ -165,14 +173,14 @@ def test():
     print('\nMy position: ', myposition)
     print('Available positions: ', available)
     print('My position exist in the available positions? ', myposition in available)
-    print('My position exist in the map? ', myposition in mapa)
-    mylocationinmap = np.where(mapa == myposition)
+    print('My position exist in the map? ', myposition in themap)
+    mylocationinmap = np.where(themap == myposition)
     print('Where is my position located on the map? ', mylocationinmap)
     southofme = ([mylocationinmap[0] + 1, mylocationinmap[1]])
-    # southofme = mapa[mylocationinmap[0] + 1, mylocationinmap[1]]
+    # southofme = themap[mylocationinmap[0] + 1, mylocationinmap[1]]
     print('What is in the South? ', southofme)
-    print('What value is in the South? ', mapa[southofme])
-    print('Is the South available? ', mapa[southofme][0] in available)
+    print('What value is in the South? ', themap[tuple(southofme)])
+    print('Is the South available? ', themap[tuple(southofme)][0] in available)
     # print(mylocationinmap[0])
     # print(mylocationinmap[0] + 1)
     # print(mapa[2, 3])
@@ -186,6 +194,6 @@ def test():
 
 # execute main
 if __name__ == '__main__':
-    # main()
-    test()
+    main()
+    # test()
 
