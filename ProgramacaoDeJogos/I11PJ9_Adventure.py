@@ -11,10 +11,10 @@
 # Usage:
 # > python3 I11PJ9_Adventure.py
 #
-# 20190223
+# 20190226
 #################################################
 __author__ = 'Rodrigo Nobrega'
-__version__ = 'v2.305'
+__version__ = 'v2.307'
 
 
 # import
@@ -45,6 +45,18 @@ def writetext(font, text, colour):
     # colour: tuple (r, g, b)
     a = font.render(text, 0, colour)
     return a
+
+
+# create line breaks
+def addlinebreaks(txt, size):
+    result = ''
+    while len(txt) > size:
+        head = txt[0:size]
+        tail = txt[size:]
+        result += head.rsplit(' ', 1)[0] + '\n'
+        txt = head.rsplit(' ', 1)[1] + tail
+    result += txt
+    return result
 
 
 # Adventure base classes
@@ -129,10 +141,10 @@ def eventloop(scr, fnt, clk, map, wld, ply):
         # measure time
         clk.tick(60)
         # iterate the game state
-        txt = wld[ply.position].description
+        txt = addlinebreaks(wld[ply.position].description, 40)
         # write text
         # scr.display.blit(scr.image, (120, 5, 50, 30), (120, 5, 50, 30))
-        scr.display.blit(writetext(fnt, '{}'.format(txt), BLACK), (10, 10))
+        scr.display.blit(writetext(fnt, '{}'.format(txt), BLACK), (50, 50))
         # refresh display
         pygame.display.flip()
 
