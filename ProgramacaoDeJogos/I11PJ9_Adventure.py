@@ -11,10 +11,10 @@
 # Usage:
 # > python3 I11PJ9_Adventure.py
 #
-# 20190226
+# 20190303
 #################################################
 __author__ = 'Rodrigo Nobrega'
-__version__ = 'v2.307'
+__version__ = 'v2.309'
 
 
 # import
@@ -32,6 +32,7 @@ BLACK = (0, 0, 0)
 BACKGROUND = (0, 196, 0)
 PIXELCOLOR = (255, 192, 128)
 BORDER = (255, 128, 128)
+LINESIZE = 60
 
 
 # load image function
@@ -57,6 +58,9 @@ def addlinebreaks(txt, size):
         txt = head.rsplit(' ', 1)[1] + tail
     result += txt
     return result
+
+
+# convert to multi lines
 
 
 # Adventure base classes
@@ -141,10 +145,11 @@ def eventloop(scr, fnt, clk, map, wld, ply):
         # measure time
         clk.tick(60)
         # iterate the game state
-        txt = addlinebreaks(wld[ply.position].description, 40)
+        txt = enumerate(addlinebreaks(wld[ply.position].description, LINESIZE).split('\n'))
         # write text
         # scr.display.blit(scr.image, (120, 5, 50, 30), (120, 5, 50, 30))
-        scr.display.blit(writetext(fnt, '{}'.format(txt), BLACK), (50, 50))
+        for i in txt:
+            scr.display.blit(writetext(fnt, '{}'.format(i[1]), BLACK), (50, (30 * i[0])+50))
         # refresh display
         pygame.display.flip()
 
