@@ -11,10 +11,10 @@
 # Usage:
 # > python3 I11PJ9_Adventure.py
 #
-# 20190303
+# 20190304
 #################################################
 __author__ = 'Rodrigo Nobrega'
-__version__ = 'v2.309'
+__version__ = 'v2.311'
 
 
 # import
@@ -98,7 +98,9 @@ def map():
 
 
 def setupworld():
-    worlddict = {10: Location("Dusty Room", "You are in a dusty room. There are lots of spider webs and the furniture "
+    worlddict = {4: Location("Outside", "You are outside a large building. The ground is full of sand.")
+                 , 7: Location("River", "You are at the margin of a fast flowing river. It doesn't seem easy to cross.")
+        , 10: Location("Dusty Room", "You are in a dusty room. There are lots of spider webs and the furniture "
                                             "is covered by a thick layer of dust.")
         , 16: Location("Entrance Hall", "You are in the entrance hall. It's a white room with walls covered with an"
                                         " aged wallpaper with a pattern of green leaves.")}
