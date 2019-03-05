@@ -11,10 +11,10 @@
 # Usage:
 # > python3 I11PJ9_Adventure.py
 #
-# 20190304
+# 20190305
 #################################################
 __author__ = 'Rodrigo Nobrega'
-__version__ = 'v2.311'
+__version__ = 'v2.312'
 
 
 # import
@@ -98,13 +98,31 @@ def map():
 
 
 def setupworld():
-    worlddict = {4: Location("Outside", "You are outside a large building. The ground is full of sand.")
+    worlddict = {4: Location("Outside", "You are outside a large building. The floor is full of sand.")
                  , 7: Location("River", "You are at the margin of a fast flowing river. It doesn't seem easy to cross.")
-        , 10: Location("Dusty Room", "You are in a dusty room. There are lots of spider webs and the furniture "
-                                            "is covered by a thick layer of dust.")
+                 , 8: Location("Forest", "You are in a petrified forest. It is dark and very humid. You feel cold. "
+                                         "The noise of birds and insects is very loud. You have the impression you're "
+                                         "getting mad.")
+        , 10: Location("Dusty Room", "You are in a dusty room. There are lots of spider webs and the furniture is "
+                                     "covered by a thick layer of dust.")
+                 , 11: Location("Dark Room", "You are in a dark room. There is absolutely no light. It's too dark "
+                                             "and you can't see anything.")
+                 , 14: Location("Path", "You are on a muddy path. Your boots are sticking in the mud and it's hard "
+                                        "to walk.")
+                 , 15: Location("Gate", "You are by the gate to the hidden city. What mysteries lay behind it?")
         , 16: Location("Entrance Hall", "You are in the entrance hall. It's a white room with walls covered with an"
-                                        " aged wallpaper with a pattern of green leaves.")}
+                                        " aged wallpaper with a pattern of green leaves.")
+                 , 17: Location("Courtyard", "You are in the courtyard.")
+                 , 18: Location("Garden", "You are in the garden.")
+                 , 22: Location("Cupboard", "You are in the cupboard.")
+                 , 24: Location("Throne", "You are in the Throne room. The view is spectacular and wealth "
+                                          "shines everywhere.")}
     return worlddict
+
+
+# captures keyboard events
+def keyboardcapture():
+    pass
 
 
 # screen
