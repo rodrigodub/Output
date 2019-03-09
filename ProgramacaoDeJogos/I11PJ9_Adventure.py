@@ -11,10 +11,10 @@
 # Usage:
 # > python3 I11PJ9_Adventure.py
 #
-# 20190305
+# 20190309
 #################################################
 __author__ = 'Rodrigo Nobrega'
-__version__ = 'v2.312'
+__version__ = 'v2.314'
 
 
 # import
@@ -28,11 +28,13 @@ import numpy as np
 
 
 # Global variables
+SCREENSIZE = (1024, 576)
 BLACK = (0, 0, 0)
 BACKGROUND = (0, 196, 0)
 PIXELCOLOR = (255, 192, 128)
 BORDER = (255, 128, 128)
 LINESIZE = 60
+keyboardentry = ''
 
 
 # load image function
@@ -96,7 +98,6 @@ def map():
     b = a.reshape(4, 6)
     return b
 
-
 def setupworld():
     worlddict = {4: Location("Outside", "You are outside a large building. The floor is full of sand.")
                  , 7: Location("River", "You are at the margin of a fast flowing river. It doesn't seem easy to cross.")
@@ -121,8 +122,16 @@ def setupworld():
 
 
 # captures keyboard events
-def keyboardcapture():
-    pass
+def keyboardcapture(entry):
+    string = entry
+    keys = pygame.key.get_pressed()
+    if keys[K_RETURN]:
+        string = ''
+    elif keys[K_BACKSPACE]:
+        string = string[:-1]
+    elif keys[K_a]:
+        string += 'a'
+    return string
 
 
 # screen
@@ -130,7 +139,7 @@ class Screen(object):
     """Starts a screen and displays background"""
     def __init__(self, image_file=None):
         # physical parameters
-        self.size = (1024, 576)
+        self.size = SCREENSIZE
         self.bgcolour = BACKGROUND
         # the canvas
         self.display = pygame.display.set_mode(self.size)
@@ -154,7 +163,7 @@ class Screen(object):
 
 
 # event loop
-def eventloop(scr, fnt, clk, map, wld, ply):
+def eventloop(scr, fnt, clk, map, wld, ply, kbentry):
     # arguments: scr=screen, fnt=font, clk=clock, map=themap, wld=world, ply=player
     a = 1
     while a == 1:
@@ -166,10 +175,14 @@ def eventloop(scr, fnt, clk, map, wld, ply):
         clk.tick(60)
         # iterate the game state
         txt = enumerate(addlinebreaks(wld[ply.position].description, LINESIZE).split('\n'))
-        # write text
+        # keyboard entry
+        kbentry = keyboardcapture(kbentry)
+        # clears screen and write text
         # scr.display.blit(scr.image, (120, 5, 50, 30), (120, 5, 50, 30))
+        pygame.draw.rect(scr.display, BACKGROUND, (0, 0, 1024, 576), 0)
         for i in txt:
             scr.display.blit(writetext(fnt, '{}'.format(i[1]), BLACK), (50, (30 * i[0])+50))
+        scr.display.blit(writetext(fnt, '> abc{}'.format(kbentry), BLACK), (50, 500))
         # refresh display
         pygame.display.flip()
 
@@ -190,7 +203,7 @@ def main():
     world = setupworld()
     player = Player(16)
     # start the event loop
-    eventloop(screen, font1, clock, themap, world, player)
+    eventloop(screen, font1, clock, themap, world, player, keyboardentry)
 
 
 # test routine
