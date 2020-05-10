@@ -12,7 +12,7 @@
 #
 # 20200510
 #################################################
-__version__ = 'v3.001'
+__version__ = 'v3.002'
 
 import random
 import math
@@ -40,7 +40,11 @@ def explode(x, y, speed=300):
 
     # these are new particles, so set their age to zero
     age = 0     
-    
+
+    # RN: add random brighter colours
+    colour = int(random.uniform(128,255)), int(random.uniform(128,255)), int(random.uniform(128,255))
+    fade = fadeincrement(colour)
+        
     # generate 100 particles per explosion
     for _ in range(100):
     
@@ -51,9 +55,10 @@ def explode(x, y, speed=300):
         # convert angle and distance from the explosion point into x and y velocity for the particle
         vx = speed * radius * math.sin(angle)
         vy = speed * radius * math.cos(angle)
-        
+
         # add the particle's position, velocity and age to the array
-        particles.append((x, y, vx, vy, age))
+        # particles.append((x, y, vx, vy, age))
+        particles.append((x, y, vx, vy, age, colour, fade))
 
 
 # This function redraws the screen by plotting each particle in the array
@@ -64,12 +69,14 @@ def draw():
     screen.clear()
     
     # loop through all the particles in the array
-    for x, y, *_ in particles:
+    for x, y, vx, vy, age, colour, fade in particles:
         
         # for each particle in the array, plot its position on the screen
         # screen.surface.set_at((int(x), int(y)), PARTICLE_COLOR)
+        # RN:
         # screen.draw.filled_rect(Rect((int(x-1), int(y-1)), (int(x+1), int(y+1))), PARTICLE_COLOR)
-        screen.draw.filled_circle((int(x), int(y)), 5, PARTICLE_COLOR)
+        # screen.draw.filled_circle((int(x), int(y)), 5, PARTICLE_COLOR)
+        screen.draw.filled_circle((int(x), int(y)), 5, colour)
 
 
 # This function updates the array of particles
@@ -80,7 +87,8 @@ def update(dt):
     new_particles = []
     
     # loop through the existing particle array
-    for (x, y, vx, vy, age) in particles:
+    # for (x, y, vx, vy, age) in particles:
+    for (x, y, vx, vy, age, colour, fade) in particles:
     
         # if a particle was created more than a certain time ago, it can be removed
         if age + dt > MAX_AGE:
@@ -98,8 +106,12 @@ def update(dt):
         # update the particle's age
         age += dt
         
+        # RN: update particle's colour
+        colour = colour[0]-fade[0], colour[1]-fade[1], colour[2]-fade[2]
+
         # add the particle's new position, velocity and age to the new array
-        new_particles.append((x, y, vx, vy, age))
+        # new_particles.append((x, y, vx, vy, age))
+        new_particles.append((x, y, vx, vy, age, colour, fade))
         
     # replace the current array with the new one
     particles[:] = new_particles
@@ -115,6 +127,12 @@ def explode_random():
     
     # call the explosion function for that position
     explode(x, y)
+
+
+# RN this function calculates the value to fade
+# each colour component 
+def fadeincrement(inputcolour):
+    return inputcolour[0]/180, inputcolour[1]/180, inputcolour[2]/180
 
 # call the random explosion function every 1.5 seconds
 clock.schedule_interval(explode_random, 1.5)
