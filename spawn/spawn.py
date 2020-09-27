@@ -3,7 +3,7 @@
 # Conway's Game of Life  in Python Arcade
 #################################################
 __author__ = 'Rodrigo Nobrega'
-__version__ = 0.01
+__version__ = 0.02
 
 
 # Imports
@@ -40,12 +40,9 @@ class Spawn(arcade.Window):
         # and set them to None
         self.board = None
 
-    def setup(self):
+    def setup(self, board):
         # Create your sprites and sprite lists here
-        # 1. define random initial state
-        self.board = np.random.randint(2,
-                                       size=(int(SCREEN_HEIGHT / RESOLUTION),
-                                             int(SCREEN_WIDTH / RESOLUTION)))
+        self.board = board
 
     def on_draw(self):
         """
@@ -57,15 +54,7 @@ class Spawn(arcade.Window):
         arcade.start_render()
 
         # Call draw() on all your sprite lists below
-
-        for i in self.board.shape[0]:
-            for j in self.board.shape[1]:
-                if self.board[i, j] == 1:
-                    arcade.draw_xywh_rectangle_filled(j * RESOLUTION, i * RESOLUTION,
-                                                      RESOLUTION, RESOLUTION, (0, 0, 0))
-                else:
-                    arcade.draw_xywh_rectangle_outline(j * RESOLUTION, i * RESOLUTION,
-                                                      RESOLUTION, RESOLUTION, (0, 0, 0))
+        self.board.drawboard()
 
     def update(self, delta_time):
         """
@@ -114,12 +103,25 @@ class Board(object):
         # define random initial state
         self.grid = np.random.randint(2, size=(int(height/size), int(width/size)))
 
+    def drawboard(self):
+        for i in range(self.grid.shape[0]):
+            for j in range(self.grid.shape[1]):
+                if self.grid[i, j] == 1:
+                    arcade.draw_xywh_rectangle_filled(j * RESOLUTION, i * RESOLUTION,
+                                                      RESOLUTION, RESOLUTION, (0, 0, 0))
+                else:
+                    arcade.draw_xywh_rectangle_outline(j * RESOLUTION, i * RESOLUTION,
+                                                       RESOLUTION, RESOLUTION, (0, 0, 0))
+
 
 # main routine
 def main():
     """ Main method """
+    # from Rodrigo
+    bo = Board(SCREEN_WIDTH, SCREEN_HEIGHT, RESOLUTION)
+    # from template
     game = Spawn(SCREEN_WIDTH, SCREEN_HEIGHT, SCREEN_TITLE)
-    game.setup()
+    game.setup(bo)
     arcade.run()
 
 
