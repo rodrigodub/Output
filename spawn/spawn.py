@@ -3,7 +3,7 @@
 # Conway's Game of Life  in Python Arcade
 #################################################
 __author__ = 'Rodrigo Nobrega'
-__version__ = 0.03
+__version__ = 0.04
 
 
 # Imports
@@ -64,7 +64,8 @@ class Spawn(arcade.Window):
         need it.
         """
         pass
-        # print(f'Timeit: {timeit.}')
+        # self.board.newrandomgrid()
+        # self.board.drawboard()
 
     def on_key_press(self, key, key_modifiers):
         """
@@ -77,6 +78,11 @@ class Spawn(arcade.Window):
         if key == arcade.key.Q:
             # Quit immediately
             arcade.close_window()
+
+        # Random grid
+        if key == arcade.key.R:
+            # Generate
+            self.board.newrandomgrid()
 
     def on_key_release(self, key, key_modifiers):
         """
@@ -103,11 +109,19 @@ class Spawn(arcade.Window):
         pass
 
 
-class Board(object):
+class Habitat(object):
     def __init__(self, width, height, size):
         # define random initial state
         self.grid = None
-        self.newrandomgrid(width, height, size)
+        self.width = width
+        self.height = height
+        self.size = size
+        self.randomise()
+
+    def __repr__(self):
+        return "\n==============================\n Spawn\n==============================\n" \
+               " <Q> to quit\n" \
+               " <R> to randomise board\n"
 
     def drawboard(self):
         for i in range(self.grid.shape[0]):
@@ -115,32 +129,35 @@ class Board(object):
                 if self.grid[i, j] == 1:
                     arcade.draw_xywh_rectangle_filled(j * RESOLUTION, i * RESOLUTION,
                                                       RESOLUTION, RESOLUTION, (0, 0, 0))
-                else:
-                    arcade.draw_xywh_rectangle_outline(j * RESOLUTION, i * RESOLUTION,
-                                                       RESOLUTION, RESOLUTION, (0, 0, 0))
+                # else:
+                #     arcade.draw_xywh_rectangle_outline(j * RESOLUTION, i * RESOLUTION,
+                #                                        RESOLUTION, RESOLUTION, (0, 0, 0))
 
-    def newrandomgrid(self, width, height, size):
-        self.grid = np.random.randint(2, size=(int(height/size), int(width/size)))
+    def randomise(self):
+        self.grid = np.random.randint(2, size=(int(self.height/self.size),
+                                               int(self.width/self.size)))
+
+    # def hardcode(self):
+    #     self.grid = np.zeros((int(self.height/self.size), int(self.width/self.size)))
+    #     self.grid[-1] = 1
 
 
 # main routine
 def main():
     """ Main method """
     # from Rodrigo
-    bo = Board(SCREEN_WIDTH, SCREEN_HEIGHT, RESOLUTION)
+    bo = Habitat(SCREEN_WIDTH, SCREEN_HEIGHT, RESOLUTION)
+    print(bo)
     # from template
     game = Spawn(SCREEN_WIDTH, SCREEN_HEIGHT, SCREEN_TITLE)
     game.setup(bo)
     arcade.run()
-    #
-    arcade.set_window(game)
-    #
 
 
 # execute main
 if __name__ == "__main__":
-    print('\n==============================\n Spawn\n==============================\n')
-    print(' <Q> to quit')
-    print('\n')
+    # print('\n==============================\n Spawn\n==============================\n')
+    # print(' <Q> to quit')
+    # print('\n')
     main()
 
