@@ -3,12 +3,13 @@
 # Conway's Game of Life  in Python Arcade
 #################################################
 __author__ = 'Rodrigo Nobrega'
-__version__ = 0.02
+__version__ = 0.03
 
 
 # Imports
 import arcade
 import numpy as np
+import timeit
 
 
 # Constants
@@ -63,6 +64,7 @@ class Spawn(arcade.Window):
         need it.
         """
         pass
+        # print(f'Timeit: {timeit.}')
 
     def on_key_press(self, key, key_modifiers):
         """
@@ -71,7 +73,10 @@ class Spawn(arcade.Window):
         For a full list of keys, see:
         http://arcade.academy/arcade.key.html
         """
-        pass
+        # Quit
+        if key == arcade.key.Q:
+            # Quit immediately
+            arcade.close_window()
 
     def on_key_release(self, key, key_modifiers):
         """
@@ -101,7 +106,8 @@ class Spawn(arcade.Window):
 class Board(object):
     def __init__(self, width, height, size):
         # define random initial state
-        self.grid = np.random.randint(2, size=(int(height/size), int(width/size)))
+        self.grid = None
+        self.newrandomgrid(width, height, size)
 
     def drawboard(self):
         for i in range(self.grid.shape[0]):
@@ -113,6 +119,9 @@ class Board(object):
                     arcade.draw_xywh_rectangle_outline(j * RESOLUTION, i * RESOLUTION,
                                                        RESOLUTION, RESOLUTION, (0, 0, 0))
 
+    def newrandomgrid(self, width, height, size):
+        self.grid = np.random.randint(2, size=(int(height/size), int(width/size)))
+
 
 # main routine
 def main():
@@ -123,8 +132,15 @@ def main():
     game = Spawn(SCREEN_WIDTH, SCREEN_HEIGHT, SCREEN_TITLE)
     game.setup(bo)
     arcade.run()
+    #
+    arcade.set_window(game)
+    #
 
 
 # execute main
 if __name__ == "__main__":
+    print('\n==============================\n Spawn\n==============================\n')
+    print(' <Q> to quit')
+    print('\n')
     main()
+
