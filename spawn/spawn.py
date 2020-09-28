@@ -3,7 +3,7 @@
 # Conway's Game of Life  in Python Arcade
 #################################################
 __author__ = 'Rodrigo Nobrega'
-__version__ = 0.07
+__version__ = 0.08
 
 
 # Imports
@@ -183,11 +183,13 @@ class Environment(object):
         Run methods to setup a specific environment
         """
         # 1 clean up
-        # self.cleanup()
+        self.cleanup()
         # 2 randomise
         # self.randomise()
         # 3 draw cross
-        self.cross()
+        # self.cross()
+        # 4 populate
+        self.blinker(10, 20)
 
     def neighbours(self, li, co, oldgrid):
         """
@@ -229,6 +231,11 @@ class Environment(object):
                     self.grid[li, co] = 1
                 else:
                     self.grid[li, co] = 0
+
+    def blinker(self, li, co):
+        self.grid[li, co:co+3] = 0
+        self.grid[li+1, co:co + 3] = 1
+        self.grid[li+2, co:co + 3] = 0
 
 
 # main routine
