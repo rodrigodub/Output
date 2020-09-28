@@ -3,7 +3,7 @@
 # Conway's Game of Life  in Python Arcade
 #################################################
 __author__ = 'Rodrigo Nobrega'
-__version__ = 0.04
+__version__ = 0.05
 
 
 # Imports
@@ -18,7 +18,7 @@ SCREEN_HEIGHT = 576
 SCREEN_TITLE = 'Spawn - Game of Life'
 # BGCOLOUR = (220, 220, 220)  # GAINSBORO
 BGCOLOUR = (227, 218, 201)	 # BONE
-RESOLUTION = 10
+RESOLUTION = 20
 
 
 # Classes
@@ -82,7 +82,7 @@ class Spawn(arcade.Window):
         # Random grid
         if key == arcade.key.R:
             # Generate
-            self.board.newrandomgrid()
+            self.board.randomise()
 
     def on_key_release(self, key, key_modifiers):
         """
@@ -116,7 +116,8 @@ class Habitat(object):
         self.width = width
         self.height = height
         self.size = size
-        self.randomise()
+        # self.randomise()
+        self.hardcode()
 
     def __repr__(self):
         return "\n==============================\n Spawn\n==============================\n" \
@@ -124,22 +125,27 @@ class Habitat(object):
                " <R> to randomise board\n"
 
     def drawboard(self):
-        for i in range(self.grid.shape[0]):
-            for j in range(self.grid.shape[1]):
-                if self.grid[i, j] == 1:
-                    arcade.draw_xywh_rectangle_filled(j * RESOLUTION, i * RESOLUTION,
+        for li in range(self.grid.shape[0]):
+            for co in range(self.grid.shape[1]):
+                if self.grid[li, co] == 1:
+                    arcade.draw_xywh_rectangle_filled(co * RESOLUTION,
+                                                      (self.grid.shape[0]-1 - li) * RESOLUTION,
                                                       RESOLUTION, RESOLUTION, (0, 0, 0))
                 # else:
-                #     arcade.draw_xywh_rectangle_outline(j * RESOLUTION, i * RESOLUTION,
+                #     arcade.draw_xywh_rectangle_outline(co * RESOLUTION, li * RESOLUTION,
                 #                                        RESOLUTION, RESOLUTION, (0, 0, 0))
 
     def randomise(self):
         self.grid = np.random.randint(2, size=(int(self.height/self.size),
                                                int(self.width/self.size)))
 
-    # def hardcode(self):
-    #     self.grid = np.zeros((int(self.height/self.size), int(self.width/self.size)))
-    #     self.grid[-1] = 1
+    def hardcode(self):
+        self.grid = np.zeros((int(self.height/self.size), int(self.width/self.size)))
+        self.grid[-1] = 1
+        self.grid[-10] = 1
+        self.grid[0] = 1
+        self.grid[:, 0] = 1
+        self.grid[:, -1] = 1
 
 
 # main routine
