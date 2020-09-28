@@ -3,7 +3,7 @@
 # Conway's Game of Life  in Python Arcade
 #################################################
 __author__ = 'Rodrigo Nobrega'
-__version__ = 0.06
+__version__ = 0.07
 
 
 # Imports
@@ -41,9 +41,9 @@ class Spawn(arcade.Window):
         # and set them to None
         self.board = None
 
-    def setup(self, habitat):
+    def setup(self, environment):
         # Create your sprites and sprite lists here
-        self.board = habitat
+        self.board = environment
 
     def on_draw(self):
         """
@@ -63,9 +63,10 @@ class Spawn(arcade.Window):
         Normally, you'll call update() on the sprite lists that
         need it.
         """
-        pass
+        # pass
         # self.board.randomise()
         # self.board.drawboard()
+        self.board.nextgeneration()
 
     def on_key_press(self, key, key_modifiers):
         """
@@ -89,10 +90,10 @@ class Spawn(arcade.Window):
             # Generate
             self.board.randomise()
 
-        # Reset the Habitat
+        # Reset the Environment
         if key == arcade.key.H:
             # Generate
-            self.board.setuphabitat()
+            self.board.setupenvironment()
 
     def on_key_release(self, key, key_modifiers):
         """
@@ -119,9 +120,9 @@ class Spawn(arcade.Window):
         pass
 
 
-class Habitat(object):
+class Environment(object):
     """
-    Habitat defines the place where the life lives, and its rules
+    Environment defines the place where the life lives, and its rules
     """
     def __init__(self, width, height, size):
         # define initial state
@@ -129,46 +130,46 @@ class Habitat(object):
         self.columns = int(width / size)
         self.lines = int(height / size)
         self.size = size
-        # setup habitat
+        # setup environment
         self.cleanup()
-        self.setuphabitat()
+        self.setupenvironment()
 
     def __repr__(self):
         return "\n==============================\n Spawn" \
                "\n==============================\n" \
                " < Q > : Quit\n" \
-               " < C > : Clean up habitat\n" \
+               " < C > : Clean up environment\n" \
                " < R > : Randomise board\n" \
-               " < H > : recreate the Habitat\n"
+               " < H > : recreate the Environment\n"
 
     def drawboard(self):
         """
-        Method to draw the contents of the habitat
+        Method to draw the contents of the environment
         """
         # iterate the array and draws a rectangle for each living cell
-        for li in range(self.grid.shape[0]):
-            for co in range(self.grid.shape[1]):
+        for li in range(self.lines):
+            for co in range(self.columns):
                 if self.grid[li, co] == 1:
                     arcade.draw_xywh_rectangle_filled(co * self.size,
-                                                      (self.grid.shape[0]-1 - li) * self.size,
+                                                      (self.lines-1 - li) * self.size,
                                                       self.size, self.size, (0, 0, 0))
 
     def cleanup(self):
         """
-        Clears up the habitat
+        Clears up the environment
         """
         self.grid = np.zeros((self.lines, self.columns))
 
     def randomise(self):
         """
-        Recreates the habitat with random contents
+        Recreates the environment with random contents
         """
         self.grid = np.random.randint(2, size=(self.lines,
                                                self.columns))
 
-    def crosshabitat(self):
+    def cross(self):
         """
-        Creates a specific habitat with borders and cross
+        Creates a specific environment with borders and cross
         """
         self.grid[0] = 1
         self.grid[-1] = 1
@@ -177,23 +178,64 @@ class Habitat(object):
         self.grid[int(self.lines / 2)] = 1
         self.grid[:, int(self.columns / 2)] = 1
 
-    def setuphabitat(self):
+    def setupenvironment(self):
         """
-        Run methods to setup a specific habitat
+        Run methods to setup a specific environment
         """
         # 1 clean up
         # self.cleanup()
         # 2 randomise
         # self.randomise()
         # 3 draw cross
-        self.crosshabitat()
+        self.cross()
+
+    def neighbours(self, li, co, oldgrid):
+        """
+        Calculates the sum of a cell neighbours,
+        based on a previous copy of the grid
+        """
+        # Calculate the borders pre- and post- indexes
+        if li == 0:
+            preli = self.lines - 1
+        else:
+            preli = li - 1
+        if li == self.lines - 1:
+            posli = 0
+        else:
+            posli = li + 1
+        if co == 0:
+            preco = self.columns - 1
+        else:
+            preco = co - 1
+        if co == self.columns - 1:
+            posco = 0
+        else:
+            posco = co + 1
+        neighbourstot = oldgrid[preli, preco] + oldgrid[preli, co] + oldgrid[preli, posco] + \
+                        oldgrid[li, preco] + oldgrid[li, posco] + \
+                        oldgrid[posli, preco] + oldgrid[posli, co] + oldgrid[posli, posco]
+        return neighbourstot
+
+    def nextgeneration(self):
+        """
+        Apply the Game of Life rules, and set the next generation
+        """
+        # duplicate the grid
+        oldgrid = self.grid.copy()
+        # iterate lines and columns
+        for li in range(self.lines):
+            for co in range(self.columns):
+                if self.neighbours(li, co, oldgrid) == 2 or self.neighbours(li, co, oldgrid) == 3:
+                    self.grid[li, co] = 1
+                else:
+                    self.grid[li, co] = 0
 
 
 # main routine
 def main():
     """ Main method """
     # from Rodrigo
-    bo = Habitat(SCREEN_WIDTH, SCREEN_HEIGHT, RESOLUTION)
+    bo = Environment(SCREEN_WIDTH, SCREEN_HEIGHT, RESOLUTION)
     print(bo)
     # from template
     game = Spawn(SCREEN_WIDTH, SCREEN_HEIGHT, SCREEN_TITLE)
