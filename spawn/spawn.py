@@ -3,7 +3,7 @@
 # Conway's Game of Life  in Python Arcade
 #################################################
 __author__ = 'Rodrigo Nobrega'
-__version__ = 0.08
+__version__ = 0.09
 
 
 # Imports
@@ -17,7 +17,9 @@ SCREEN_WIDTH = 1024
 SCREEN_HEIGHT = 576
 SCREEN_TITLE = 'Spawn - Game of Life'
 # BGCOLOUR = (220, 220, 220)  # GAINSBORO
-BGCOLOUR = (227, 218, 201)	 # BONE
+# BGCOLOUR = (227, 218, 201)	 # BONE
+BGCOLOUR = (27, 153, 139)	 # Persian Green
+LIFECOLOUR = (74, 0, 31)  # Tyrian Purple
 RESOLUTION = 10
 
 
@@ -152,13 +154,13 @@ class Environment(object):
                 if self.grid[li, co] == 1:
                     arcade.draw_xywh_rectangle_filled(co * self.size,
                                                       (self.lines-1 - li) * self.size,
-                                                      self.size, self.size, (0, 0, 0))
+                                                      self.size, self.size, LIFECOLOUR)
 
     def cleanup(self):
         """
         Clears up the environment
         """
-        self.grid = np.zeros((self.lines, self.columns))
+        self.grid = np.zeros((self.lines, self.columns), dtype=int)
 
     def randomise(self):
         """
@@ -190,6 +192,7 @@ class Environment(object):
         # self.cross()
         # 4 populate
         self.blinker(10, 20)
+        self.blinker(30, 70)
 
     def neighbours(self, li, co, oldgrid):
         """
@@ -227,7 +230,16 @@ class Environment(object):
         # iterate lines and columns
         for li in range(self.lines):
             for co in range(self.columns):
-                if self.neighbours(li, co, oldgrid) == 2 or self.neighbours(li, co, oldgrid) == 3:
+                # Any live cell with fewer than two live neighbours dies, as if by underpopulation.
+                # Any live cell with two or three live neighbours lives on to the next generation.
+                # Any live cell with more than three live neighbours dies, as if by overpopulation.
+                # Any dead cell with exactly three live neighbours becomes a live cell, as if by reproduction.
+                if self.grid[li, co] == 1 and (
+                        self.neighbours(li, co, oldgrid) == 2 or
+                        self.neighbours(li, co, oldgrid) == 3):
+                    self.grid[li, co] = 1
+                elif self.grid[li, co] == 0 and \
+                        self.neighbours(li, co, oldgrid) == 3:
                     self.grid[li, co] = 1
                 else:
                     self.grid[li, co] = 0
