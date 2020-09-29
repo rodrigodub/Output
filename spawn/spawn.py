@@ -3,7 +3,7 @@
 # Conway's Game of Life  in Python Arcade
 #################################################
 __author__ = 'Rodrigo Nobrega'
-__version__ = 0.09
+__version__ = 0.10
 
 
 # Imports
@@ -132,6 +132,8 @@ class Environment(object):
         self.columns = int(width / size)
         self.lines = int(height / size)
         self.size = size
+        # link the zoo
+        self.zoo = Zoo().fauna
         # setup environment
         self.cleanup()
         self.setupenvironment()
@@ -191,8 +193,11 @@ class Environment(object):
         # 3 draw cross
         # self.cross()
         # 4 populate
-        self.blinker(10, 20)
-        self.blinker(30, 70)
+        # self.blinker(10, 20)
+        # self.blinker(30, 70)
+        self.insert(self.zoo['blinker'], 10, 30)
+        self.insert(self.zoo['blinker'], 40, 80)
+        self.insert(self.zoo['block'], 20, 40)
 
     def neighbours(self, li, co, oldgrid):
         """
@@ -244,11 +249,22 @@ class Environment(object):
                 else:
                     self.grid[li, co] = 0
 
-    def blinker(self, li, co):
-        self.grid[li, co:co+3] = 0
-        self.grid[li+1, co:co + 3] = 1
-        self.grid[li+2, co:co + 3] = 0
+    def insert(self, life, positionline, positioncolumn):
+        """Insert a life at a given position"""
+        li0 = positionline
+        li1 = positionline+life.shape[0]
+        co0 = positioncolumn
+        co1 = positioncolumn+life.shape[1]
+        self.grid[li0:li1, co0:co1] = life
 
+
+class Zoo(object):
+    def __init__(self):
+        self.fauna = {'blinker': np.array([[0, 0, 0],
+                                           [1, 1, 1],
+                                           [0, 0, 0]], dtype=int),
+                      'block': np.array([[1, 1],
+                                         [1, 1]], dtype=int)}
 
 # main routine
 def main():
