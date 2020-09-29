@@ -3,7 +3,7 @@
 # Conway's Game of Life  in Python Arcade
 #################################################
 __author__ = 'Rodrigo Nobrega'
-__version__ = 0.10
+__version__ = 0.11
 
 
 # Imports
@@ -151,12 +151,16 @@ class Environment(object):
         Method to draw the contents of the environment
         """
         # iterate the array and draws a rectangle for each living cell
+        cells = []
         for li in range(self.lines):
             for co in range(self.columns):
                 if self.grid[li, co] == 1:
-                    arcade.draw_xywh_rectangle_filled(co * self.size,
-                                                      (self.lines-1 - li) * self.size,
-                                                      self.size, self.size, LIFECOLOUR)
+                    # arcade.draw_xywh_rectangle_filled(co * self.size,
+                    #                                   (self.lines-1 - li) * self.size,
+                    #                                   self.size, self.size, LIFECOLOUR)
+                    cells.append(((co * self.size) + int(self.size / 2),
+                                  ((self.lines-1 - li) * self.size) + int(self.size / 2)))
+        arcade.draw_points(tuple(cells), LIFECOLOUR, self.size)
 
     def cleanup(self):
         """
@@ -199,6 +203,7 @@ class Environment(object):
         self.insert(self.zoo['blinker'], 40, 80)
         self.insert(self.zoo['block'], 20, 40)
 
+    # TODO: refactor the function to calculate the neighbours value
     def neighbours(self, li, co, oldgrid):
         """
         Calculates the sum of a cell neighbours,
