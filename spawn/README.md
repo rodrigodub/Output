@@ -4,10 +4,10 @@ My own implementation of **Conway's Game of Life**
 
 ##### Author: Rodrigo Nobrega
 ##### Created on: 2020.09.27
-##### Last modified: 2020.09.27
+##### Last modified: 2020.10.01
 
-### Version 0.13
-###### Output v.3.018
+### Version 0.14
+###### Output v.3.019
 
 ---
 

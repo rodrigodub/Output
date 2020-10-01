@@ -3,7 +3,7 @@
 # Conway's Game of Life  in Python Arcade
 #################################################
 __author__ = 'Rodrigo Nobrega'
-__version__ = 0.13
+__version__ = 0.14
 
 
 # Imports
@@ -15,7 +15,7 @@ import numpy as np
 # Constants
 SCREEN_WIDTH = 1024
 SCREEN_HEIGHT = 576
-RESOLUTION = 10
+RESOLUTION = 20
 # SCREEN_WIDTH = 102
 # SCREEN_HEIGHT = 57
 # RESOLUTION = 10
@@ -45,10 +45,12 @@ class Spawn(arcade.Window):
         # If you have sprite lists, you should create them here,
         # and set them to None
         self.board = None
+        self.keycount = None
 
     def setup(self, environment):
         # Create your sprites and sprite lists here
         self.board = environment
+        self.keycount = 0
 
     def on_draw(self):
         """
@@ -71,7 +73,8 @@ class Spawn(arcade.Window):
         # pass
         # self.board.randomise()
         # self.board.drawboard()
-        self.board.nextgeneration()
+        if self.keycount % 2 == 0:
+            self.board.nextgeneration()
 
     def on_key_press(self, key, key_modifiers):
         """
@@ -87,7 +90,7 @@ class Spawn(arcade.Window):
 
         # Clean up
         if key == arcade.key.C:
-            # Quit immediately
+            # Clean
             self.board.cleanup()
 
         # Random grid
@@ -104,6 +107,11 @@ class Spawn(arcade.Window):
         if key == arcade.key.N:
             # Next
             self.board.nextgeneration()
+
+        # Toggle auto generation
+        if key == arcade.key.A:
+            # Toggle automatic/manual
+            self.keycount += 1
 
     def on_key_release(self, key, key_modifiers):
         """
@@ -153,7 +161,8 @@ class Environment(object):
                " < C > : Clean up environment\n" \
                " < R > : Randomise board\n" \
                " < H > : recreate the Environment\n" \
-               " < N > : Next generation\n"
+               " < N > : Next generation\n" \
+               " < A > : Toggle Automatic/Manual generation\n"
 
     def drawboard(self):
         """
@@ -281,11 +290,28 @@ class Environment(object):
                     self.grid[li, co] = 0
 
     def insert(self, life, positionline, positioncolumn):
-        """Insert a life at a given position"""
-        li0 = positionline
-        li1 = positionline+life.shape[0]
-        co0 = positioncolumn
-        co1 = positioncolumn+life.shape[1]
+        """Insert a life at a given position, expressed in percentage of the screen size"""
+        # li0 = positionline
+        # li1 = positionline + life.shape[0]
+        # co0 = positioncolumn
+        # co1 = positioncolumn + life.shape[1]
+        # self.grid[li0:li1, co0:co1] = life
+        # test if position is in the range of 0-100%
+        bottom = positionline + life.shape[0]
+        if bottom > 100:
+            positionline = bottom - (bottom // 100) * 100
+        placeline = int(SCREEN_HEIGHT / RESOLUTION * positionline / 100)
+        #
+        left = positioncolumn + life.shape[1]
+        if left > 100:
+            positioncolumn = left - (left // 100) * 100
+        placecol = int(SCREEN_WIDTH / RESOLUTION * positioncolumn / 100)
+        # calculate life boundaries
+        li0 = placeline
+        li1 = li0+life.shape[0]
+        co0 = placecol
+        co1 = co0+life.shape[1]
+        # place life in grid
         self.grid[li0:li1, co0:co1] = life
 
 
