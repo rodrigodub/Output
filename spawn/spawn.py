@@ -3,7 +3,7 @@
 # Conway's Game of Life  in Python Arcade
 #################################################
 __author__ = 'Rodrigo Nobrega'
-__version__ = 0.12
+__version__ = 0.13
 
 
 # Imports
@@ -68,10 +68,10 @@ class Spawn(arcade.Window):
         Normally, you'll call update() on the sprite lists that
         need it.
         """
-        pass
+        # pass
         # self.board.randomise()
         # self.board.drawboard()
-        # self.board.nextgeneration()
+        self.board.nextgeneration()
 
     def on_key_press(self, key, key_modifiers):
         """
@@ -205,59 +205,77 @@ class Environment(object):
         # 2 randomise
         # self.randomise()
         # 3 draw cross
-        self.cross()
+        # self.cross()
         # 4 populate
-        # self.insert(self.zoo['blinker'], 10, 30)
-        # self.insert(self.zoo['blinker'], 40, 80)
-        # self.insert(self.zoo['block'], 20, 40)
+        self.insert(self.zoo['blinker'], 10, 30)
+        self.insert(self.zoo['blinker'], 40, 80)
+        self.insert(self.zoo['block'], 20, 40)
 
     # TODO: refactor the function to calculate the neighbours value
-    def neighbours(self, li, co, oldgrid):
-        """
-        Calculates the sum of a cell neighbours,
-        based on a previous copy of the grid
-        """
-        # Calculate the borders pre- and post- indexes
-        if li == 0:
-            preli = self.lines - 1
-        else:
-            preli = li - 1
-        if li == self.lines - 1:
-            posli = 0
-        else:
-            posli = li + 1
-        if co == 0:
-            preco = self.columns - 1
-        else:
-            preco = co - 1
-        if co == self.columns - 1:
-            posco = 0
-        else:
-            posco = co + 1
-        neighbourstot = oldgrid[preli, preco] + oldgrid[preli, co] + oldgrid[preli, posco] + \
-                        oldgrid[li, preco] + oldgrid[li, posco] + \
-                        oldgrid[posli, preco] + oldgrid[posli, co] + oldgrid[posli, posco]
-        return neighbourstot
+    # def neighbours(self, li, co, oldgrid):
+    #     """
+    #     Calculates the sum of a cell neighbours,
+    #     based on a previous copy of the grid
+    #     """
+    #     # Calculate the borders pre- and post- indexes
+    #     if li == 0:
+    #         preli = self.lines - 1
+    #     else:
+    #         preli = li - 1
+    #     if li == self.lines - 1:
+    #         posli = 0
+    #     else:
+    #         posli = li + 1
+    #     if co == 0:
+    #         preco = self.columns - 1
+    #     else:
+    #         preco = co - 1
+    #     if co == self.columns - 1:
+    #         posco = 0
+    #     else:
+    #         posco = co + 1
+    #     neighbourstot = oldgrid[preli, preco] + oldgrid[preli, co] + oldgrid[preli, posco] + \
+    #                     oldgrid[li, preco] + oldgrid[li, posco] + \
+    #                     oldgrid[posli, preco] + oldgrid[posli, co] + oldgrid[posli, posco]
+    #     return neighbourstot
 
     def nextgeneration(self):
         """
         Apply the Game of Life rules, and set the next generation
         """
-        # duplicate the grid
+        # 1. Duplicate the grid and add the borders
+        # 1.1. duplicate
         oldgrid = self.grid.copy()
-        # iterate lines and columns
+        # 1.2. insert the last line to the beginning, and append the first to the end
+        oldgrid = np.vstack([self.grid[-1], oldgrid])
+        oldgrid = np.vstack([oldgrid, self.grid[0]])
+        # 1.3. insert the last column to the beginning, and append the first column to the end
+        oldgrid = np.column_stack([oldgrid[:, -1], oldgrid])
+        oldgrid = np.column_stack([oldgrid, oldgrid[:, 1]])
+        # 2. Calculate the neighbours grid
+        neighbours = np.zeros(self.grid.shape, dtype=int)
+        for li in range(self.grid.shape[0]):
+            for co in range(self.grid.shape[1]):
+                neighbours[li, co] = 0
+                neighbours[li, co] += oldgrid[li, co]
+                neighbours[li, co] += oldgrid[li, co + 1]
+                neighbours[li, co] += oldgrid[li, co + 2]
+                neighbours[li, co] += oldgrid[li + 1, co]
+                neighbours[li, co] += oldgrid[li + 1, co + 2]
+                neighbours[li, co] += oldgrid[li + 2, co]
+                neighbours[li, co] += oldgrid[li + 2, co + 1]
+                neighbours[li, co] += oldgrid[li + 2, co + 2]
+        # 3. Iterate lines and columns, compare with neighbours, and apply rules
         for li in range(self.lines):
             for co in range(self.columns):
                 # Any live cell with fewer than two live neighbours dies, as if by underpopulation.
                 # Any live cell with two or three live neighbours lives on to the next generation.
                 # Any live cell with more than three live neighbours dies, as if by overpopulation.
                 # Any dead cell with exactly three live neighbours becomes a live cell, as if by reproduction.
-                if self.grid[li, co] == 1 and (
-                        self.neighbours(li, co, oldgrid) == 2 or
-                        self.neighbours(li, co, oldgrid) == 3):
+                if self.grid[li, co] == 1 and (neighbours[li, co] == 2 or
+                                               neighbours[li, co] == 3):
                     self.grid[li, co] = 1
-                elif self.grid[li, co] == 0 and \
-                        self.neighbours(li, co, oldgrid) == 3:
+                elif self.grid[li, co] == 0 and neighbours[li, co] == 3:
                     self.grid[li, co] = 1
                 else:
                     self.grid[li, co] = 0
