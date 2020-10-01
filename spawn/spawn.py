@@ -3,7 +3,7 @@
 # Conway's Game of Life  in Python Arcade
 #################################################
 __author__ = 'Rodrigo Nobrega'
-__version__ = 0.14
+__version__ = 0.15
 
 
 # Imports
@@ -15,11 +15,9 @@ import numpy as np
 # Constants
 SCREEN_WIDTH = 1024
 SCREEN_HEIGHT = 576
-RESOLUTION = 20
-# SCREEN_WIDTH = 102
-# SCREEN_HEIGHT = 57
-# RESOLUTION = 10
+RESOLUTION = 8
 SCREEN_TITLE = 'Spawn - Game of Life'
+LIFEFILE = 'life1.csv'
 # BGCOLOUR = (220, 220, 220)  # GAINSBORO
 # BGCOLOUR = (227, 218, 201)	 # BONE
 BGCOLOUR = (27, 153, 139)	 # Persian Green
@@ -151,6 +149,7 @@ class Environment(object):
         # link the zoo
         self.zoo = Zoo().fauna
         # setup environment
+        self.lifelist = self.readenvironment(LIFEFILE)
         self.cleanup()
         self.setupenvironment()
 
@@ -205,6 +204,15 @@ class Environment(object):
         self.grid[int(self.lines / 2)] = 1
         self.grid[:, int(self.columns / 2)] = 1
 
+    def readenvironment(self, environmentfile):
+        lifelist = []
+        with open(environmentfile, 'r') as l:
+            a = l.readlines()[1:]
+        for line in a:
+            elements = line.split(',')
+            lifelist.append([elements[0], int(elements[1]), int(elements[2])])
+        return lifelist
+
     def setupenvironment(self):
         """
         Run methods to setup a specific environment
@@ -216,37 +224,11 @@ class Environment(object):
         # 3 draw cross
         # self.cross()
         # 4 populate
-        self.insert(self.zoo['blinker'], 10, 30)
-        self.insert(self.zoo['blinker'], 40, 80)
-        self.insert(self.zoo['block'], 20, 40)
-
-    # TODO: refactor the function to calculate the neighbours value
-    # def neighbours(self, li, co, oldgrid):
-    #     """
-    #     Calculates the sum of a cell neighbours,
-    #     based on a previous copy of the grid
-    #     """
-    #     # Calculate the borders pre- and post- indexes
-    #     if li == 0:
-    #         preli = self.lines - 1
-    #     else:
-    #         preli = li - 1
-    #     if li == self.lines - 1:
-    #         posli = 0
-    #     else:
-    #         posli = li + 1
-    #     if co == 0:
-    #         preco = self.columns - 1
-    #     else:
-    #         preco = co - 1
-    #     if co == self.columns - 1:
-    #         posco = 0
-    #     else:
-    #         posco = co + 1
-    #     neighbourstot = oldgrid[preli, preco] + oldgrid[preli, co] + oldgrid[preli, posco] + \
-    #                     oldgrid[li, preco] + oldgrid[li, posco] + \
-    #                     oldgrid[posli, preco] + oldgrid[posli, co] + oldgrid[posli, posco]
-    #     return neighbourstot
+        for i in self.lifelist:
+            self.insert(self.zoo[i[0]], i[1], i[2])
+        # self.insert(self.zoo['blinker'], 10, 30)
+        # self.insert(self.zoo['blinker'], 40, 80)
+        # self.insert(self.zoo['block'], 20, 40)
 
     def nextgeneration(self):
         """
@@ -321,7 +303,11 @@ class Zoo(object):
                                            [1, 1, 1],
                                            [0, 0, 0]], dtype=int),
                       'block': np.array([[1, 1],
-                                         [1, 1]], dtype=int)}
+                                         [1, 1]], dtype=int),
+                      'glider': np.array([[0, 1, 0],
+                                          [0, 0, 1],
+                                          [1, 1, 1]], dtype=int)
+                      }
 
 
 # main routine

@@ -6,8 +6,8 @@ My own implementation of **Conway's Game of Life**
 ##### Created on: 2020.09.27
 ##### Last modified: 2020.10.01
 
-### Version 0.14
-###### Output v.3.019
+### Version 0.15
+###### Output v.3.020
 
 ---
 
