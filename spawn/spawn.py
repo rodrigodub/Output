@@ -3,7 +3,7 @@
 # Conway's Game of Life  in Python Arcade
 #################################################
 __author__ = 'Rodrigo Nobrega'
-__version__ = 0.11
+__version__ = 0.12
 
 
 # Imports
@@ -15,12 +15,15 @@ import numpy as np
 # Constants
 SCREEN_WIDTH = 1024
 SCREEN_HEIGHT = 576
+RESOLUTION = 10
+# SCREEN_WIDTH = 102
+# SCREEN_HEIGHT = 57
+# RESOLUTION = 10
 SCREEN_TITLE = 'Spawn - Game of Life'
 # BGCOLOUR = (220, 220, 220)  # GAINSBORO
 # BGCOLOUR = (227, 218, 201)	 # BONE
 BGCOLOUR = (27, 153, 139)	 # Persian Green
 LIFECOLOUR = (74, 0, 31)  # Tyrian Purple
-RESOLUTION = 10
 
 
 # Classes
@@ -65,10 +68,10 @@ class Spawn(arcade.Window):
         Normally, you'll call update() on the sprite lists that
         need it.
         """
-        # pass
+        pass
         # self.board.randomise()
         # self.board.drawboard()
-        self.board.nextgeneration()
+        # self.board.nextgeneration()
 
     def on_key_press(self, key, key_modifiers):
         """
@@ -96,6 +99,11 @@ class Spawn(arcade.Window):
         if key == arcade.key.H:
             # Generate
             self.board.setupenvironment()
+
+        # Next generation, manual
+        if key == arcade.key.N:
+            # Next
+            self.board.nextgeneration()
 
     def on_key_release(self, key, key_modifiers):
         """
@@ -139,12 +147,13 @@ class Environment(object):
         self.setupenvironment()
 
     def __repr__(self):
-        return "\n==============================\n Spawn" \
+        return "\n==============================\n   Spawn   (version {})" \
                "\n==============================\n" \
                " < Q > : Quit\n" \
                " < C > : Clean up environment\n" \
                " < R > : Randomise board\n" \
-               " < H > : recreate the Environment\n"
+               " < H > : recreate the Environment\n" \
+               " < N > : Next generation\n"
 
     def drawboard(self):
         """
@@ -160,7 +169,8 @@ class Environment(object):
                     #                                   self.size, self.size, LIFECOLOUR)
                     cells.append(((co * self.size) + int(self.size / 2),
                                   ((self.lines-1 - li) * self.size) + int(self.size / 2)))
-        arcade.draw_points(tuple(cells), LIFECOLOUR, self.size)
+        if len(cells) > 0:
+            arcade.draw_points(tuple(cells), LIFECOLOUR, self.size)
 
     def cleanup(self):
         """
@@ -195,13 +205,11 @@ class Environment(object):
         # 2 randomise
         # self.randomise()
         # 3 draw cross
-        # self.cross()
+        self.cross()
         # 4 populate
-        # self.blinker(10, 20)
-        # self.blinker(30, 70)
-        self.insert(self.zoo['blinker'], 10, 30)
-        self.insert(self.zoo['blinker'], 40, 80)
-        self.insert(self.zoo['block'], 20, 40)
+        # self.insert(self.zoo['blinker'], 10, 30)
+        # self.insert(self.zoo['blinker'], 40, 80)
+        # self.insert(self.zoo['block'], 20, 40)
 
     # TODO: refactor the function to calculate the neighbours value
     def neighbours(self, li, co, oldgrid):
@@ -271,12 +279,13 @@ class Zoo(object):
                       'block': np.array([[1, 1],
                                          [1, 1]], dtype=int)}
 
+
 # main routine
 def main():
     """ Main method """
     # from Rodrigo
     bo = Environment(SCREEN_WIDTH, SCREEN_HEIGHT, RESOLUTION)
-    print(bo)
+    print(bo.__repr__().format(__version__))
     # from template
     game = Spawn(SCREEN_WIDTH, SCREEN_HEIGHT, SCREEN_TITLE)
     game.setup(bo)
@@ -285,8 +294,5 @@ def main():
 
 # execute main
 if __name__ == "__main__":
-    # print('\n==============================\n Spawn\n==============================\n')
-    # print(' <Q> to quit')
-    # print('\n')
     main()
 
