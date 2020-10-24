@@ -6,8 +6,8 @@ My own implementation of **Conway's Game of Life**
 ##### Created on: 2020.09.27
 ##### Last modified: 2020.10.01
 
-### Version 0.15
-###### Output v.3.020
+### Version 0.16
+###### Output v.3.021
 
 ---
 
@@ -16,7 +16,8 @@ My own implementation of **Conway's Game of Life**
 - Implemented with [Python Arcade](https://arcade.academy/) library
 - Python Arcade [documentation on RealPython](https://realpython.com/arcade-python-game-framework/)
 - [Conway's Game of Life](https://en.wikipedia.org/wiki/Conway%27s_Game_of_Life) Wikipedia article
-- Game of Life [implemented in Javascript by Coding Train](https://www.youtube.com/watch?v=FWSR_7kZuYg&t=1586s), and in [Python/Pygame by DevDungeon](https://www.youtube.com/watch?v=VNAU7HH4QRw)
+- [LifeWiki](https://www.conwaylife.com/wiki/Main_Page), the wiki for Conway's Game of Life.
+- Videos of Game of Life [implemented in Javascript by Coding Train](https://www.youtube.com/watch?v=FWSR_7kZuYg&t=1586s), and in [Python/Pygame by DevDungeon](https://www.youtube.com/watch?v=VNAU7HH4QRw)
 - [Epic video](https://www.youtube.com/watch?v=C2vgICfQawE)
 
 ---

@@ -1,6 +1,6 @@
-life, linepct, columnpct
-blinker, 10, 30
-blinker, 40, 80
-block, 20, 40
-block, 90, 10
-glider, 50, 50
+life, linepct, columnpct, rotate90
+blinker, 10, 30, 0
+blinker, 40, 80, 0
+block, 20, 40, 0
+block, 90, 10, 0
+glider, 50, 50, 4

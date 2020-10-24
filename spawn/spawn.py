@@ -3,7 +3,7 @@
 # Conway's Game of Life  in Python Arcade
 #################################################
 __author__ = 'Rodrigo Nobrega'
-__version__ = 0.15
+__version__ = 0.16
 
 
 # Imports
@@ -15,13 +15,16 @@ import numpy as np
 # Constants
 SCREEN_WIDTH = 1024
 SCREEN_HEIGHT = 576
-RESOLUTION = 8
+RESOLUTION = 12
 SCREEN_TITLE = 'Spawn - Game of Life'
 LIFEFILE = 'life1.csv'
+# LIFEFILE = 'oscillators.csv'
 # BGCOLOUR = (220, 220, 220)  # GAINSBORO
 # BGCOLOUR = (227, 218, 201)	 # BONE
-BGCOLOUR = (27, 153, 139)	 # Persian Green
-LIFECOLOUR = (74, 0, 31)  # Tyrian Purple
+# BGCOLOUR = (27, 153, 139)	 # Persian Green
+# LIFECOLOUR = (74, 0, 31)  # Tyrian Purple
+BGCOLOUR = (np.random.randint(128, 255), np.random.randint(128, 255), np.random.randint(128, 255))	 # Random light
+LIFECOLOUR = (np.random.randint(0, 128), np.random.randint(0, 128), np.random.randint(0, 128))  # Random dark
 
 
 # Classes
@@ -97,7 +100,7 @@ class Spawn(arcade.Window):
             self.board.randomise()
 
         # Reset the Environment
-        if key == arcade.key.H:
+        if key == arcade.key.E:
             # Generate
             self.board.setupenvironment()
 
@@ -159,7 +162,7 @@ class Environment(object):
                " < Q > : Quit\n" \
                " < C > : Clean up environment\n" \
                " < R > : Randomise board\n" \
-               " < H > : recreate the Environment\n" \
+               " < E > : recreate the Environment\n" \
                " < N > : Next generation\n" \
                " < A > : Toggle Automatic/Manual generation\n"
 
@@ -205,27 +208,39 @@ class Environment(object):
         self.grid[:, int(self.columns / 2)] = 1
 
     def readenvironment(self, environmentfile):
+        """
+        Method to read a CSV file with columns (life, linepct, columnpct, rotate90)
+        and return a list with them
+        :param environmentfile: csv file containing the lives to be plotted on the grid
+        :return: list with list with life patterns as ['pattern', line_pct, column_pct, rotation 0-3]
+        """
+        # start an empty list
         lifelist = []
-        with open(environmentfile, 'r') as l:
-            a = l.readlines()[1:]
+        # read all the data lines of csv (i.e. skip the header)
+        with open(environmentfile, 'r') as csvfile:
+            a = csvfile.readlines()[1:]
+        # iterate the csv contents and create a list with it
         for line in a:
             elements = line.split(',')
-            lifelist.append([elements[0], int(elements[1]), int(elements[2])])
+            lifelist.append([elements[0], int(elements[1]), int(elements[2]), int(elements[3])])
+        # return list
         return lifelist
 
     def setupenvironment(self):
         """
         Run methods to setup a specific environment
         """
-        # 1 clean up
+        # clean up
         self.cleanup()
-        # 2 randomise
+        # randomise
         # self.randomise()
-        # 3 draw cross
+        # draw cross
         # self.cross()
-        # 4 populate
+        # populate with the contents of self.lifelist
         for i in self.lifelist:
-            self.insert(self.zoo[i[0]], i[1], i[2])
+            # inserts a rotated i[3] version of the life pattern i[0]
+            # at position i[1], i[2]
+            self.insert(np.rot90(self.zoo[i[0]], i[3]), i[1], i[2])
         # self.insert(self.zoo['blinker'], 10, 30)
         # self.insert(self.zoo['blinker'], 40, 80)
         # self.insert(self.zoo['block'], 20, 40)
@@ -272,12 +287,9 @@ class Environment(object):
                     self.grid[li, co] = 0
 
     def insert(self, life, positionline, positioncolumn):
-        """Insert a life at a given position, expressed in percentage of the screen size"""
-        # li0 = positionline
-        # li1 = positionline + life.shape[0]
-        # co0 = positioncolumn
-        # co1 = positioncolumn + life.shape[1]
-        # self.grid[li0:li1, co0:co1] = life
+        """
+        Insert a life at a given position, expressed in percentage of the screen size
+        """
         # test if position is in the range of 0-100%
         bottom = positionline + life.shape[0]
         if bottom > 100:
@@ -298,6 +310,9 @@ class Environment(object):
 
 
 class Zoo(object):
+    """
+    A collection of life patterns
+    """
     def __init__(self):
         self.fauna = {'blinker': np.array([[0, 0, 0],
                                            [1, 1, 1],
@@ -306,7 +321,9 @@ class Zoo(object):
                                          [1, 1]], dtype=int),
                       'glider': np.array([[0, 1, 0],
                                           [0, 0, 1],
-                                          [1, 1, 1]], dtype=int)
+                                          [1, 1, 1]], dtype=int),
+                      'toad': np.array([[0, 1, 1, 1],
+                                        [1, 1, 1, 0]], dtype=int)
                       }
 
 
