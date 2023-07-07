@@ -8,3 +8,5 @@
 .idea/modules.xml
 .DS_Store
 *.pyc
+Stub/my_svg.svg
+svg1.svg
