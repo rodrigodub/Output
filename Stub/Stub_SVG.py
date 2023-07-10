@@ -31,7 +31,7 @@ class Screen(object):
     Attributes:
         screen (drawsvg.Drawing): SVG drawing object representing the screen.
     """
-
+    # TODO: create screen with different sizes, colour
     def __init__(self) -> None:
         """
         Initialize the Screen object.
@@ -178,6 +178,7 @@ class DrawRelative(object):
         Process the drawing steps and update the coordinates.
         """
         # TODO: process colour (C), moves (M) and blank moves (BM)
+        # TODO: when direction has no scalar use 1
         # restart a coordinates list, and start with the current pen position
         self.coordinates_list = []
         self.coordinates_list.append(self.x)
