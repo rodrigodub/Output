@@ -1,8 +1,8 @@
 #################################################
 #                   Draw SVG Stub
 #
-# v.3.023
-# 20230709
+# v.3.025
+# 20230711
 #
 # DrawSVG Quick Reference
 # https://github.com/cduck/drawsvg/blob/master/docs/index.md
@@ -238,6 +238,41 @@ class DrawRelative(object):
         self.screen.screen.append(lines)
 
         return
+
+
+class Text(object):
+    """
+    Class for writing text on the screen.
+
+    Attributes:
+        screen (Screen): The screen object to write on.
+
+    Methods:
+        write: Write the specified text on the screen.
+    """
+    # TODO: lots of text customisation. Custom font families, styles etc
+    def __init__(self, screen: Screen):
+        """
+        Initialize the Text object.
+
+        Args:
+            screen (Screen): The screen object to write on.
+        """
+        self.screen = screen
+
+    def write(self, text: str, pos_x: float, pos_y: float, size: int, family: str = "Arial"):
+        """
+        Write the specified text on the screen.
+
+        Args:
+            text (str): The text to write.
+            pos_x (float): The x-coordinate of the text position.
+            pos_y (float): The y-coordinate of the text position.
+            size (int): The font size of the text.
+            family (str, optional): The font family of the text. Defaults to "Arial".
+        """
+        the_text = dw.Text(text, font_size=size, x=pos_x, y=pos_y, font_family=family)
+        self.screen.screen.append(the_text)
 
 
 def save(contents, filename):

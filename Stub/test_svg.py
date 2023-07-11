@@ -14,6 +14,9 @@ d = DrawRelative(p, my_screen)
 # d.process_coordinates()
 # print(f"Coordinates List: {d.coordinates_list}")
 # print(p)
+t = Text(my_screen)
 
 d.draw(a)
+t.write("This is a test", 100, 100, 12)
+
 save(my_screen.screen, OUTPUT_FILE)
