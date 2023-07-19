@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+     width="1024" height="576" viewBox="0 0 1024 576">
+<defs>
+</defs>
+<rect x="0" y="0" width="1024" height="576" fill="#5ae65a" stroke="black" stroke-width="1" stroke-opacity="1" />
+<text x="300" y="200" font-size="12" font-family="Arial">TESTING0123456789</text>
+<text x="300" y="240" font-size="18" font-family="Arial">This is a longer, bigger text.</text>
+<text x="300" y="400" font-size="30" font-family="Arial">And this is even bigger @ # $</text>
+</svg>
