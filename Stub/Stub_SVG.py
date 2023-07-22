@@ -1,8 +1,8 @@
 #################################################
 #                   Draw SVG Stub
 #
-# v.3.025
-# 20230711
+# v.3.028
+# 20230722
 #
 # DrawSVG Quick Reference
 # https://github.com/cduck/drawsvg/blob/master/docs/index.md
@@ -31,8 +31,8 @@ class Screen(object):
     Attributes:
         screen (drawsvg.Drawing): SVG drawing object representing the screen.
     """
-    # TODO: create screen with different sizes, colour
-    def __init__(self) -> None:
+    # TODO: create screen with different sizes
+    def __init__(self, bg_colour=BGCOLOUR):
         """
         Initialize the Screen object.
 
@@ -44,6 +44,7 @@ class Screen(object):
         Returns:
             None
         """
+        self.background_colour = bg_colour
         self.screen = dw.Drawing(SCREEN_WIDTH, SCREEN_HEIGHT, id_prefix='screen')
         self.set_background()
 
@@ -60,7 +61,7 @@ class Screen(object):
             None
         """
         canvas = dw.Rectangle(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT,
-                              fill=BGCOLOUR, stroke='black',
+                              fill=self.background_colour, stroke='black',
                               stroke_width=1, stroke_opacity=1)
         self.screen.append(canvas)
         return

@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+     width="1024" height="576" viewBox="0 0 1024 576">
+<defs>
+</defs>
+<rect x="0" y="0" width="1024" height="576" fill="#88d9e6" stroke="black" stroke-width="1" stroke-opacity="1" />
+<circle cx="512" cy="288" r="200" stroke="darkblue" fill="none" stroke-width="2" />
+<path d="M512.0,108.0 L512.0,88.0" stroke="#ff4477" stroke-width="2" />
+<path d="M639.2792206135786,160.72077938642144 L653.4213562373095,146.5786437626905" stroke="#ff4477" stroke-width="2" />
+<path d="M692.0,288.0 L712.0,288.0" stroke="#ff4477" stroke-width="2" />
+<path d="M639.2792206135786,415.27922061357856 L653.4213562373095,429.4213562373095" stroke="#ff4477" stroke-width="2" />
+<path d="M512.0,468.0 L512.0,488.0" stroke="#ff4477" stroke-width="2" />
+<path d="M384.7207793864215,415.27922061357856 L370.5786437626905,429.4213562373095" stroke="#ff4477" stroke-width="2" />
+<path d="M332.0,288.00000000000006 L312.0,288.00000000000006" stroke="#ff4477" stroke-width="2" />
+<path d="M384.72077938642144,160.7207793864215 L370.5786437626905,146.57864376269052" stroke="#ff4477" stroke-width="2" />
+<text x="502.0" y="158.0" font-size="20" font-family="Arial">0</text>
+<text x="600.9949493661167" y="199.00505063388334" font-size="20" font-family="Arial">45</text>
+<text x="642.0" y="298.0" font-size="20" font-family="Arial">90</text>
+<text x="600.9949493661167" y="396.99494936611666" font-size="20" font-family="Arial">135</text>
+<text x="502.0" y="438.0" font-size="20" font-family="Arial">180</text>
+<text x="403.00505063388334" y="396.99494936611666" font-size="20" font-family="Arial">225</text>
+<text x="362.0" y="298.0" font-size="20" font-family="Arial">270</text>
+<text x="403.00505063388334" y="199.00505063388337" font-size="20" font-family="Arial">315</text>
+<text x="502.0" y="58.0" font-size="30" font-family="Arial">N</text>
+<text x="742.0" y="298.0" font-size="30" font-family="Arial">E</text>
+<text x="502.0" y="538.0" font-size="30" font-family="Arial">S</text>
+<text x="262.0" y="298.00000000000006" font-size="30" font-family="Arial">W</text>
+<path d="M492,288 L532,288" stroke="#ff4477" stroke-width="2" />
+<path d="M512,268 L512,308" stroke="#ff4477" stroke-width="2" />
+<path d="M512,288 L413.00505063388334,189.00505063388337" stroke="#8A4F7D" stroke-width="4" />
+</svg>
