@@ -6,8 +6,7 @@
 # Usage:
 # > python I22Pj17_Cards_a.py
 #
-# v.3.031
-# 20230724
+# 20230725
 #
 # https://en.wikipedia.org/wiki/Playing_card
 # https://tekeye.uk/playing_cards/svg-playing-cards
@@ -15,37 +14,98 @@
 #################################################
 __author__ = 'Rodrigo Nobrega'
 __title__ = "Cards"
-__version__ = 3.031
+__version__ = 3.032
 
 
 # import
+import random
 import arcade
+import pandas as pd
 
 
 # Global variables
 SCREEN_WIDTH = 1024
 SCREEN_HEIGHT = 576
+PATTERN_LIST = ["blue", "red", "amber", "green"]
 
 
 class Deck(object):
-    def __init__(self, pattern):
-        self.pattern = pattern
+    """
+    Class for representing and manipulating a deck of cards.
+
+    Attributes:
+    - patterns: A list of patterns the deck will contain. It defaults to 1 pattern.
+    - numbers: The possible numbers that each card in the deck can have.
+    - suits: The possible suits that each card in the deck can have.
+    - colours: The possible colours that each card in the deck can have.
+    - deck: The list of cards that are currently in the deck.
+    """
+
+    def __init__(self, patterns: int = 1):
+        """
+        Initializer for the Deck class. Sets up the initial state of the deck.
+        """
+        self.patterns = PATTERN_LIST[:patterns]
         self.numbers = ["A", "2", "3", "4", "5", "6", "7", "8", "9", "10", "J", "Q", "K", "JOKER"]
         self.suits = ["clubs", "hearts", "spades", "diamonds"]
         self.colours = ["black", "red"]
-        self.deck = self.config()
+        self.deck = self.config()  # Create the initial deck configuration
 
     def config(self):
+        """
+        Creates the initial deck configuration.
+        """
         deck = []
-        for suit in self.suits:
-            for card in self.numbers[:-1]:
-                deck.append({"card": card, "suit": suit, "value": self.numbers.index(card) + 1,
-                             "colour": self.colours[0] if suit in ["clubs", "spades"] else self.colours[1],
-                             "pattern": self.pattern})
-        for colour in self.colours:
-            deck.append({"card": self.numbers[-1], "suit": "", "value": 0,
-                         "colour": colour, "pattern": self.pattern})
+        sequence = 0
+        for pattern in self.patterns:
+            for suit in self.suits:
+                for card in self.numbers[:-1]:
+                    # Append card details to deck
+                    deck.append({"card": card, "suit": suit, "value": self.numbers.index(card) + 1,
+                                 "colour": self.colours[0] if suit in ["clubs", "spades"] else self.colours[1],
+                                 "pattern": pattern, "sequence": sequence})
+                    sequence += 1
+            for colour in self.colours:
+                # Append Joker card details to deck
+                deck.append({"card": self.numbers[-1], "suit": "", "value": 0,
+                             "colour": colour, "pattern": pattern, "sequence": sequence})
+                sequence += 1
         return deck
+
+    def count_cards(self):
+        """
+        Returns the current count of cards in the deck.
+        """
+        return f"\nDeck of {len(self.deck)} Cards"
+
+    def get_dataframe(self):
+        """
+        Returns the current deck of cards as a pandas DataFrame.
+        """
+        return pd.DataFrame(self.deck)
+
+    def shuffle(self):
+        """
+        Shuffles the current deck of cards.
+        """
+        random.shuffle(self.deck)
+
+    def cut(self, percent_from_top: int = 0):
+        """
+        Cuts the deck at the given percentage from the top.
+        """
+        if percent_from_top < 0:
+            percent_from_top = 0
+        elif percent_from_top > 100:
+            percent_from_top = 100
+        cut_index = int(len(self.deck) * percent_from_top / 100)
+        self.deck = self.deck[cut_index:] + self.deck[:cut_index]
+
+    def sort(self):
+        """
+        Sorts the deck based on the 'sequence' key in each card dictionary.
+        """
+        self.deck.sort(key=lambda x: x['sequence'])
 
 
 class MyGame(arcade.Window):
@@ -136,17 +196,21 @@ def cards():
     print(f'{f"{__title__} v.{__version__}":^75}')
     print(f'{75 * "="}\n')
     # ---------------------------------------------------------------------
-    deck = Deck("blue hatch")
+    deck = Deck(2)
     #
-    for card in deck.deck:
-        print(f"{card['card']:<8}{card['suit']:^10}{card['value']:>5}{card['colour']:^10}{card['pattern']:^12}")
-    print(len(deck.deck))
+    print(deck.count_cards())
+    print(deck.get_dataframe())
+    deck.shuffle()
+    deck.shuffle()
+    deck.cut(20)
+    my_deck = deck.get_dataframe()
     #
     # footer --------------------------------------------------------------
     print(f'\n{34 * "="}  OK  {35 * "="}\n')
+    return my_deck
 
 
 # execute main
 if __name__ == "__main__":
     # main()
-    cards()
+    d = cards()
