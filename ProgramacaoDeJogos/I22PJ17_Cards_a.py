@@ -6,7 +6,7 @@
 # Usage:
 # > python I22Pj17_Cards_a.py
 #
-# 20230725
+# 20230727
 #
 # https://en.wikipedia.org/wiki/Playing_card
 # https://tekeye.uk/playing_cards/svg-playing-cards
@@ -14,7 +14,7 @@
 #################################################
 __author__ = 'Rodrigo Nobrega'
 __title__ = "Cards"
-__version__ = 3.032
+__version__ = 3.033
 
 
 # import
@@ -50,6 +50,7 @@ class Deck(object):
         self.suits = ["clubs", "hearts", "spades", "diamonds"]
         self.colours = ["black", "red"]
         self.deck = self.config()  # Create the initial deck configuration
+        self.reserve = []
 
     def config(self):
         """
@@ -107,6 +108,11 @@ class Deck(object):
         """
         self.deck.sort(key=lambda x: x['sequence'])
 
+    def remove(self, card_number: str = None):
+        if card_number:
+            [self.reserve.append(i) for i in self.deck if i["card"] == card_number]
+            [self.deck.remove(i) for i in self.deck if i["card"] == card_number]
+        return
 
 class MyGame(arcade.Window):
     """
@@ -203,11 +209,12 @@ def cards():
     deck.shuffle()
     deck.shuffle()
     deck.cut(20)
-    my_deck = deck.get_dataframe()
+    # my_deck = deck.get_dataframe()
+    deck.remove("JOKER")
     #
     # footer --------------------------------------------------------------
     print(f'\n{34 * "="}  OK  {35 * "="}\n')
-    return my_deck
+    return deck
 
 
 # execute main
