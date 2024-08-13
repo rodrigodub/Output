@@ -4,7 +4,7 @@
 # Programe um Carteado
 #
 # Usage:
-# > python I22Pj17_Cards_a.py
+# > python Cards.py
 #
 # 20230730
 #
@@ -14,7 +14,7 @@
 #################################################
 __author__ = 'Rodrigo Nobrega'
 __title__ = "Cards"
-__version__ = 3.034
+__version__ = 3.035
 
 
 # import
@@ -139,117 +139,8 @@ class MyGame(arcade.Window):
         self.cards_list = None
         self.player_hand_list = None
 
-        # Individual sprites
-        self.clubs_ace_sprite = None
-        self.clubs_2_sprite = None
-        self.clubs_3_sprite = None
-        self.clubs_4_sprite = None
-        self.clubs_5_sprite = None
-        self.clubs_6_sprite = None
-        self.clubs_7_sprite = None
-        self.clubs_8_sprite = None
-        self.clubs_9_sprite = None
-        self.clubs_10_sprite = None
-        self.clubs_jack_sprite = None
-        self.clubs_queen_sprite = None
-        self.clubs_king_sprite = None
-        self.hearts_ace_sprite = None
-        self.hearts_2_sprite = None
-        self.hearts_3_sprite = None
-        self.hearts_4_sprite = None
-        self.hearts_5_sprite = None
-        self.hearts_6_sprite = None
-        self.hearts_7_sprite = None
-        self.hearts_8_sprite = None
-        self.hearts_9_sprite = None
-        self.hearts_10_sprite = None
-        self.hearts_jack_sprite = None
-        self.hearts_queen_sprite = None
-        self.hearts_king_sprite = None
-        self.spades_ace_sprite = None
-        self.spades_2_sprite = None
-        self.spades_3_sprite = None
-        self.spades_4_sprite = None
-        self.spades_5_sprite = None
-        self.spades_6_sprite = None
-        self.spades_7_sprite = None
-        self.spades_8_sprite = None
-        self.spades_9_sprite = None
-        self.spades_10_sprite = None
-        self.spades_jack_sprite = None
-        self.spades_queen_sprite = None
-        self.spades_king_sprite = None
-        self.diamonds_ace_sprite = None
-        self.diamonds_2_sprite = None
-        self.diamonds_3_sprite = None
-        self.diamonds_4_sprite = None
-        self.diamonds_5_sprite = None
-        self.diamonds_6_sprite = None
-        self.diamonds_7_sprite = None
-        self.diamonds_8_sprite = None
-        self.diamonds_9_sprite = None
-        self.diamonds_10_sprite = None
-        self.diamonds_jack_sprite = None
-        self.diamonds_queen_sprite = None
-        self.diamonds_king_sprite = None
-        self.joker_black_sprite = None
-        self.joker_red_sprite = None
-        self.clubs_ace_sprite = None
-        self.clubs_2_sprite = None
-        self.clubs_3_sprite = None
-        self.clubs_4_sprite = None
-        self.clubs_5_sprite = None
-        self.clubs_6_sprite = None
-        self.clubs_7_sprite = None
-        self.clubs_8_sprite = None
-        self.clubs_9_sprite = None
-        self.clubs_10_sprite = None
-        self.clubs_jack_sprite = None
-        self.clubs_queen_sprite = None
-        self.clubs_king_sprite = None
-        self.hearts_ace_sprite = None
-        self.hearts_2_sprite = None
-        self.hearts_3_sprite = None
-        self.hearts_4_sprite = None
-        self.hearts_5_sprite = None
-        self.hearts_6_sprite = None
-        self.hearts_7_sprite = None
-        self.hearts_8_sprite = None
-        self.hearts_9_sprite = None
-        self.hearts_10_sprite = None
-        self.hearts_jack_sprite = None
-        self.hearts_queen_sprite = None
-        self.hearts_king_sprite = None
-        self.spades_ace_sprite = None
-        self.spades_2_sprite = None
-        self.spades_3_sprite = None
-        self.spades_4_sprite = None
-        self.spades_5_sprite = None
-        self.spades_6_sprite = None
-        self.spades_7_sprite = None
-        self.spades_8_sprite = None
-        self.spades_9_sprite = None
-        self.spades_10_sprite = None
-        self.spades_jack_sprite = None
-        self.spades_queen_sprite = None
-        self.spades_king_sprite = None
-        self.diamonds_ace_sprite = None
-        self.diamonds_2_sprite = None
-        self.diamonds_3_sprite = None
-        self.diamonds_4_sprite = None
-        self.diamonds_5_sprite = None
-        self.diamonds_6_sprite = None
-        self.diamonds_7_sprite = None
-        self.diamonds_8_sprite = None
-        self.diamonds_9_sprite = None
-        self.diamonds_10_sprite = None
-        self.diamonds_jack_sprite = None
-        self.diamonds_queen_sprite = None
-        self.diamonds_king_sprite = None
-        self.joker_black_sprite = None
-        self.joker_red_sprite = None
-        self.blue_background_sprite = None
-        self.red_background_sprite = None
+        # Individual cards as a dictionary of sprites
+        self.cards_sprite_dictionary = None
 
         # My deck of cards
         self.deck = deck
@@ -259,128 +150,70 @@ class MyGame(arcade.Window):
         self.cards_list = arcade.SpriteList()
         self.player_hand_list = arcade.SpriteList()
 
-        # Add cards sprites
-        self.clubs_ace_sprite = arcade.Sprite(SPRITES_DIR + r"/clubs_ace.png", SPRITE_SCALING_CARDS)
-        self.clubs_2_sprite = arcade.Sprite(SPRITES_DIR + r"/clubs_2.png", SPRITE_SCALING_CARDS)
-        self.clubs_3_sprite = arcade.Sprite(SPRITES_DIR + r"/clubs_3.png", SPRITE_SCALING_CARDS)
-        self.clubs_4_sprite = arcade.Sprite(SPRITES_DIR + r"/clubs_4.png", SPRITE_SCALING_CARDS)
-        self.clubs_5_sprite = arcade.Sprite(SPRITES_DIR + r"/clubs_5.png", SPRITE_SCALING_CARDS)
-        self.clubs_6_sprite = arcade.Sprite(SPRITES_DIR + r"/clubs_6.png", SPRITE_SCALING_CARDS)
-        self.clubs_7_sprite = arcade.Sprite(SPRITES_DIR + r"/clubs_7.png", SPRITE_SCALING_CARDS)
-        self.clubs_8_sprite = arcade.Sprite(SPRITES_DIR + r"/clubs_8.png", SPRITE_SCALING_CARDS)
-        self.clubs_9_sprite = arcade.Sprite(SPRITES_DIR + r"/clubs_9.png", SPRITE_SCALING_CARDS)
-        self.clubs_10_sprite = arcade.Sprite(SPRITES_DIR + r"/clubs_10.png", SPRITE_SCALING_CARDS)
-        self.clubs_jack_sprite = arcade.Sprite(SPRITES_DIR + r"/clubs_jack.png", SPRITE_SCALING_CARDS)
-        self.clubs_queen_sprite = arcade.Sprite(SPRITES_DIR + r"/clubs_queen.png", SPRITE_SCALING_CARDS)
-        self.clubs_king_sprite = arcade.Sprite(SPRITES_DIR + r"/clubs_king.png", SPRITE_SCALING_CARDS)
-        self.hearts_ace_sprite = arcade.Sprite(SPRITES_DIR + r"/hearts_ace.png", SPRITE_SCALING_CARDS)
-        self.hearts_2_sprite = arcade.Sprite(SPRITES_DIR + r"/hearts_2.png", SPRITE_SCALING_CARDS)
-        self.hearts_3_sprite = arcade.Sprite(SPRITES_DIR + r"/hearts_3.png", SPRITE_SCALING_CARDS)
-        self.hearts_4_sprite = arcade.Sprite(SPRITES_DIR + r"/hearts_4.png", SPRITE_SCALING_CARDS)
-        self.hearts_5_sprite = arcade.Sprite(SPRITES_DIR + r"/hearts_5.png", SPRITE_SCALING_CARDS)
-        self.hearts_6_sprite = arcade.Sprite(SPRITES_DIR + r"/hearts_6.png", SPRITE_SCALING_CARDS)
-        self.hearts_7_sprite = arcade.Sprite(SPRITES_DIR + r"/hearts_7.png", SPRITE_SCALING_CARDS)
-        self.hearts_8_sprite = arcade.Sprite(SPRITES_DIR + r"/hearts_8.png", SPRITE_SCALING_CARDS)
-        self.hearts_9_sprite = arcade.Sprite(SPRITES_DIR + r"/hearts_9.png", SPRITE_SCALING_CARDS)
-        self.hearts_10_sprite = arcade.Sprite(SPRITES_DIR + r"/hearts_10.png", SPRITE_SCALING_CARDS)
-        self.hearts_jack_sprite = arcade.Sprite(SPRITES_DIR + r"/hearts_jack.png", SPRITE_SCALING_CARDS)
-        self.hearts_queen_sprite = arcade.Sprite(SPRITES_DIR + r"/hearts_queen.png", SPRITE_SCALING_CARDS)
-        self.hearts_king_sprite = arcade.Sprite(SPRITES_DIR + r"/hearts_king.png", SPRITE_SCALING_CARDS)
-        self.spades_ace_sprite = arcade.Sprite(SPRITES_DIR + r"/spades_ace.png", SPRITE_SCALING_CARDS)
-        self.spades_2_sprite = arcade.Sprite(SPRITES_DIR + r"/spades_2.png", SPRITE_SCALING_CARDS)
-        self.spades_3_sprite = arcade.Sprite(SPRITES_DIR + r"/spades_3.png", SPRITE_SCALING_CARDS)
-        self.spades_4_sprite = arcade.Sprite(SPRITES_DIR + r"/spades_4.png", SPRITE_SCALING_CARDS)
-        self.spades_5_sprite = arcade.Sprite(SPRITES_DIR + r"/spades_5.png", SPRITE_SCALING_CARDS)
-        self.spades_6_sprite = arcade.Sprite(SPRITES_DIR + r"/spades_6.png", SPRITE_SCALING_CARDS)
-        self.spades_7_sprite = arcade.Sprite(SPRITES_DIR + r"/spades_7.png", SPRITE_SCALING_CARDS)
-        self.spades_8_sprite = arcade.Sprite(SPRITES_DIR + r"/spades_8.png", SPRITE_SCALING_CARDS)
-        self.spades_9_sprite = arcade.Sprite(SPRITES_DIR + r"/spades_9.png", SPRITE_SCALING_CARDS)
-        self.spades_10_sprite = arcade.Sprite(SPRITES_DIR + r"/spades_10.png", SPRITE_SCALING_CARDS)
-        self.spades_jack_sprite = arcade.Sprite(SPRITES_DIR + r"/spades_jack.png", SPRITE_SCALING_CARDS)
-        self.spades_queen_sprite = arcade.Sprite(SPRITES_DIR + r"/spades_queen.png", SPRITE_SCALING_CARDS)
-        self.spades_king_sprite = arcade.Sprite(SPRITES_DIR + r"/spades_king.png", SPRITE_SCALING_CARDS)
-        self.diamonds_ace_sprite = arcade.Sprite(SPRITES_DIR + r"/diamonds_ace.png", SPRITE_SCALING_CARDS)
-        self.diamonds_2_sprite = arcade.Sprite(SPRITES_DIR + r"/diamonds_2.png", SPRITE_SCALING_CARDS)
-        self.diamonds_3_sprite = arcade.Sprite(SPRITES_DIR + r"/diamonds_3.png", SPRITE_SCALING_CARDS)
-        self.diamonds_4_sprite = arcade.Sprite(SPRITES_DIR + r"/diamonds_4.png", SPRITE_SCALING_CARDS)
-        self.diamonds_5_sprite = arcade.Sprite(SPRITES_DIR + r"/diamonds_5.png", SPRITE_SCALING_CARDS)
-        self.diamonds_6_sprite = arcade.Sprite(SPRITES_DIR + r"/diamonds_6.png", SPRITE_SCALING_CARDS)
-        self.diamonds_7_sprite = arcade.Sprite(SPRITES_DIR + r"/diamonds_7.png", SPRITE_SCALING_CARDS)
-        self.diamonds_8_sprite = arcade.Sprite(SPRITES_DIR + r"/diamonds_8.png", SPRITE_SCALING_CARDS)
-        self.diamonds_9_sprite = arcade.Sprite(SPRITES_DIR + r"/diamonds_9.png", SPRITE_SCALING_CARDS)
-        self.diamonds_10_sprite = arcade.Sprite(SPRITES_DIR + r"/diamonds_10.png", SPRITE_SCALING_CARDS)
-        self.diamonds_jack_sprite = arcade.Sprite(SPRITES_DIR + r"/diamonds_jack.png", SPRITE_SCALING_CARDS)
-        self.diamonds_queen_sprite = arcade.Sprite(SPRITES_DIR + r"/diamonds_queen.png", SPRITE_SCALING_CARDS)
-        self.diamonds_king_sprite = arcade.Sprite(SPRITES_DIR + r"/diamonds_king.png", SPRITE_SCALING_CARDS)
-        self.joker_black_sprite = arcade.Sprite(SPRITES_DIR + r"/joker_black.png", SPRITE_SCALING_CARDS)
-        self.joker_red_sprite = arcade.Sprite(SPRITES_DIR + r"/joker_red.png", SPRITE_SCALING_CARDS)
-        self.blue_background_sprite = arcade.Sprite(SPRITES_DIR + r"/blue.png", SPRITE_SCALING_CARDS)
-        self.red_background_sprite = arcade.Sprite(SPRITES_DIR + r"/red.png", SPRITE_SCALING_CARDS)
-
-        # Add cards sprites
-        self.cards_list.append(self.clubs_ace_sprite)
-        self.cards_list.append(self.clubs_2_sprite)
-        self.cards_list.append(self.clubs_3_sprite)
-        self.cards_list.append(self.clubs_4_sprite)
-        self.cards_list.append(self.clubs_5_sprite)
-        self.cards_list.append(self.clubs_6_sprite)
-        self.cards_list.append(self.clubs_7_sprite)
-        self.cards_list.append(self.clubs_8_sprite)
-        self.cards_list.append(self.clubs_9_sprite)
-        self.cards_list.append(self.clubs_10_sprite)
-        self.cards_list.append(self.clubs_jack_sprite)
-        self.cards_list.append(self.clubs_queen_sprite)
-        self.cards_list.append(self.clubs_king_sprite)
-        self.cards_list.append(self.hearts_ace_sprite)
-        self.cards_list.append(self.hearts_2_sprite)
-        self.cards_list.append(self.hearts_3_sprite)
-        self.cards_list.append(self.hearts_4_sprite)
-        self.cards_list.append(self.hearts_5_sprite)
-        self.cards_list.append(self.hearts_6_sprite)
-        self.cards_list.append(self.hearts_7_sprite)
-        self.cards_list.append(self.hearts_8_sprite)
-        self.cards_list.append(self.hearts_9_sprite)
-        self.cards_list.append(self.hearts_10_sprite)
-        self.cards_list.append(self.hearts_jack_sprite)
-        self.cards_list.append(self.hearts_queen_sprite)
-        self.cards_list.append(self.hearts_king_sprite)
-        self.cards_list.append(self.spades_ace_sprite)
-        self.cards_list.append(self.spades_2_sprite)
-        self.cards_list.append(self.spades_3_sprite)
-        self.cards_list.append(self.spades_4_sprite)
-        self.cards_list.append(self.spades_5_sprite)
-        self.cards_list.append(self.spades_6_sprite)
-        self.cards_list.append(self.spades_7_sprite)
-        self.cards_list.append(self.spades_8_sprite)
-        self.cards_list.append(self.spades_9_sprite)
-        self.cards_list.append(self.spades_10_sprite)
-        self.cards_list.append(self.spades_jack_sprite)
-        self.cards_list.append(self.spades_queen_sprite)
-        self.cards_list.append(self.spades_king_sprite)
-        self.cards_list.append(self.diamonds_ace_sprite)
-        self.cards_list.append(self.diamonds_2_sprite)
-        self.cards_list.append(self.diamonds_3_sprite)
-        self.cards_list.append(self.diamonds_4_sprite)
-        self.cards_list.append(self.diamonds_5_sprite)
-        self.cards_list.append(self.diamonds_6_sprite)
-        self.cards_list.append(self.diamonds_7_sprite)
-        self.cards_list.append(self.diamonds_8_sprite)
-        self.cards_list.append(self.diamonds_9_sprite)
-        self.cards_list.append(self.diamonds_10_sprite)
-        self.cards_list.append(self.diamonds_jack_sprite)
-        self.cards_list.append(self.diamonds_queen_sprite)
-        self.cards_list.append(self.diamonds_king_sprite)
-        self.cards_list.append(self.joker_black_sprite)
-        self.cards_list.append(self.joker_red_sprite)
-        self.cards_list.append(self.blue_background_sprite)
-        self.cards_list.append(self.red_background_sprite)
+        # Add cards sprites dictionary
+        self.cards_sprite_dictionary = {
+            "clubs_ace": arcade.Sprite(SPRITES_DIR + r"/clubs_ace.png", SPRITE_SCALING_CARDS),
+            "clubs_2": arcade.Sprite(SPRITES_DIR + r"/clubs_2.png", SPRITE_SCALING_CARDS),
+            "clubs_3": arcade.Sprite(SPRITES_DIR + r"/clubs_3.png", SPRITE_SCALING_CARDS),
+            "clubs_4": arcade.Sprite(SPRITES_DIR + r"/clubs_4.png", SPRITE_SCALING_CARDS),
+            "clubs_5": arcade.Sprite(SPRITES_DIR + r"/clubs_5.png", SPRITE_SCALING_CARDS),
+            "clubs_6": arcade.Sprite(SPRITES_DIR + r"/clubs_6.png", SPRITE_SCALING_CARDS),
+            "clubs_7": arcade.Sprite(SPRITES_DIR + r"/clubs_7.png", SPRITE_SCALING_CARDS),
+            "clubs_8": arcade.Sprite(SPRITES_DIR + r"/clubs_8.png", SPRITE_SCALING_CARDS),
+            "clubs_9": arcade.Sprite(SPRITES_DIR + r"/clubs_9.png", SPRITE_SCALING_CARDS),
+            "clubs_10": arcade.Sprite(SPRITES_DIR + r"/clubs_10.png", SPRITE_SCALING_CARDS),
+            "clubs_jack": arcade.Sprite(SPRITES_DIR + r"/clubs_jack.png", SPRITE_SCALING_CARDS),
+            "clubs_queen": arcade.Sprite(SPRITES_DIR + r"/clubs_queen.png", SPRITE_SCALING_CARDS),
+            "clubs_king": arcade.Sprite(SPRITES_DIR + r"/clubs_king.png", SPRITE_SCALING_CARDS),
+            "hearts_ace": arcade.Sprite(SPRITES_DIR + r"/hearts_ace.png", SPRITE_SCALING_CARDS),
+            "hearts_2": arcade.Sprite(SPRITES_DIR + r"/hearts_2.png", SPRITE_SCALING_CARDS),
+            "hearts_3": arcade.Sprite(SPRITES_DIR + r"/hearts_3.png", SPRITE_SCALING_CARDS),
+            "hearts_4": arcade.Sprite(SPRITES_DIR + r"/hearts_4.png", SPRITE_SCALING_CARDS),
+            "hearts_5": arcade.Sprite(SPRITES_DIR + r"/hearts_5.png", SPRITE_SCALING_CARDS),
+            "hearts_6": arcade.Sprite(SPRITES_DIR + r"/hearts_6.png", SPRITE_SCALING_CARDS),
+            "hearts_7": arcade.Sprite(SPRITES_DIR + r"/hearts_7.png", SPRITE_SCALING_CARDS),
+            "hearts_8": arcade.Sprite(SPRITES_DIR + r"/hearts_8.png", SPRITE_SCALING_CARDS),
+            "hearts_9": arcade.Sprite(SPRITES_DIR + r"/hearts_9.png", SPRITE_SCALING_CARDS),
+            "hearts_10": arcade.Sprite(SPRITES_DIR + r"/hearts_10.png", SPRITE_SCALING_CARDS),
+            "hearts_jack": arcade.Sprite(SPRITES_DIR + r"/hearts_jack.png", SPRITE_SCALING_CARDS),
+            "hearts_queen": arcade.Sprite(SPRITES_DIR + r"/hearts_queen.png", SPRITE_SCALING_CARDS),
+            "hearts_king": arcade.Sprite(SPRITES_DIR + r"/hearts_king.png", SPRITE_SCALING_CARDS),
+            "spades_ace": arcade.Sprite(SPRITES_DIR + r"/spades_ace.png", SPRITE_SCALING_CARDS),
+            "spades_2": arcade.Sprite(SPRITES_DIR + r"/spades_2.png", SPRITE_SCALING_CARDS),
+            "spades_3": arcade.Sprite(SPRITES_DIR + r"/spades_3.png", SPRITE_SCALING_CARDS),
+            "spades_4": arcade.Sprite(SPRITES_DIR + r"/spades_4.png", SPRITE_SCALING_CARDS),
+            "spades_5": arcade.Sprite(SPRITES_DIR + r"/spades_5.png", SPRITE_SCALING_CARDS),
+            "spades_6": arcade.Sprite(SPRITES_DIR + r"/spades_6.png", SPRITE_SCALING_CARDS),
+            "spades_7": arcade.Sprite(SPRITES_DIR + r"/spades_7.png", SPRITE_SCALING_CARDS),
+            "spades_8": arcade.Sprite(SPRITES_DIR + r"/spades_8.png", SPRITE_SCALING_CARDS),
+            "spades_9": arcade.Sprite(SPRITES_DIR + r"/spades_9.png", SPRITE_SCALING_CARDS),
+            "spades_10": arcade.Sprite(SPRITES_DIR + r"/spades_10.png", SPRITE_SCALING_CARDS),
+            "spades_jack": arcade.Sprite(SPRITES_DIR + r"/spades_jack.png", SPRITE_SCALING_CARDS),
+            "spades_queen": arcade.Sprite(SPRITES_DIR + r"/spades_queen.png", SPRITE_SCALING_CARDS),
+            "spades_king": arcade.Sprite(SPRITES_DIR + r"/spades_king.png", SPRITE_SCALING_CARDS),
+            "diamonds_ace": arcade.Sprite(SPRITES_DIR + r"/diamonds_ace.png", SPRITE_SCALING_CARDS),
+            "diamonds_2": arcade.Sprite(SPRITES_DIR + r"/diamonds_2.png", SPRITE_SCALING_CARDS),
+            "diamonds_3": arcade.Sprite(SPRITES_DIR + r"/diamonds_3.png", SPRITE_SCALING_CARDS),
+            "diamonds_4": arcade.Sprite(SPRITES_DIR + r"/diamonds_4.png", SPRITE_SCALING_CARDS),
+            "diamonds_5": arcade.Sprite(SPRITES_DIR + r"/diamonds_5.png", SPRITE_SCALING_CARDS),
+            "diamonds_6": arcade.Sprite(SPRITES_DIR + r"/diamonds_6.png", SPRITE_SCALING_CARDS),
+            "diamonds_7": arcade.Sprite(SPRITES_DIR + r"/diamonds_7.png", SPRITE_SCALING_CARDS),
+            "diamonds_8": arcade.Sprite(SPRITES_DIR + r"/diamonds_8.png", SPRITE_SCALING_CARDS),
+            "diamonds_9": arcade.Sprite(SPRITES_DIR + r"/diamonds_9.png", SPRITE_SCALING_CARDS),
+            "diamonds_10": arcade.Sprite(SPRITES_DIR + r"/diamonds_10.png", SPRITE_SCALING_CARDS),
+            "diamonds_jack": arcade.Sprite(SPRITES_DIR + r"/diamonds_jack.png", SPRITE_SCALING_CARDS),
+            "diamonds_queen": arcade.Sprite(SPRITES_DIR + r"/diamonds_queen.png", SPRITE_SCALING_CARDS),
+            "diamonds_king": arcade.Sprite(SPRITES_DIR + r"/diamonds_king.png", SPRITE_SCALING_CARDS),
+            "joker_black": arcade.Sprite(SPRITES_DIR + r"/joker_black.png", SPRITE_SCALING_CARDS),
+            "joker_red": arcade.Sprite(SPRITES_DIR + r"/joker_red.png", SPRITE_SCALING_CARDS),
+            "blue": arcade.Sprite(SPRITES_DIR + r"/blue.png", SPRITE_SCALING_CARDS),
+            "red": arcade.Sprite(SPRITES_DIR + r"/red.png", SPRITE_SCALING_CARDS),
+        }
 
         # Set player hand
-        # self.player_hand_list = [random.choice(self.cards_list) for _ in range(5)]
-        # [self.player_hand_list.append(i) for i in random.choice(self.cards_list) for _ in range(5)]
-        self.player_hand_list.append(self.clubs_ace_sprite)
-        self.player_hand_list.append(self.clubs_2_sprite)
-
+        self.player_hand_list.append(self.cards_sprite_dictionary["clubs_4"])
+        self.player_hand_list.append(self.cards_sprite_dictionary["hearts_7"])
+        # Cards position on screen
         self.player_hand_list[0].center_x = 250
         self.player_hand_list[0].center_y = 250
         self.player_hand_list[1].center_x = 500

@@ -5,7 +5,7 @@
 #
 # Usage:
 # > python I22Pj17_Cards_a.py
-#
+# Follow up development on Cards.py, versions 3.034+
 # 20230730
 #
 # https://en.wikipedia.org/wiki/Playing_card
